@@ -1,4 +1,5 @@
 import Navbar from './components/navbar';
+import Footer from './components/Footer';
 import './App.css';
 
 function App() {
@@ -90,6 +91,7 @@ function App() {
         </div>
       </section>
 
+      <Footer />
     </div>
   );
 }
