@@ -7,7 +7,7 @@ import PharmaAcademy from './components/p_academy/PharmaAcademy';
 import ProfessionalNetwork from './components/forums/ProfessionalNetwork';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import './App.css';
-
+import EmpowerTechAI from './components/EmpowerTechAI/EmpowerTechAI';
 function App() {
   return (
     <Router>
@@ -19,6 +19,8 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/academy" element={<PharmaAcademy />} />
           <Route path="/network" element={<ProfessionalNetwork />} />
+          <Route path="/About" element={<Value/>} />
+
         </Routes>
         <Footer />
       </div>
