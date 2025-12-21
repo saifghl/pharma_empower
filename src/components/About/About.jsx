@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import HeroSection from './HeroSection';
-import PrinciplesSection from './PrinciplesSection';
+import Mission from './Mission';
+import Value from './Value';
 
 import './About.css';
 
@@ -12,9 +12,9 @@ const About = () => {
 
   return (
     <div className="about-page">
-      <HeroSection />
-      <PrinciplesSection />
-      
+      <Mission />
+      <Value />
+
     </div>
   );
 };

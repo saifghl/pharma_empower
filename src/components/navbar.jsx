@@ -29,9 +29,9 @@ const Navbar = () => {
                 <div className={isMobileMenuOpen ? "nav-menu active" : "nav-menu"}>
                     <div className="navbar-center">
                         <ul className="nav-links">
-                            <li><a href="/#about" className="nav-link" onClick={toggleMenu}>About Us</a></li>
+                            <li><Link to="/about" className="nav-link" onClick={toggleMenu}>About Us</Link></li>
                             <li><a href="/#int-hub" className="nav-link" onClick={toggleMenu}>Intelligence Hub</a></li>
-                            <li><a href="/#empower-ai" className="nav-link" onClick={toggleMenu}>Empower Tech & AI</a></li>
+                            <li><Link to="/empower-tech-ai" className="nav-link" onClick={toggleMenu}>Empower Tech & AI</Link></li>
                             <li><Link to="/academy" className="nav-link" onClick={toggleMenu}>Pharma Empower Academy</Link></li>
                             <li><Link to="/network" className="nav-link" onClick={toggleMenu}>Professional Network</Link></li>
                             {/* Mobile specific Contact Link */}

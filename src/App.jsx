@@ -6,6 +6,8 @@ import ContactUs from './components/ContactUs';
 import PharmaAcademy from './components/p_academy/PharmaAcademy';
 import ProfessionalNetwork from './components/forums/ProfessionalNetwork';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import About from './components/About/About';
+import EmpowerTechAI from './components/EmpowerTechAI/EmpowerTechAI';
 import './App.css';
 
 function App() {
@@ -15,6 +17,8 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/empower-tech-ai" element={<EmpowerTechAI />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/academy" element={<PharmaAcademy />} />
