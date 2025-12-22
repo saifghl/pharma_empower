@@ -131,11 +131,7 @@ const Navbar = () => {
                             </li>
 
                             <li><Link to="/network" className="nav-link" onClick={toggleMenu}>Professional Network</Link></li>
-<<<<<<< Updated upstream
-                            <li><Link to="/skill-board" className="nav-link" onClick={toggleMenu}>Skill Board</Link></li><span></span>
-=======
-                            <li><a href="#" className="nav-link" onClick={(e) => e.preventDefault()}>Skill Board</a></li><span></span>
->>>>>>> Stashed changes
+                            <li><Link to="/skill-board" className="nav-link" onClick={toggleMenu}>Skill Board</Link></li>
                             {/* <li><Link to="/contact-us" className="nav-link" onClick={toggleMenu}>Contact Us</Link></li> */}
                             {/* Mobile specific Contact Link */}
                             <li className="mobile-only"><Link to="/login" className="nav-link" onClick={toggleMenu}>Login / Register</Link></li>
