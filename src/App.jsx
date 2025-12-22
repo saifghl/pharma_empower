@@ -9,7 +9,13 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import About from './components/About/About';
 import EmpowerTechAI from './components/EmpowerTechAI/EmpowerTechAI';
 import Login from './components/Login/Login';
+<<<<<<< Updated upstream
 import SkillBoard from './components/SkillBoard/SkillBoard';
+=======
+import SkillBoard from './components/EmpowerTechAI/skill';
+import EmergingTech from './components/EmpowerTechAI/emerging-tech';
+import AI from './components/EmpowerTechAI/AI';
+>>>>>>> Stashed changes
 import './App.css';
 
 function App() {
@@ -27,6 +33,11 @@ function App() {
           <Route path="/network" element={<ProfessionalNetwork />} />
           <Route path="/login" element={<Login />} />
           <Route path="/skill-board" element={<SkillBoard />} />
+<<<<<<< Updated upstream
+=======
+          <Route path="/empower/emerging-tech" element={<EmergingTech />} />
+          <Route path="/empower/ai" element={<AI />} />
+>>>>>>> Stashed changes
         </Routes>
         <Footer />
       </div>

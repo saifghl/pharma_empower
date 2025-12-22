@@ -4,42 +4,16 @@ import './Forums.css';
 import { Link } from 'react-router-dom';
 
 const ProfessionalNetwork = () => {
-    // Check global login state from localStorage
-    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
-
-    if (!isLoggedIn) {
-        return (
-            <div className="network-login-container">
-                <div className="network-login-card">
-                    <div className="login-header-network">
-                        <h2>Professional Network</h2>
-                        <p>Forums & Executive Connect</p>
-                    </div>
-
-                    <div className="login-prompt-content">
-                        <p className="access-message-network">
-                            Connect with industry leaders and access exclusive forums.
-                        </p>
-
-                        <Link to="/login" className="login-redirect-btn-network">
-                            Login to Access / Join Network
-                        </Link>
-                    </div>
-
-                    <p className="login-note">
-                        Restricted access for verified professionals only.
-                    </p>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="network-dashboard">
             <header className="network-hero">
                 <div className="hero-content">
                     <h1>Professional Network: Forums & Executive Connect</h1>
                     <p className="hero-sub">The Global Peer-to-Peer Knowledge Exchange</p>
+
+                    <Link to="/login" className="hero-login-btn-network">
+                        Login to Join Network
+                    </Link>
                 </div>
             </header>
 
@@ -90,7 +64,7 @@ const ProfessionalNetwork = () => {
                                 Book a private session to strategize your career move.
                                 Get personalized advice from industry leaders who have walked the path.
                             </p>
-                            <button className="action-link">Book a Session &rarr;</button>
+                            <Link to="/login" className="action-link-btn">Book a Session &rarr;</Link>
                         </div>
 
                         <div className="content-card navy-card">
@@ -98,7 +72,7 @@ const ProfessionalNetwork = () => {
                             <p>
                                 Exclusive Q&A sessions with veteran Project Managers discussing complex topics like Agile in Pharma or PMP best practices in a regulated environment.
                             </p>
-                            <button className="action-link">View Session Calendar &rarr;</button>
+                            <Link to="/login" className="action-link-btn">View Session Calendar &rarr;</Link>
                         </div>
                     </div>
                 </section>
@@ -106,7 +80,7 @@ const ProfessionalNetwork = () => {
                 {/* CTA Section */}
                 <section className="network-cta">
                     <h2>Ready to engage with the best?</h2>
-                    <button className="cta-btn-large">Join the Conversation</button>
+                    <Link to="/login" className="cta-btn-large">Join the Conversation</Link>
                 </section>
 
             </main>

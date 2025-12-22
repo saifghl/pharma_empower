@@ -3,126 +3,113 @@ import './PharmaAcademy.css';
 import { Link } from 'react-router-dom';
 
 const PharmaAcademy = () => {
-    // Check global login state from localStorage
-    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
-
-    // Listen for storage changes in case login happens in another tab/window
-    // In strict SPA navigation, a simple check on mount + re-check on focus/navigation is usually needed
-    // But for this simple implementation, initial state is key.
-
-    if (!isLoggedIn) {
-        return (
-            <div className="academy-login-container">
-                <div className="academy-login-card">
-                    <div className="login-header">
-                        <h2>Pharma Empower Academy</h2>
-                        <p>Unlock Your Potential</p>
-                    </div>
-
-                    <div className="login-prompt-content">
-                        <p className="access-message">
-                            Join elite professionals in mastering the future of pharmaceutical excellence.
-                        </p>
-
-                        <Link to="/login" className="login-redirect-btn">
-                            Login to Enroll / Access Courses
-                        </Link>
-                    </div>
-
-                    <div className="login-footer">
-                        <p>Restricted Access - Transformation Ahead</p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     return (
-        <div className="academy-dashboard">
-            {/* Header Section */}
-            <header className="academy-header">
-                <div className="header-content">
-                    <h1>The Pharma Academy</h1>
-                    <p className="subtitle">Skill Development & Training</p>
+        <div className="academy-page">
+            {/* HER HERO SECTION */}
+            <header className="academy-hero">
+                <div className="hero-icon">
+                    {/* Placeholder for the ribbon icon in image 1 */}
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
                 </div>
-                <div className="ticker-wrapper">
-                    <div className="ticker-text">
-                        Certification That Translates to Career Advancement — Leveraged by Top Consultants — Industry Verified Methodologies —
-                        Certification That Translates to Career Advancement — Leveraged by Top Consultants — Industry Verified Methodologies
-                    </div>
-                </div>
+                <h1>Pharma Academy: Certification That Translates to Career Advancement</h1>
+                <p className="hero-subtext">Unlock validated expertise in GxP, AI, Regulatory Strategy, and Pharma 4.0.</p>
+
+                <Link to="/login" className="hero-login-btn">
+                    Login to Enroll / Access Courses
+                </Link>
             </header>
 
-            {/* Main Content */}
-            <main className="academy-main">
+            {/* INTRO SECTION */}
+            <section className="academy-intro-text">
+                <p>
+                    As people development specialists, the emphasis is always on people. Our programs are learner designed, learner driven and learner focused.
+                    We get results because we pay attention to what our clients need. We aim to deliver a positive experience that empowers the individual,
+                    while creating a thirst for knowledge and a hunger for further learning.
+                </p>
+                <p>
+                    Driven by a true enthusiasm for learning, our trainers and facilitators constantly up-skill themselves, ensuring that Empower courses maintain the highest possible standards.
+                </p>
+                <p>
+                    Pharma Empower Solutions (PES) are committed to helping people achieve specific, tangible, measurable results.
+                    We understand that individuals will have specific desired learning outcomes from our courses so we try to ensure that each person is
+                    equipped with a tailored practical plan of action that can be implemented after the course.
+                    We believe in providing a full service, which is why our clients find our aftercare service every bit as satisfying as the experience on our programmes.
+                </p>
+            </section>
 
-                {/* Introduction */}
-                <section className="academy-intro">
-                    <div className="intro-card">
-                        <h2>Real World Skills. Real World Results.</h2>
-                        <p>
-                            Move beyond theory. The Pharma Academy offers meticulously structured, industry-verified courses designed to deliver practical, deployable skills.
-                            Our curriculum is built on the methodologies used by veteran Subject matter industry experts and consultants who drive success in multi-national organizations.
-                            Learn not just the "what," but the "how to implement" at the highest level.
+            {/* CAREER STAGES */}
+            <section className="career-stages-section">
+                <h2 className="section-title">Our Progressive Career Stages</h2>
+
+                <div className="stages-grid">
+                    {/* Stage 1 */}
+                    <div className="stage-card blue-border">
+                        <div className="stage-header">
+                            <span className="stage-num">1.</span>
+                            <h3>Foundational Career Stage</h3>
+                            <span className="stage-role">Beginners & Recent Graduates</span>
+                        </div>
+                        <p className="stage-desc">
+                            Master the fundamental GxP compliance, regulatory standards, and essential process management skills needed to enter the industry.
                         </p>
-                        <p>
-                            As people development specialists, the emphasis is always on people. Our programs are learner designed, learner driven and learner focused.
-                            We get results because we pay attention to what our clients need. We aim to deliver a positive experience that empowers the individual,
-                            while creating a thirst for knowledge and a hunger for further learning.
+                        <div className="stage-details">
+                            <h4>Key Focus Areas:</h4>
+                            <ul>
+                                <li>Basic GxP/Compliance & Audits</li>
+                                <li>Process Validation (VMPs, Protocols)</li>
+                                <li>Regulatory Filing Basics (CTD/eCTD)</li>
+                                <li>Introduction to Quality Management Systems (QMS)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {/* Stage 2 */}
+                    <div className="stage-card purple-border">
+                        <div className="stage-header">
+                            <span className="stage-num">2.</span>
+                            <h3>Core Career Stage</h3>
+                            <span className="stage-role">Managers & Senior Professionals</span>
+                        </div>
+                        <p className="stage-desc">
+                            Focus on specialized skills in AI in Drug Discovery, Pharma 4.0, advanced regulatory affairs, and critical project management.
                         </p>
-                        <p>
-                            Driven by a true enthusiasm for learning, our trainers and facilitators constantly up-skill themselves, ensuring that Empower courses maintain the highest possible standards.
+                        <div className="stage-details">
+                            <h4>Key Focus Areas:</h4>
+                            <ul>
+                                <li>AI in Drug Discovery (Gene Therapy)</li>
+                                <li>Pharma 4.0 & Digital Tools</li>
+                                <li>Advanced Regulatory Strategy (USFDA/EMA)</li>
+                                <li>Data Integrity & Cloud Compliance</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {/* Stage 3 */}
+                    <div className="stage-card green-border">
+                        <div className="stage-header">
+                            <span className="stage-num">3.</span>
+                            <h3>Strategic Leadership Stage</h3>
+                            <span className="stage-role">Executives & Directors</span>
+                        </div>
+                        <p className="stage-desc">
+                            Develop executive-level strategies covering AI roadmaps, ethical compliance, investment modeling, and global data privacy.
                         </p>
-                        <p>
-                            Pharma Empower Solutions (PES) are committed to helping people achieve specific, tangible, measurable results.
-                            We understand that individuals will have specific desired learning outcomes from our courses so we try to ensure that each person is equipped with a tailored practical plan of action that can be implemented after the course.
-                            We believe in providing a full service, which is why our clients find our aftercare service every bit as satisfying as the experience on our programmes.
-                        </p>
+                        <div className="stage-details">
+                            <h4>Key Focus Areas:</h4>
+                            <ul>
+                                <li>AI Strategy & Roadmap Development</li>
+                                <li>Ethical AI & Bias Mitigation</li>
+                                <li>Digital Transformation Leadership</li>
+                                <li>Investment & ROI Modeling for AI/Robotics</li>
+                            </ul>
+                        </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                {/* Resource Grid */}
-                <section className="resource-grid">
 
-                    <div className="resource-card animate-card">
-                        <div className="card-icon">🌍</div>
-                        <h3>Glance of Pharma World</h3>
-                        <p className="card-desc">For Students, Enthusiasts, and Entry Level Professionals.</p>
-                        <p className="coming-soon">Content Coming Soon...</p>
-                    </div>
-
-                    <div className="resource-card animate-card delay-1">
-                        <div className="card-icon">🚀</div>
-                        <h3>Uplift Pharma Career</h3>
-                        <p className="card-desc">Strategic guidance to accelerate your professional journey.</p>
-                        <p className="coming-soon">Content Coming Soon...</p>
-                    </div>
-
-                    <div className="resource-card animate-card delay-2">
-                        <div className="card-icon">📚</div>
-                        <h3>Upskill Resources</h3>
-                        <p className="card-desc">Curated online sites for upskilling and continuous learning.</p>
-                        <ul className="resource-links">
-                            <li><a href="#" onClick={(e) => e.preventDefault()}>Coursera Pharma</a></li>
-                            <li><a href="#" onClick={(e) => e.preventDefault()}>edX Life Sciences</a></li>
-                            <li><a href="#" onClick={(e) => e.preventDefault()}>FDA Training</a></li>
-                        </ul>
-                    </div>
-
-                    <div className="resource-card animate-card delay-3">
-                        <div className="card-icon">🔍</div>
-                        <h3>Empower Hunting Resources</h3>
-                        <p className="card-desc">Top job portals to find your next opportunity.</p>
-                        <ul className="resource-links">
-                            <li><a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                            <li><a href="https://www.naukri.com" target="_blank" rel="noopener noreferrer">Naukri</a></li>
-                            <li><a href="https://www.foundit.in" target="_blank" rel="noopener noreferrer">FoundIt (Monster)</a></li>
-                        </ul>
-                    </div>
-
-                </section>
-
-            </main>
         </div>
     );
 };

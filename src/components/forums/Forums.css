@@ -98,8 +98,7 @@
     outline: none;
 }
 
-.network-login-btn,
-.login-redirect-btn-network {
+.network-login-btn {
     width: 100%;
     padding: 16px;
     background: linear-gradient(to right, #005691, #004473);
@@ -112,14 +111,9 @@
     margin-top: 15px;
     transition: all 0.3s ease;
     text-transform: uppercase;
-    display: inline-block;
-    text-decoration: none;
-    text-align: center;
-    box-sizing: border-box;
 }
 
-.network-login-btn:hover,
-.login-redirect-btn-network:hover {
+.network-login-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(0, 86, 145, 0.2);
 }
@@ -129,13 +123,6 @@
     font-size: 0.85rem;
     color: #9aaec1;
     font-style: italic;
-}
-
-.access-message-network {
-    font-size: 1.1rem;
-    color: #5d7a8c;
-    margin-bottom: 25px;
-    font-weight: 600;
 }
 
 /* Dashboard Styles */
@@ -398,6 +385,7 @@
     margin-bottom: 30px;
 }
 
+
 .cta-btn-large {
     background-color: #005691;
     color: white;
@@ -411,12 +399,65 @@
     letter-spacing: 1px;
     border-radius: 50px;
     box-shadow: 0 10px 20px rgba(0, 86, 145, 0.2);
+    display: inline-block;
+    /* Ensure it works for Link */
+    text-decoration: none;
 }
 
 .cta-btn-large:hover {
     background-color: #003d66;
     transform: translateY(-5px) scale(1.02);
     box-shadow: 0 20px 30px rgba(0, 86, 145, 0.3);
+}
+
+/* New Logic Button Styles from Redesign */
+.hero-login-btn-network {
+    display: inline-block;
+    background: white;
+    /* Contrast against dark hero */
+    color: #0a2d52;
+    padding: 16px 36px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-login-btn-network:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    background: #f0f8ff;
+    color: #005691;
+}
+
+.action-link-btn {
+    display: inline-block;
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+/* Specific card button colors */
+.blue-card .action-link-btn {
+    color: #005691;
+    border-color: rgba(0, 86, 145, 0.2);
+}
+
+.navy-card .action-link-btn {
+    color: #00bcd4;
+    border-color: rgba(0, 188, 212, 0.3);
+}
+
+.action-link-btn:hover {
+    transform: translateX(5px);
+    border-bottom-color: currentColor;
 }
 
 @media (max-width: 768px) {

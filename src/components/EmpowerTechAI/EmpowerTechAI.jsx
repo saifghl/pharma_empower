@@ -13,7 +13,7 @@ const EmpowerTechAI = () => {
         </p>
       </div>
 
-      {/* SKILL BOARD */}
+      {/* SKILL BOARD
       <div className="content-section">
         <h2>Dynamic Skill Board</h2>
 
@@ -25,9 +25,9 @@ const EmpowerTechAI = () => {
           <div className="skill-card">Automation</div>
           <div className="skill-card">Cybersecurity</div>
         </div>
-      </div>
+      </div> */}
 
-      {/* EMERGING TECHNOLOGIES */}
+      {/* EMERGING TECHNOLOGIES
       <div className="content-section light-bg">
         <h2>Emerging Technologies in Pharma</h2>
 
@@ -57,7 +57,7 @@ const EmpowerTechAI = () => {
             <p>Accelerating research and clinical decisions.</p>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* AI SECTION */}
       <div className="content-section">

@@ -94,10 +94,10 @@ const Navbar = () => {
                                             <Link to="/skill-board" className="dropdown-card" onClick={closeDropdown}>
                                                 <span className="plus-icon">+</span><span className="card-text">Dynamic Skill Board</span>
                                             </Link>
-                                            <Link to="/empower-tech-ai#emerging-tech" className="dropdown-card" onClick={closeDropdown}>
+                                            <Link to="/empower/emerging-tech" className="dropdown-card" onClick={closeDropdown}>
                                                 <span className="plus-icon">+</span><span className="card-text">Emerging Technologies</span>
                                             </Link>
-                                            <Link to="/empower-tech-ai#ai" className="dropdown-card" onClick={closeDropdown}>
+                                            <Link to="/empower/ai" className="dropdown-card" onClick={closeDropdown}>
                                                 <span className="plus-icon">+</span><span className="card-text">Artificial Intelligence</span>
                                             </Link>
                                         </div>
@@ -131,7 +131,11 @@ const Navbar = () => {
                             </li>
 
                             <li><Link to="/network" className="nav-link" onClick={toggleMenu}>Professional Network</Link></li>
+<<<<<<< Updated upstream
                             <li><Link to="/skill-board" className="nav-link" onClick={toggleMenu}>Skill Board</Link></li><span></span>
+=======
+                            <li><a href="#" className="nav-link" onClick={(e) => e.preventDefault()}>Skill Board</a></li><span></span>
+>>>>>>> Stashed changes
                             {/* <li><Link to="/contact-us" className="nav-link" onClick={toggleMenu}>Contact Us</Link></li> */}
                             {/* Mobile specific Contact Link */}
                             <li className="mobile-only"><Link to="/login" className="nav-link" onClick={toggleMenu}>Login / Register</Link></li>
