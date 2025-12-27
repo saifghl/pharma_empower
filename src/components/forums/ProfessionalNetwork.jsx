@@ -64,7 +64,7 @@ const ProfessionalNetwork = () => {
                                 Book a private session to strategize your career move.
                                 Get personalized advice from industry leaders who have walked the path.
                             </p>
-                            <Link to="/login" className="action-link-btn">Book a Session &rarr;</Link>
+                            <Link to="/session" className="action-link-btn">Book a Session &rarr;</Link>
                         </div>
 
                         <div className="content-card navy-card">

@@ -15,6 +15,7 @@ import DynamicSkillBoard from './components/EmpowerTechAI/skill';
 import EmergingTech from './components/EmpowerTechAI/emerging-tech';
 import AI from './components/EmpowerTechAI/AI';
 import './App.css';
+import StudentSession from './components/forums/session';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/empower/skill" element={<DynamicSkillBoard />} />
           <Route path="/empower/emerging-tech" element={<EmergingTech />} />
           <Route path="/empower/ai" element={<AI />} />
+          <Route path="/session"   element={<StudentSession/>} />
         </Routes>
         <Footer />
       </div>

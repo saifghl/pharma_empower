@@ -1,0 +1,64 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.session-container {
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.session-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 400px;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.session-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+.session-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.session-form input,
+.session-form textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.session-form input:focus,
+.session-form textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.session-form button {
+  margin-top: 10px;
+  padding: 12px;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.session-form button:hover {
+  background-color: #1e40af;
+}

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const pool = require('../config/db');
 
 const register = async (req, res) => {
-    const { email, password, role, name, age, phone, specialization, experience } = req.body;
+    const { email, password,full_name } = req.body;
     
     try {
         // Check if user exists
@@ -18,37 +18,36 @@ const register = async (req, res) => {
         // Create user
         const [userResult] = await pool.execute(
             'INSERT INTO users (email, password, role) VALUES (?, ?, ?)',
-            [email, hashedPassword, role]
+            [email, hashedPassword,"user"]
         );
 
-        const userId = userResult.insertId;
+        // const userId = userResult.insertId;
 
-        // Create role-specific profile
-        if (role === 'admin') {
-            await pool.execute('INSERT INTO admins (user_id, name) VALUES (?, ?)', [userId, name]);
-        } else if (role === 'doctor') {
-            await pool.execute(
-                'INSERT INTO doctors (user_id, name, specialization, experience) VALUES (?, ?, ?, ?)',
-                [userId, name, specialization, experience]
-            );
-        } else if (role === 'patient') {
-            await pool.execute(
-                'INSERT INTO patients (user_id, name, age, phone) VALUES (?, ?, ?, ?)',
-                [userId, name, age, phone]
-            );
-        }
+        // // Create role-specific profile
+        // if (role === 'admin') {
+        //     await pool.execute('INSERT INTO admins (user_id, name) VALUES (?, ?)', [userId, name]);
+        // } else if (role === 'doctor') {
+        //     await pool.execute(
+        //         'INSERT INTO doctors (user_id, name, specialization, experience) VALUES (?, ?, ?, ?)',
+        //         [userId, name, specialization, experience]
+        //     );
+        // } else if (role === 'patient') {
+        //     await pool.execute(
+        //         'INSERT INTO patients (user_id, name, age, phone) VALUES (?, ?, ?, ?)',
+        //         [userId, name, age, phone]
+        //     );
+        // }
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: error.message });
     }
 };
 
 
 const login = async (req, res) => {
   console.log("Login fucntion is running");
-  const { email, password, expectedRole } = req.body;
-  // expectedRole = 'admin' or 'patient'
+  const { email, password} = req.body;
 
   try {
     // 1. Get user by email
@@ -61,19 +60,20 @@ const login = async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
+    //user variable store user data
     const user = users[0];
+
+    // 3. Password check
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
 
     // 2. Role check 
     if (expectedRole && user.role !== expectedRole) {
       return res.status(403).json({
         message: `Access denied. You are not a ${expectedRole}`
       });
-    }
-
-    // 3. Password check
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword) {
-      return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     // 4. Generate JWT
