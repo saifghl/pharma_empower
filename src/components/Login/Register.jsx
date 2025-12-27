@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authAPI } from '../../services/api';
 import './Login.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        name: ''
+        full_name: ''
     });
     const navigate = useNavigate();
 
@@ -14,14 +15,17 @@ const Register = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Simulate register logic
-        // In a real app, this would be an API call
-        // For now, we simulate success and redirect to login
-
-        // Redirect to login page
-        navigate('/login');
+        try{
+        const response=await authAPI.register(formData)
+        if(response.data){
+               // Redirect to login page
+             navigate('/login');
+        }}catch(err){
+            console.log(err.message);
+        }
+    
     };
 
     return (
@@ -38,9 +42,9 @@ const Register = () => {
                             <label>Full Name</label>
                             <input
                                 type="text"
-                                name="name"
+                                name="full_name"
                                 placeholder="John Doe"
-                                value={formData.name}
+                                value={formData.full_name}
                                 onChange={handleChange}
                                 required
                             />

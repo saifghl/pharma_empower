@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './navbar.css';
 
 const Navbar = () => {
     const [activeDropdown, setActiveDropdown] = useState(null); // 'about', 'intelligence', 'tech', 'academy' or null
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const navigate=useNavigate();
+    const isLoggedIn=localStorage.getItem("isLoggedIn");
+    console.log("isLoggedIn",isLoggedIn);
 
+    const handleLogout = () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("isLoggedIn");
+      navigate("/");
+     };
+    
     const toggleMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
@@ -134,14 +144,40 @@ const Navbar = () => {
                             <li><Link to="/skill-board" className="nav-link" onClick={toggleMenu}>Skill Board</Link></li>
                             {/* <li><Link to="/contact-us" className="nav-link" onClick={toggleMenu}>Contact Us</Link></li> */}
                             {/* Mobile specific Contact Link */}
-                            <li className="mobile-only"><Link to="/login" className="nav-link" onClick={toggleMenu}>Login / Register</Link></li>
+                            {isLoggedIn ? (
+                         <li className="desktop-only">
+                         <button onClick={handleLogout} className="logout-btn">
+                          Logout
+                        </button>
+                        </li>
+                         ) : (
+                       <li className="desktop-only">
+                       <Link to="/login" className="utility-link login-btn-nav">
+                         Sign-in
+                       </Link>
+                       </li>
+                        )}
                         </ul>
                     </div>
 
                     <div className="navbar-right">
                         <ul className="utility-links">
                             <li className="desktop-only"><Link to="/contact-us" className="utility-link contact-btn">Contact Us</Link></li>
-                            <li className="desktop-only"><Link to="/login" className="utility-link login-btn-nav">Login / Register</Link></li>
+                        {isLoggedIn ? (
+                         <li className="desktop-only">
+                         <button onClick={handleLogout} className="logout-btn">
+                          Logout
+                        </button>
+                        </li>
+                         ) : (
+                       <li className="desktop-only">
+                       <Link to="/login" className="utility-link login-btn-nav">
+                         Sign-in
+                       </Link>
+                       </li>
+                        )}
+
+
                         </ul>
                     </div>
                 </div>

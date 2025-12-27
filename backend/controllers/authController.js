@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 const pool = require('../config/db');
 
 const register = async (req, res) => {
-    const { email, password,full_name } = req.body;
+  console.log("Register function is running");
+    const { email, password,full_name} = req.body;
     
     try {
         // Check if user exists
@@ -17,26 +18,10 @@ const register = async (req, res) => {
 
         // Create user
         const [userResult] = await pool.execute(
-            'INSERT INTO users (email, password, role) VALUES (?, ?, ?)',
-            [email, hashedPassword,"user"]
+            'INSERT INTO users (full_name,email, password, role) VALUES (?,?, ?, ?)',
+            [full_name,email, hashedPassword,"user"]
         );
 
-        // const userId = userResult.insertId;
-
-        // // Create role-specific profile
-        // if (role === 'admin') {
-        //     await pool.execute('INSERT INTO admins (user_id, name) VALUES (?, ?)', [userId, name]);
-        // } else if (role === 'doctor') {
-        //     await pool.execute(
-        //         'INSERT INTO doctors (user_id, name, specialization, experience) VALUES (?, ?, ?, ?)',
-        //         [userId, name, specialization, experience]
-        //     );
-        // } else if (role === 'patient') {
-        //     await pool.execute(
-        //         'INSERT INTO patients (user_id, name, age, phone) VALUES (?, ?, ?, ?)',
-        //         [userId, name, age, phone]
-        //     );
-        // }
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
@@ -48,7 +33,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   console.log("Login fucntion is running");
   const { email, password} = req.body;
-
+  console.log(req.body);
   try {
     // 1. Get user by email
     const [users] = await pool.execute(
@@ -67,13 +52,6 @@ const login = async (req, res) => {
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return res.status(400).json({ message: 'Invalid credentials' });
-    }
-
-    // 2. Role check 
-    if (expectedRole && user.role !== expectedRole) {
-      return res.status(403).json({
-        message: `Access denied. You are not a ${expectedRole}`
-      });
     }
 
     // 4. Generate JWT

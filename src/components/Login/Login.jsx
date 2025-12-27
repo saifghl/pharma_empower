@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import { authAPI } from '../../services/api';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -13,15 +14,29 @@ const Login = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Simulate login logic
-        localStorage.setItem('isLoggedIn', 'true');
-        // Use email username part if name is not available
-        localStorage.setItem('userName', formData.email.split('@')[0]);
-
-        // Redirect to previous page or home
-        navigate(-1);
+        try{
+        const res=await authAPI.login(formData)
+        if(res.data){
+           localStorage.setItem('isLoggedIn', 'true');
+            
+           // Store token and user data
+           localStorage.setItem('token', res.data.token);
+           localStorage.setItem('user', JSON.stringify(res.data.user));
+         
+           // Redirect based on role
+          if (res.data.user.role === 'admin') {
+           navigate('/admin/dashboard');
+          }
+           else{ 
+            navigate("/")
+           }
+           
+        }}catch(err){
+           console.log(err.message);
+        }
+  
     };
 
     return (
