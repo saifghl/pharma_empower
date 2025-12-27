@@ -34,7 +34,9 @@ pool.getConnection()
 
 app.use('/api/auth', authRoutes);
 
-
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/contact', contactRoutes); // ✅ NOW correct
 
 const PORT = process.env.PORT || 5000;
 

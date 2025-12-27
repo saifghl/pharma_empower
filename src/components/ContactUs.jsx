@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './ContactUs.css';
+import { contactAPI } from '../services/api'; // ✅ correct path
 
 const ContactUs = () => {
     const [formData, setFormData] = useState({
@@ -10,26 +11,43 @@ const ContactUs = () => {
         organizationalNeed: ''
     });
 
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
-        alert('Thank you for contacting us! We will get back to you soon.');
-        // Reset form
-        setFormData({
-            name: '',
-            email: '',
-            subject: '',
-            message: '',
-            organizationalNeed: ''
-        });
+        setError('');
+        setLoading(true);
+
+        try {
+            await contactAPI.sendMessage({
+                name: formData.name,
+                email: formData.email,
+                subject: formData.subject,
+                organization_need: formData.organizationalNeed, // ✅ FIX
+                message: formData.message
+            });
+
+            alert('Thank you for contacting us! We will get back to you soon.');
+
+            setFormData({
+                name: '',
+                email: '',
+                subject: '',
+                message: '',
+                organizationalNeed: ''
+            });
+
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to send message');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -41,71 +59,67 @@ const ContactUs = () => {
 
             <div className="contact-form-wrapper">
                 <form className="contact-form" onSubmit={handleSubmit}>
+
+                    {error && <p className="error-text">{error}</p>}
+
                     <div className="form-group">
-                        <label htmlFor="name">Name <span className="required">*</span></label>
+                        <label>Name *</label>
                         <input
                             type="text"
-                            id="name"
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
                             required
-                            placeholder="Your Name"
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="email">Email <span className="required">*</span></label>
+                        <label>Email *</label>
                         <input
                             type="email"
-                            id="email"
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
                             required
-                            placeholder="Your Email Address"
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="subject">Subject <span className="required">*</span></label>
+                        <label>Subject *</label>
                         <input
                             type="text"
-                            id="subject"
                             name="subject"
                             value={formData.subject}
                             onChange={handleChange}
                             required
-                            placeholder="Subject of your inquiry"
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="organizationalNeed">Organizational Need <span className="optional">(Optional)</span></label>
+                        <label>Organizational Need (Optional)</label>
                         <input
                             type="text"
-                            id="organizationalNeed"
                             name="organizationalNeed"
                             value={formData.organizationalNeed}
                             onChange={handleChange}
-                            placeholder="Describe your organizational need"
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="message">Message <span className="required">*</span></label>
+                        <label>Message *</label>
                         <textarea
-                            id="message"
                             name="message"
                             value={formData.message}
                             onChange={handleChange}
                             required
-                            placeholder="Your Message..."
                             rows="5"
-                        ></textarea>
+                        />
                     </div>
 
-                    <button type="submit" className="submit-btn">Send Message</button>
+                    <button type="submit" className="submit-btn" disabled={loading}>
+                        {loading ? 'Sending...' : 'Send Message'}
+                    </button>
+
                 </form>
             </div>
         </div>

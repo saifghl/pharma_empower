@@ -58,4 +58,12 @@ export const inquiryAPI={
 
 
 
+
+// ----------- CONTACT API ---------------
+export const contactAPI = {
+    sendMessage: (data) => api.post('/api/contact', data)
+};
+
+
+
 export default api;

@@ -4,6 +4,7 @@ const pool = require('../config/db');
 
 const register = async (req, res) => {
   console.log("Register function is running");
+  console.log("hello");
     const { email, password,full_name} = req.body;
     
     try {
