@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import Navbar from './components/navbar';
 import Footer from './components/Footer';
 import Home from './components/Home';
@@ -15,7 +15,7 @@ import DynamicSkillBoard from './components/EmpowerTechAI/skill';
 import EmergingTech from './components/EmpowerTechAI/emerging-tech';
 import AI from './components/EmpowerTechAI/AI';
 import StudentSession from './components/forums/session';
-import MainLayout from './components/MainLayout';
+// 
 import AdminLayout from './components/Admin/AdminLayout';
 import AdminLogin from './components/Admin/AdminLogin';
 import Dashboard from './components/Admin/Dashboard';
@@ -30,7 +30,15 @@ function App() {
           {/* Navigation and Footer are now handled inside layouts */}
           <Routes>
             {/* PUBLIC ROUTES (With Navbar & Footer) */}
-            <Route element={<MainLayout />}>
+            <Route
+              element={
+                <>
+                  <Navbar />
+                  <Outlet />
+                  <Footer />
+                </>
+              }
+            >
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/empower-tech-ai" element={<EmpowerTechAI />} />
