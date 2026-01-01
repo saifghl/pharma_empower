@@ -460,3 +460,64 @@
 .utility-link {
   white-space: nowrap;
 }
+
+/* Logout Button Styles */
+.logout-btn {
+  background: transparent;
+  border: 1px solid #0a2d52;
+  padding: 8px 20px;
+  border-radius: 50px;
+  color: #0a2d52;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
+  white-space: nowrap;
+}
+
+.logout-btn:hover {
+  border-color: #005691;
+  background-color: #005691;
+  color: #ffffff;
+}
+
+.logout-btn-mobile {
+  background: transparent;
+  border: none;
+  color: #0a2d52;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  padding: 20px 30px;
+  border-bottom: 1px solid #f5f5f5;
+  transition: all 0.2s ease;
+  font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
+}
+
+.logout-btn-mobile:hover {
+  color: #005691;
+  background-color: #f8f9fa;
+}
+
+.login-btn-nav {
+  border: 1px solid #0a2d52;
+  padding: 8px 20px;
+  border-radius: 50px;
+  color: #0a2d52;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.login-btn-nav:hover {
+  border-color: #005691;
+  background-color: #005691;
+  color: #ffffff;
+}

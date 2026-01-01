@@ -34,13 +34,12 @@ pool.getConnection()
     });
 
 
-
 // Routes
 
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/admin/dashboard', dashboardRoutes);
-
+app.use("/api/news",newsRoutes);
 
 
 

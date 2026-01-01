@@ -1,22 +1,18 @@
-import React, { useState } from "react";
-import {
-  Calendar,
-  User,
-  Phone,
-  MessageSquare,
-  Send,
-  CheckCircle2,
-} from "lucide-react";
+import React, {useState} from "react";
+import {Calendar,User,Phone,MessageSquare,Send,CheckCircle2} from "lucide-react";
 import "./studentSession.css";
 import { sessionAPI } from "../../services/api";
 
+
 const StudentSession = () => {
+
   const [formData, setFormData] = useState({
     fullName: "",
     topic: "",
     date: "",
     phone: "",
   });
+  
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
