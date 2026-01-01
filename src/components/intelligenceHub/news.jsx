@@ -6,13 +6,27 @@ export default function News() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // FILTER STATE (front-end only)
+  // -----------------------------------------------------
+  // NOTE: This currently filters ONLY in the UI.
+  // If you later want the API to filter by category,
+  // you will handle that inside loadNews() instead.
+  // -----------------------------------------------------
+  const [filter, setFilter] = useState("all");
+
   useEffect(() => {
     loadNews();
   }, []);
 
   const loadNews = async () => {
     try {
-      const res = await newsAPI.getNews(); // from DB
+      // API CALL — retrieves all news from DB
+      // -------------------------------------
+      // If you later want category-based API filtering,
+      // this is where you would pass a parameter like:
+      // newsAPI.getNews(filter)
+      // -------------------------------------
+      const res = await newsAPI.getNews();
       setNews(res.data);
     } catch (error) {
       console.error("Failed to load news", error);
@@ -20,7 +34,17 @@ export default function News() {
       setLoading(false);
     }
   };
- 
+
+  // FRONTEND FILTER LOGIC
+  // -----------------------------------------------------
+  // This filters the news list in the browser only.
+  // No backend changes required.
+  // -----------------------------------------------------
+  const filteredNews =
+    filter === "all"
+      ? news
+      : news.filter((item) => item.category === filter);
+
   return (
     <div className="news-page">
       {/* Header */}
@@ -29,17 +53,61 @@ export default function News() {
         <p>Latest insights from the pharmaceutical industry</p>
       </div>
 
-      {/* Loading */}
+      {/* CATEGORY FILTER BUTTONS */}
+      {/* -----------------------------------------------------
+          NOTE: These currently only change the front-end filter.
+          
+          If in future you want the API to filter server-side,
+          you would instead call loadNews(filter) here.
+          ----------------------------------------------------- */}
+      <div className="filter-bar">
+        <button
+          onClick={() => setFilter("all")}
+          className={filter === "all" ? "active" : ""}
+        >
+          All
+        </button>
+
+        <button
+          onClick={() => setFilter("industry")}
+          className={filter === "industry" ? "active" : ""}
+        >
+          Industry News
+        </button>
+
+        <button
+          onClick={() => setFilter("healthcare")}
+          className={filter === "healthcare" ? "active" : ""}
+        >
+          Healthcare
+        </button>
+
+        <button
+          onClick={() => setFilter("regulatory")}
+          className={filter === "regulatory" ? "active" : ""}
+        >
+          Regulatory News
+        </button>
+
+        <button
+          onClick={() => setFilter("career")}
+          className={filter === "career" ? "active" : ""}
+        >
+          Career News
+        </button>
+      </div>
+
+      {/* Loading State */}
       {loading && <p className="loading-text">Loading latest news...</p>}
 
-      {/* Empty */}
-      {!loading && news.length === 0 && (
+      {/* Empty State AFTER filtering */}
+      {!loading && filteredNews.length === 0 && (
         <p className="empty-text">No news available</p>
       )}
 
       {/* News Grid */}
       <div className="news-grid">
-        {news.map((item) => (
+        {filteredNews.map((item) => (
           <div className="news-card" key={item.id}>
             {item.image_url ? (
               <img src={item.image_url} alt="news" />
