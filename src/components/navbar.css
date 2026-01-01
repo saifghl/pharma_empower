@@ -12,7 +12,7 @@
 .navbar-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 20px;
     height: 90px;
     display: flex;
     align-items: center;
@@ -22,21 +22,27 @@
 /* Base Styles (Desktop) */
 .navbar-left {
     flex-shrink: 0;
-    margin-right: 60px;
+    margin-right: 20px;
     /* Space between logo and nav links */
 }
 
 .navbar-logo {
-    font-size: 32px;
-    font-weight: 400;
-    /* AbbVie logo is actually quite thin/custom, but simple look is better than bold gradient */
+    font-size: 24px;
+    font-weight: 700;
+    /* Bold for impact */
     color: #0a2d52;
     /* Darker Navy Blue */
     text-decoration: none;
-    letter-spacing: -1px;
-    /* Tighter tracking for logo feeling */
+    letter-spacing: -0.5px;
+    /* Tighter tracking */
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    /* Stack vertically */
+    align-items: flex-start;
+    /* Align left */
+    justify-content: center;
+    line-height: 0.9;
+    /* Tight line height */
 }
 
 /* Removing the dot for strict text match to image style */
@@ -57,10 +63,20 @@
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 40px;
+    gap: 20px;
     /* Generous spacing */
     margin: 0;
     padding: 0;
+    align-items: center;
+    /* Center items vertically */
+    height: 100%;
+    /* Ensure it fills the navbar height */
+}
+
+.nav-links>li {
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 .nav-link {
@@ -73,11 +89,16 @@
     font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
     /* Explicitly set font */
     position: relative;
-    padding: 34px 0;
-    /* Full height touch target */
-    display: block;
+    padding: 0;
+    /* Remove padding, use flex centering */
+    height: 100%;
+    /* Fill the li */
+    display: flex;
+    /* Use flex to center text */
+    align-items: center;
     transition: all 0.2s ease;
-    /* Changed from color to all to allow font-weight transition attempts */
+    white-space: nowrap;
+    /* Prevent wrapping */
 }
 
 /* AbbVie-style Thick Active Line */
@@ -142,10 +163,7 @@
     color: #005691;
 }
 
-/* Making the Contact Us button look more like the 'GLOBAL' or 'MORE' utility links in the image, 
-   OR keeping it distinct but cleaner if user prefers. 
-   Given "classy", let's make it a clean text link with an icon or simple outline.
-   Let's stick to the outline pill but thinner and more elegant. */
+
 .utility-link.contact-btn {
     border: 1px solid #ccc;
     padding: 8px 20px;
@@ -342,8 +360,10 @@
     transition: all 0.3s ease;
 }
 
-.mobile-only {
-    display: none;
+/* Ensure high specificity to hide mobile items on desktop */
+.mobile-only,
+.nav-links li.mobile-only {
+    display: none !important;
 }
 
 /* Tablet / Mobile Breakpoint */
@@ -364,6 +384,7 @@
         letter-spacing: 0.5px;
         /* Ensure gradient persists or adjust for readability */
         background: linear-gradient(to right, #0a2d52, #005691);
+        background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         /* Mobile specific aesthetic touch */
@@ -412,6 +433,10 @@
     .nav-links li,
     .utility-links li {
         width: 100%;
+        height: auto;
+        /* Reset desktop height */
+        display: block;
+        /* Reset desktop flex */
     }
 
     .nav-link,
@@ -420,6 +445,8 @@
         padding: 20px 30px;
         border-bottom: 1px solid #f5f5f5;
         font-size: 16px;
+        white-space: normal;
+        /* Allow wrapping on mobile if needed */
     }
 
     .nav-link::after {
@@ -458,66 +485,66 @@
 }
 
 .utility-link {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 /* Logout Button Styles */
 .logout-btn {
-  background: transparent;
-  border: 1px solid #0a2d52;
-  padding: 8px 20px;
-  border-radius: 50px;
-  color: #0a2d52;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
-  white-space: nowrap;
+    background: transparent;
+    border: 1px solid #0a2d52;
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: #0a2d52;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
+    white-space: nowrap;
 }
 
 .logout-btn:hover {
-  border-color: #005691;
-  background-color: #005691;
-  color: #ffffff;
+    border-color: #005691;
+    background-color: #005691;
+    color: #ffffff;
 }
 
 .logout-btn-mobile {
-  background: transparent;
-  border: none;
-  color: #0a2d52;
-  font-weight: 500;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  padding: 20px 30px;
-  border-bottom: 1px solid #f5f5f5;
-  transition: all 0.2s ease;
-  font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
+    background: transparent;
+    border: none;
+    color: #0a2d52;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    padding: 20px 30px;
+    border-bottom: 1px solid #f5f5f5;
+    transition: all 0.2s ease;
+    font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
 }
 
 .logout-btn-mobile:hover {
-  color: #005691;
-  background-color: #f8f9fa;
+    color: #005691;
+    background-color: #f8f9fa;
 }
 
 .login-btn-nav {
-  border: 1px solid #0a2d52;
-  padding: 8px 20px;
-  border-radius: 50px;
-  color: #0a2d52;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+    border: 1px solid #0a2d52;
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: #0a2d52;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
 }
 
 .login-btn-nav:hover {
-  border-color: #005691;
-  background-color: #005691;
-  color: #ffffff;
+    border-color: #005691;
+    background-color: #005691;
+    color: #ffffff;
 }

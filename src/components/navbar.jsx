@@ -36,7 +36,8 @@ const Navbar = () => {
       <div className="navbar-content">
         <div className="navbar-left">
           <a href="/" className="navbar-logo">
-            Pharma Empower
+            <span>Pharma</span>
+            <span>Empower</span>
           </a>
         </div>
 
@@ -51,23 +52,28 @@ const Navbar = () => {
         <div className={isMobileMenuOpen ? "nav-menu active" : "nav-menu"}>
           <div className="navbar-center">
             <ul className="nav-links">
+              {/* HOME LINK */}
+              <li>
+                <Link to="/" className="nav-link" onClick={toggleMenu}>
+                  Home
+                </Link>
+              </li>
               {/* ABOUT US DROPDOWN */}
               <li
-                className={`nav-item-dropdown ${
-                  activeDropdown === "about" ? "open" : ""
-                }`}
+                className={`nav-item-dropdown ${activeDropdown === "about" ? "open" : ""}`}
+                onMouseEnter={() => setActiveDropdown("about")}
+                onMouseLeave={() => setActiveDropdown(null)}
               >
-                <a
-                  href="/about"
+                <Link
+                  to="/about"
                   className="nav-link dropdown-trigger"
-                  onClick={(e) => toggleDropdown(e, "about")}
+                  onClick={closeDropdown}
                 >
                   About Us
-                </a>
+                </Link>
                 <div
-                  className={`dropdown-menu ${
-                    activeDropdown === "about" ? "visible" : ""
-                  }`}
+                  className={`dropdown-menu ${activeDropdown === "about" ? "visible" : ""
+                    }`}
                 >
                   <div className="dropdown-content">
                     <div className="dropdown-grid">
@@ -110,9 +116,8 @@ const Navbar = () => {
 
               {/* INTELLIGENCE HUB DROPDOWN */}
               <li
-                className={`nav-item-dropdown ${
-                  activeDropdown === "intelligence" ? "open" : ""
-                }`}
+                className={`nav-item-dropdown ${activeDropdown === "intelligence" ? "open" : ""
+                  }`}
               >
                 <a
                   href="/intelligence-hub"
@@ -122,9 +127,8 @@ const Navbar = () => {
                   Intelligence Hub
                 </a>
                 <div
-                  className={`dropdown-menu ${
-                    activeDropdown === "intelligence" ? "visible" : ""
-                  }`}
+                  className={`dropdown-menu ${activeDropdown === "intelligence" ? "visible" : ""
+                    }`}
                 >
                   <div className="dropdown-content">
                     <div
@@ -150,9 +154,8 @@ const Navbar = () => {
 
               {/* EMPOWER TECH & AI DROPDOWN */}
               <li
-                className={`nav-item-dropdown ${
-                  activeDropdown === "tech" ? "open" : ""
-                }`}
+                className={`nav-item-dropdown ${activeDropdown === "tech" ? "open" : ""
+                  }`}
               >
                 <Link
                   to="/empower-tech-ai"
@@ -162,9 +165,8 @@ const Navbar = () => {
                   Empower Tech & AI
                 </Link>
                 <div
-                  className={`dropdown-menu ${
-                    activeDropdown === "tech" ? "visible" : ""
-                  }`}
+                  className={`dropdown-menu ${activeDropdown === "tech" ? "visible" : ""
+                    }`}
                 >
                   <div className="dropdown-content">
                     <div
@@ -204,9 +206,8 @@ const Navbar = () => {
 
               {/* PHARMA EMPOWER ACADEMY DROPDOWN */}
               <li
-                className={`nav-item-dropdown ${
-                  activeDropdown === "academy" ? "open" : ""
-                }`}
+                className={`nav-item-dropdown ${activeDropdown === "academy" ? "open" : ""
+                  }`}
               >
                 <Link
                   to="/academy"
@@ -216,9 +217,8 @@ const Navbar = () => {
                   Pharma Empower Academy
                 </Link>
                 <div
-                  className={`dropdown-menu ${
-                    activeDropdown === "academy" ? "visible" : ""
-                  }`}
+                  className={`dropdown-menu ${activeDropdown === "academy" ? "visible" : ""
+                    }`}
                 >
                   <div className="dropdown-content">
                     <div
@@ -279,6 +279,7 @@ const Navbar = () => {
                 >
                   Skill Board
                 </Link>
+                <span> </span>
               </li>
               {/* Mobile specific Contact Link */}
               <li className="mobile-only">

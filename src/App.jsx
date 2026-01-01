@@ -65,7 +65,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="enquiries" element={<Enquiries />} />
-            <Route path="/admin/sessions"   element={<AdminSessions />} />
+            <Route path="/admin/sessions" element={<AdminSessions />} />
           </Route>
         </Routes>
       </div>
