@@ -50,7 +50,7 @@ export default function News() {
       {/* Header */}
       <div className="news-header">
         <h1>Pharma Intelligence Hub</h1>
-        <p>Latest insights from the pharmaceutical industry</p>
+        <p className="tagline-animate">Your single source for verified pharma and medical insights</p>
       </div>
 
       {/* CATEGORY FILTER BUTTONS */}

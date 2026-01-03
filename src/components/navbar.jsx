@@ -78,7 +78,7 @@ const Navbar = () => {
                   <div className="dropdown-content">
                     <div className="dropdown-grid">
                       <Link
-                        to="/about#mission"
+                        to="/about"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >
@@ -86,7 +86,7 @@ const Navbar = () => {
                         <span className="card-text">Our Mission</span>
                       </Link>
                       <Link
-                        to="/about#values"
+                        to="/about"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >
@@ -94,7 +94,7 @@ const Navbar = () => {
                         <span className="card-text">Our Values</span>
                       </Link>
                       <Link
-                        to="/about#purpose"
+                        to="/about"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >
@@ -102,7 +102,7 @@ const Navbar = () => {
                         <span className="card-text">Our Purpose</span>
                       </Link>
                       <Link
-                        to="/about#principles"
+                        to="/about"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >
@@ -306,7 +306,7 @@ const Navbar = () => {
                 </li>
               ) : (
                 <li className="mobile-only">
-                  <Link to="/login" className="nav-link" onClick={toggleMenu}>
+                  <Link to="/login" className="mobile-nav-cta" onClick={toggleMenu}>
                     Sign-in
                   </Link>
                 </li>

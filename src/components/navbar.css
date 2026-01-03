@@ -536,3 +536,36 @@
     background-color: #005691;
     color: #ffffff;
 }
+
+/* Mobile CTA Button (Sign In) */
+/* Mobile CTA Button (Sign In) */
+.nav-links li .mobile-nav-cta {
+    display: block !important;
+    width: fit-content !important;
+    min-width: 140px;
+    padding: 10px 30px !important;
+    margin: 20px 20px 10px !important;
+    /* Aligned left like other items or centered? list is block, items are full width mostly. */
+    /* Let's center it or keep it consistent. The request is "reduce size". Centered looks best for CTA. */
+    margin-left: 20px !important;
+    /* Actually, the menu items are left aligned. Let's align left but not full width. */
+    text-align: center;
+    background-color: #071D49 !important;
+    color: #ffffff !important;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 13px;
+    /* Slightly smaller text */
+    border: none !important;
+    box-shadow: 0 4px 10px rgba(7, 29, 73, 0.2);
+    transition: all 0.3s ease;
+}
+
+.nav-links li .mobile-nav-cta:hover {
+    background-color: #004BB5 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 75, 181, 0.25);
+    color: #ffffff !important;
+}

@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
 
+import homeHeroImg from "../images/home_hero.png";
+
 export default function Home() {
 
     // Scroll reveal animation
@@ -31,20 +33,25 @@ export default function Home() {
             {/* Fixed DNA Background */}
 
 
-            {/* HERO */}
+            {/* HERO (Card Layout) */}
             <section className="hero-section">
-                <div className="hero-content-wrapper">
-                    <h1 className="hero-brand-title">
-                        The one-stop open platform for the pharma & healthcare community
-                    </h1>
+                <div className="home-hero-card fade-in-up">
+                    <div className="home-text-content">
+                        <h1 className="hero-brand-title">
+                            The one-stop open platform for the pharma & healthcare community
+                        </h1>
 
-                    <p className="hero-tagline">
-                        <span className="highlight">•</span>
-                        Empowering all for better tomorrow… Beyond Boundaries
-                        <span className="highlight">•</span>
-                    </p>
+                        <p className="hero-tagline">
+                            <span className="highlight">•</span>
+                            Empowering all for better tomorrow… Beyond Boundaries
+                            <span className="highlight">•</span>
+                        </p>
 
-                    <div className="hero-decoration-line" />
+                        <div className="hero-decoration-line" />
+                    </div>
+                    <div className="home-image-content">
+                        <img src={homeHeroImg} alt="Pharma Global Connection" className="home-hero-img" />
+                    </div>
                 </div>
             </section>
 

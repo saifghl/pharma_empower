@@ -13,8 +13,9 @@ const PharmaAcademy = () => {
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                     </svg>
                 </div>
-                <h1>Pharma Academy: Certification That Translates to Career Advancement</h1>
-                <p className="hero-subtext">Unlock validated expertise in GxP, AI, Regulatory Strategy, and Pharma 4.0.</p>
+                <h1>Pharma Academy</h1>
+                <p className="hero-subtext tagline-animate">Structured upskilling for sustainable pharma careers</p>
+                <div className="academy-hero-divider"></div>
 
                 <Link to="/login" className="hero-login-btn">
                     Login to Enroll / Access Courses

@@ -105,7 +105,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+  background: transparent;
 }
 
 .empower-login-card {
@@ -214,6 +214,31 @@
   font-size: 1.1rem;
   color: var(--text-light);
   line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.et-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #071D49 0%, #004BB5 100%);
+  color: white;
+  padding: 12px 35px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(7, 29, 73, 0.2);
+  transition: all 0.3s ease;
+}
+
+.et-hero-btn:hover {
+  background: linear-gradient(135deg, #004BB5 0%, #0066F5 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(7, 29, 73, 0.3);
+  color: white;
 }
 
 /* RIGHT SIDE: CONTENT Grid */

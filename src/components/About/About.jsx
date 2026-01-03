@@ -4,6 +4,7 @@ import Principles from './Principles';
 import Mission from './Mission';
 import Value from './Value';
 import Purpose from './Purpose';
+import aboutHeroImg from '../../images/about_hero.png';
 import './About.css';
 
 const About = () => {
@@ -36,15 +37,22 @@ const About = () => {
     <div className="about-landing">
 
       {/* =========================
-          HERO TAGLINE
+          HERO TAGLINE (CARD LAYOUT)
       ========================== */}
       <div className="about-hero">
-        <h1 className="about-tagline fade-in-up">
-          Empowering people through <br />
-          <span className="highlight-text">
-            open knowledge
-          </span>
-        </h1>
+        <div className="about-hero-card fade-in-up">
+          <div className="hero-text-content">
+            <h1 className="about-tagline">
+              Empowering people through <br />
+              <span className="highlight-text">
+                open knowledge
+              </span>
+            </h1>
+          </div>
+          <div className="hero-image-content">
+            <img src={aboutHeroImg} alt="Pharma Collaboration" className="about-hero-img" />
+          </div>
+        </div>
       </div>
 
       {/* =========================
