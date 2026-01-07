@@ -12,7 +12,7 @@
 .navbar-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 20px;
     height: 90px;
     display: flex;
     align-items: center;
@@ -22,21 +22,22 @@
 /* Base Styles (Desktop) */
 .navbar-left {
     flex-shrink: 0;
-    margin-right: 60px;
+    margin-right: 20px;
     /* Space between logo and nav links */
 }
 
 .navbar-logo {
-    font-size: 32px;
-    font-weight: 400;
-    /* AbbVie logo is actually quite thin/custom, but simple look is better than bold gradient */
-    color: #0a2d52;
-    /* Darker Navy Blue */
+    font-size: 26px;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    color: var(--primary-color);
     text-decoration: none;
-    letter-spacing: -1px;
-    /* Tighter tracking for logo feeling */
+    letter-spacing: -0.5px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    line-height: 0.9;
 }
 
 /* Removing the dot for strict text match to image style */
@@ -57,44 +58,57 @@
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 40px;
+    gap: 20px;
     /* Generous spacing */
     margin: 0;
     padding: 0;
+    align-items: center;
+    /* Center items vertically */
+    height: 100%;
+    /* Ensure it fills the navbar height */
+}
+
+.nav-links>li {
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 .nav-link {
     text-decoration: none;
-    color: #0a2d52;
-    /* Dark Navy Color */
+    color: var(--primary-color);
     font-weight: 500;
-    /* Matched to dropdown items */
     font-size: 15px;
-    font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
+    font-family: var(--font-main);
     /* Explicitly set font */
     position: relative;
-    padding: 34px 0;
-    /* Full height touch target */
-    display: block;
+    padding: 0;
+    /* Remove padding, use flex centering */
+    height: 100%;
+    /* Fill the li */
+    display: flex;
+    /* Use flex to center text */
+    align-items: center;
     transition: all 0.2s ease;
-    /* Changed from color to all to allow font-weight transition attempts */
+    white-space: nowrap;
+    /* Prevent wrapping */
 }
 
-/* AbbVie-style Thick Active Line */
+/* Classy Underscore */
 .nav-link::after {
     content: '';
     position: absolute;
     width: 0;
-    height: 5px;
+    height: 2px;
     /* Thicker line */
     bottom: 25px;
     /* Moved up to sit closer to text */
     left: 0;
-    background: linear-gradient(90deg, #6ab1e9 0%, #005691 100%);
-    /* Gradient as requested */
-    border-radius: 10px;
-    /* Rounded pill shape */
-    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* AbbVie Action Blue for active state */
+    background: var(--secondary-color);
+    /* No gradient, solid blue like AbbVie */
+    border-radius: 0;
+    /* Clean, flat line */
 }
 
 .nav-link:hover::after,
@@ -103,10 +117,7 @@
 }
 
 .nav-link:hover {
-    color: #005691;
-    /* font-weight change removed to prevent wiggle */
-    text-shadow: 0 0 1px #005691, 0 0 0.5px #005691;
-    /* Simulates bold without changing width */
+    color: var(--secondary-color);
 }
 
 .navbar-right {
@@ -142,10 +153,7 @@
     color: #005691;
 }
 
-/* Making the Contact Us button look more like the 'GLOBAL' or 'MORE' utility links in the image, 
-   OR keeping it distinct but cleaner if user prefers. 
-   Given "classy", let's make it a clean text link with an icon or simple outline.
-   Let's stick to the outline pill but thinner and more elegant. */
+
 .utility-link.contact-btn {
     border: 1px solid #ccc;
     padding: 8px 20px;
@@ -221,42 +229,43 @@
     background-color: #ffffff;
     border-radius: 8px;
     text-decoration: none;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    transition: all 0.4s ease;
     gap: 12px;
 }
 
 .dropdown-card:hover {
-    background-color: #f8fbff;
-    box-shadow: 0 10px 20px rgba(0, 86, 145, 0.08);
+    background-color: #ffffff;
+    box-shadow: 0 10px 25px rgba(138, 46, 204, 0.1);
+    /* Purple shadow hint */
     transform: translateY(-3px);
-    border-color: #e6f0fa;
+    border-color: rgba(138, 46, 204, 0.2);
 }
 
 /* Replaces card-icon */
 .plus-icon {
     font-size: 24px;
     font-weight: 300;
-    color: #005691;
+    color: var(--accent-color);
     transition: transform 0.3s;
     line-height: 1;
 }
 
 .dropdown-card:hover .plus-icon {
     transform: rotate(90deg);
-    /* Nice interaction */
+    color: var(--accent-color);
+    /* Purple accent on hover */
 }
 
 .card-text {
     font-size: 18px;
     font-weight: 500;
-    color: #0a2d52;
-    font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
-    /* Explicitly set font */
+    color: var(--primary-color);
+    font-family: var(--font-heading);
 }
 
 .dropdown-card:hover .card-text {
-    color: #005691;
+    color: var(--text-dark);
     font-weight: 700;
 }
 
@@ -271,7 +280,7 @@
     }
 
     .dropdown-menu {
-        position: static;
+        position: static !important;
         width: 100%;
         box-shadow: none;
         border-top: none;
@@ -336,14 +345,17 @@
 .hamburger span {
     display: block;
     width: 24px;
-    height: 2px;
-    background-color: #0a2d52;
+    height: 1.5px;
+    /* Thinner for elegance */
+    background-color: var(--primary-color);
     margin: 6px 0;
     transition: all 0.3s ease;
 }
 
-.mobile-only {
-    display: none;
+/* Ensure high specificity to hide mobile items on desktop */
+.mobile-only,
+.nav-links li.mobile-only {
+    display: none !important;
 }
 
 /* Tablet / Mobile Breakpoint */
@@ -359,16 +371,12 @@
 
     .navbar-logo {
         font-size: 22px;
-        /* Slightly smaller for elegance */
-        font-weight: 800;
-        letter-spacing: 0.5px;
-        /* Ensure gradient persists or adjust for readability */
-        background: linear-gradient(to right, #0a2d52, #005691);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        /* Mobile specific aesthetic touch */
-        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 5px 0;
+        font-weight: 700;
+        /* AbbVie Navy Text */
+        color: var(--primary-color);
+        background: none;
+        -webkit-text-fill-color: initial;
+        text-shadow: none;
     }
 
     .menu-icon {
@@ -407,11 +415,16 @@
         flex-direction: column;
         width: 100%;
         gap: 0;
+        height: auto;
     }
 
     .nav-links li,
     .utility-links li {
         width: 100%;
+        height: auto;
+        /* Reset desktop height */
+        display: block;
+        /* Reset desktop flex */
     }
 
     .nav-link,
@@ -420,6 +433,8 @@
         padding: 20px 30px;
         border-bottom: 1px solid #f5f5f5;
         font-size: 16px;
+        white-space: normal;
+        /* Allow wrapping on mobile if needed */
     }
 
     .nav-link::after {
@@ -437,7 +452,7 @@
     }
 
     .mobile-only {
-        display: block;
+        display: block !important;
     }
 
     .desktop-only {
@@ -458,5 +473,99 @@
 }
 
 .utility-link {
-  white-space: nowrap;
+    white-space: nowrap;
+}
+
+/* Logout Button Styles */
+.logout-btn {
+    background: transparent;
+    border: 1px solid #0a2d52;
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: #0a2d52;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
+    white-space: nowrap;
+}
+
+.logout-btn:hover {
+    border-color: #005691;
+    background-color: #005691;
+    color: #ffffff;
+}
+
+.logout-btn-mobile {
+    background: transparent;
+    border: none;
+    color: #0a2d52;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    padding: 20px 30px;
+    border-bottom: 1px solid #f5f5f5;
+    transition: all 0.2s ease;
+    font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
+}
+
+.logout-btn-mobile:hover {
+    color: #005691;
+    background-color: #f8f9fa;
+}
+
+.login-btn-nav {
+    border: 1px solid #0a2d52;
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: #0a2d52;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.login-btn-nav:hover {
+    border-color: #005691;
+    background-color: #005691;
+    color: #ffffff;
+}
+
+/* Mobile CTA Button (Sign In) */
+/* Mobile CTA Button (Sign In) */
+.nav-links li .mobile-nav-cta {
+    display: block !important;
+    width: fit-content !important;
+    min-width: 140px;
+    padding: 10px 30px !important;
+    margin: 20px 20px 10px !important;
+    /* Aligned left like other items or centered? list is block, items are full width mostly. */
+    /* Let's center it or keep it consistent. The request is "reduce size". Centered looks best for CTA. */
+    margin-left: 20px !important;
+    /* Actually, the menu items are left aligned. Let's align left but not full width. */
+    text-align: center;
+    background-color: #071D49 !important;
+    color: #ffffff !important;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 13px;
+    /* Slightly smaller text */
+    border: none !important;
+    box-shadow: 0 4px 10px rgba(7, 29, 73, 0.2);
+    transition: all 0.3s ease;
+}
+
+.nav-links li .mobile-nav-cta:hover {
+    background-color: #004BB5 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 75, 181, 0.25);
+    color: #ffffff !important;
 }

@@ -1,95 +1,232 @@
-import React from 'react';
-// Styles are inherited from App.css imported in App.js
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import "../App.css";
 
-const Home = () => {
-    // Generate DNA rings
-    const dnaRings = Array.from({ length: 20 }).map((_, i) => (
-        <div
-            key={i}
-            className="nucleotide"
-            style={{
-                top: `${i * 20}px`,
-                transform: `rotateY(${i * 30}deg)`
-            }}
-        />
-    ));
+import homeHeroImg from "../images/home_hero.png";
+
+export default function Home() {
+
+    // Scroll reveal animation
+    useEffect(() => {
+        const cards = document.querySelectorAll(".infographic-card");
+
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("card-visible");
+                    }
+                });
+            },
+            { threshold: 0.2 }
+        );
+
+        cards.forEach(card => observer.observe(card));
+
+        return () => cards.forEach(card => observer.unobserve(card));
+    }, []);
+
+
 
     return (
-        <>
-            {/* Hero Section */}
-            <header className="hero-section">
-                <div className="hero-content-wrapper">
-                    <h1 className="hero-brand-title">Pharma Empower Solutions</h1>
-                    <p className="hero-tagline">Empowering People <span className="highlight">⋅</span> Transforming Lives</p>
-                    <div className="hero-decoration-line"></div>
-                </div>
-            </header>
+        <div>
+            {/* Fixed DNA Background */}
 
-            {/* Introduction Section */}
-            <section className="intro-section" id="about">
+
+            {/* HERO (Card Layout) */}
+            <section className="hero-section">
+                <div className="home-hero-card fade-in-up">
+                    <div className="home-text-content">
+                        <h1 className="hero-brand-title">
+                            The one-stop open platform for the pharma & healthcare community
+                        </h1>
+
+                        <p className="hero-tagline">
+                            <span className="highlight">•</span>
+                            Empowering all for better tomorrow… Beyond Boundaries
+                            <span className="highlight">•</span>
+                        </p>
+
+                        <div className="hero-decoration-line" />
+                    </div>
+                    <div className="home-image-content">
+                        <img src={homeHeroImg} alt="Pharma Global Connection" className="home-hero-img" />
+                    </div>
+                </div>
+            </section>
+
+            {/* MARQUEE SECTION */}
+            <div className="marquee-section">
+                <div className="marquee-container-relative">
+                    <div className="marquee-text">
+                        Empower Professionals with open Access &nbsp; • &nbsp; “The one-stop open platform for the pharma & healthcare community” &nbsp; • &nbsp; “Empowering all for better tomorrow….Beyond Boundaries"
+                    </div>
+                </div>
+            </div>
+
+
+            {/* BRAND STATEMENT */}
+            <section className="intro-section">
                 <p className="intro-text">
-                    Pharma Empower Solutions offers wide range of solutions for pharmaceutical, biotechnology and allied life science areas with an aim of nurturing professionals to became leader in challenging global environment. Our custom solutions for your business needs enable you to emerge as competent leader in highly changing global environment.
+                    Pharma Empower Solutions offers a wide range of solutions for
+                    pharmaceutical, biotechnology and allied life science areas — nurturing
+                    professionals to become future-ready leaders in the rapidly evolving
+                    global healthcare ecosystem.
                 </p>
             </section>
 
-            {/* Career Section */}
-            <section className="career-section">
-                <div className="career-grid">
-                    <div className="career-content">
-                        <h2 className="section-heading">Upscale Your Pharma Career. Stay Ahead of the Curve.</h2>
-                        <p>
-                            The pharmaceutical landscape is evolving at unprecedented speed. To lead in this industry—from R&D and QA/QC to Regulatory and Commercial—requires more than experience. It demands continuous, targeted upskilling.
-                        </p>
-                        <br />
-                        <p>
-                            Pharma Empower is the dedicated platform built by industry veterans to fuel your professional ascent and ensure you are compliant with the latest global standards:
-                        </p>
-                        <div className="standards-list">
-                            {['USFDA', 'EMA', 'ANVISA', 'sFDA', 'NMDA', 'TGA', 'DCGI'].map(std => (
-                                <span key={std} className="standard-badge">{std}</span>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="career-image-placeholder">
-                        {/* Ideally an image here, but we'll use a styled card representation or just text balance for now per request focus on text/dna */}
-                    </div>
-                </div>
-            </section>
 
-            {/* Pathways Section */}
+
+            {/* PATHWAYS */}
             <section className="pathways-section">
-                <h2 className="section-heading" style={{ textAlign: 'center' }}>Explore Our Unique Innovative Differentiated Pathways</h2>
-                <div className="pathways-container">
-                    <ul className="pathways-list">
-                        <li>
-                            <strong>Master Next-Gen Skills:</strong>
-                            Specialized, GxP-compliant training in Pharma 4.0, AI in Drug Discovery, and Advanced Regulatory Affairs.
-                        </li>
-                        <li>
-                            <strong>Unlock Exclusive Insights:</strong>
-                            Get real-time, curated industry news, regulatory alerts, and market analysis driven by AI.
-                        </li>
-                        <li>
-                            <strong>Connect & Consult:</strong>
-                            Gain direct access to career mentors, and consultation services for operational efficiency.
-                        </li>
-                        <li>
-                            <strong>New Pillar: Operational Excellence:</strong>
-                            Engage our network of veteran Project Managers and Subject Matter Experts (SMEs) for targeted short-term projects and regulatory remediation.
-                        </li>
-                    </ul>
 
-                    <div className="dna-graphics">
-                        <div className="dna-container">
-                            <div className="dna-strand">
-                                {dnaRings}
+                <div className="pathways-container">
+
+                    <h2 className="section-heading">Explore Our Empower Pathways</h2>
+
+                    <p className="intro-text" style={{ marginBottom: "30px" }}>
+                        Purpose-driven learning, open access to knowledge and community
+                        collaboration designed for the pharma & healthcare community.
+                    </p>
+
+
+                    <div className="infographic-grid">
+
+                        {/* ABOUT */}
+                        <Link to="/about" className="infographic-card fade-card">
+                            <div className="card-icon-circle">
+                                <svg width="28" height="28" stroke="#0a2d52" fill="none" strokeWidth="2">
+                                    <circle cx="14" cy="14" r="12" />
+                                    <polygon points="14,6 18,14 14,22 10,14" />
+                                </svg>
                             </div>
-                        </div>
+
+                            <h3 className="card-title">About Us</h3>
+                            <p className="card-punchline">
+                                Empowering people through open knowledge
+                            </p>
+                        </Link>
+
+
+                        {/* INTELLIGENCE */}
+                        <Link to="/intelligence-hub/news" className="infographic-card fade-card">
+                            <div className="card-icon-circle">
+                                <svg width="28" height="28" stroke="#0a2d52" fill="none" strokeWidth="2">
+                                    <circle cx="14" cy="14" r="4" />
+                                    <path d="M4 14h4M20 14h4M14 4v4M14 20v4" />
+                                    <circle cx="14" cy="14" r="9" />
+                                </svg>
+                            </div>
+
+                            <h3 className="card-title">Pharma Intelligence Hub (News)</h3>
+                            <p className="card-punchline">
+                                One stop source for pharma and medical insights & news
+                            </p>
+                        </Link>
+
+
+                        {/* TECH */}
+                        <Link to="/empower/ai" className="infographic-card fade-card">
+                            <div className="card-icon-circle">
+                                <svg width="28" height="28" stroke="#0a2d52" fill="none" strokeWidth="2">
+                                    <rect x="6" y="6" width="16" height="16" rx="2" />
+                                    <circle cx="14" cy="14" r="3" />
+                                </svg>
+                            </div>
+
+                            <h3 className="card-title">Empower Tech & AI</h3>
+                            <p className="card-punchline">
+                                Track innovation shaping the future of healthcare
+                            </p>
+                        </Link>
+
+
+                        {/* ACADEMY */}
+                        <Link to="/academy" className="infographic-card fade-card">
+                            <div className="card-icon-circle">
+                                <svg width="28" height="28" stroke="#0a2d52" fill="none" strokeWidth="2">
+                                    <path d="M3 10l11-5 11 5-11 5-11-5z" />
+                                    <path d="M5 12v5l9 4 9-4v-5" />
+                                </svg>
+                            </div>
+
+                            <h3 className="card-title">Pharma Empower Academy</h3>
+                            <p className="card-punchline">
+                                Structured upskilling for sustainable pharma careers
+                            </p>
+                        </Link>
+
+
+                        {/* EXCHANGE */}
+                        <Link to="/network" className="infographic-card fade-card">
+                            <div className="card-icon-circle">
+                                <svg width="28" height="28" stroke="#0a2d52" fill="none" strokeWidth="2">
+                                    <circle cx="6" cy="12" r="3" />
+                                    <circle cx="14" cy="6" r="3" />
+                                    <circle cx="22" cy="12" r="3" />
+                                    <path d="M9 12h5M17 12h3" />
+                                </svg>
+                            </div>
+
+                            <h3 className="card-title">Professional Exchange</h3>
+                            <p className="card-punchline">
+                                Conversations • Events • Knowledge Sharing
+                            </p>
+                        </Link>
+
+
+                        {/* SKILL BOARD */}
+                        <Link to="/skill-board" className="infographic-card fade-card">
+                            <div className="card-icon-circle">
+                                <svg width="28" height="28" stroke="#0a2d52" fill="none" strokeWidth="2">
+                                    <circle cx="14" cy="10" r="4" />
+                                    <path d="M6 22c2-4 12-4 14 0" />
+                                </svg>
+                            </div>
+
+                            <h3 className="card-title">Skill Board</h3>
+                            <p className="card-punchline">
+                                Contribute expertise. Build credibility. Grow together
+                            </p>
+                        </Link>
+
+
+                        {/* LOGIN */}
+                        <Link to="/login" className="infographic-card fade-card">
+                            <div className="card-icon-circle">
+                                <svg width="28" height="28" stroke="#0a2d52" fill="none" strokeWidth="2">
+                                    <rect x="6" y="4" width="16" height="20" rx="2" />
+                                    <path d="M12 14h8M16 10l4 4-4 4" />
+                                </svg>
+                            </div>
+
+                            <h3 className="card-title">Login / Register</h3>
+                            <p className="card-punchline">
+                                Free access for all. No denial
+                            </p>
+                        </Link>
+
+
+                        {/* CONTACT */}
+                        <Link to="/contact" className="infographic-card fade-card">
+                            <div className="card-icon-circle">
+                                <svg width="28" height="28" stroke="#0a2d52" fill="none" strokeWidth="2">
+                                    <rect x="3" y="6" width="22" height="16" rx="2" />
+                                    <path d="M3 8l11 7 11-7" />
+                                </svg>
+                            </div>
+
+                            <h3 className="card-title">Contact Us</h3>
+                            <p className="card-punchline">
+                                Connect, collaborate, and build together
+                            </p>
+                        </Link>
+
                     </div>
                 </div>
-            </section>
-        </>
-    );
-};
 
-export default Home;
+            </section>
+
+        </div>
+    );
+}

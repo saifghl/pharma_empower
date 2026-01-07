@@ -2,75 +2,95 @@
 /* Matching Navbar Font & Reducing Boldness */
 
 .academy-page {
-    background-color: #f9fafb;
-    /* Soft gray-white */
-    font-family: 'Helvetica Neue', 'Open Sans', Arial, sans-serif;
-    color: #333;
+    background-color: transparent;
+    /* Transparent to show global body pattern */
+    font-family: var(--font-main);
+    color: var(--text-dark);
     padding-bottom: 80px;
     overflow-x: hidden;
 }
 
-/* HERO SECTION */
+/* HERO SECTION - MATCHING PROFESSIONAL NETWORK */
 .academy-hero {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto 30px;
+    background: linear-gradient(135deg, #071D49 0%, #004BB5 100%);
+    color: white;
+    padding: 50px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 80px 20px 60px;
-    max-width: 100%;
-    margin: 0 auto;
-    background: #ffffff;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     position: relative;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    z-index: 2;
 }
 
 .hero-icon svg {
-    filter: drop-shadow(0 4px 6px rgba(108, 92, 231, 0.2));
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
     animation: float 6s ease-in-out infinite;
-    opacity: 0.9;
+    opacity: 1;
+    stroke: #ffffff;
+    /* Make icon white */
 }
 
 .academy-hero h1 {
-    font-size: 2.8rem;
-    /* Slightly smaller for elegance */
-    color: #0a2d52;
-    /* Matching Navbar Navy */
-    margin-bottom: 20px;
-    font-weight: 600;
-    /* Reduced from 800 */
-    line-height: 1.3;
+    font-size: 3rem;
+    line-height: 1.1;
+    margin-bottom: 15px;
+    color: white;
+    font-weight: 700;
     max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
     letter-spacing: -0.5px;
 }
 
 .hero-subtext {
-    font-size: 1.25rem;
-    color: #5d6d7e;
-    margin-bottom: 40px;
-    font-weight: 400;
+    font-size: 1.3rem;
+    color: #a3caff;
+    font-weight: 500;
+    margin-bottom: 0;
     max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
     line-height: 1.6;
 }
 
+/* Divider specific to this look */
+.academy-hero-divider {
+    width: 80px;
+    height: 4px;
+    background: #8A2ECC;
+    margin: 25px 0;
+    border-radius: 2px;
+}
+
 .hero-login-btn {
-    display: inline-block;
-    background-color: #d90429;
-    /* Classy solid red */
-    color: white;
-    padding: 14px 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    /* Contrast against dark bg */
+    color: var(--primary-color);
+    padding: 12px 32px;
     border-radius: 50px;
-    font-size: 1.05rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 700;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(217, 4, 41, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .hero-login-btn:hover {
-    background-color: #ef233c;
+    background-color: #f0f0f0;
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(217, 4, 41, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    color: var(--secondary-color);
 }
 
 /* INTRO TEXT */
@@ -98,7 +118,7 @@
 .section-title {
     text-align: center;
     font-size: 2.2rem;
-    color: #0a2d52;
+    color: var(--primary-color);
     margin-bottom: 50px;
     font-weight: 600;
     position: relative;
@@ -156,7 +176,7 @@
 }
 
 .blue-border::before {
-    background: #005691;
+    background: #0066F5;
 }
 
 .purple-border::before {
@@ -320,6 +340,16 @@
         /* Constrain width of the single centered card */
         margin: 0 auto;
         width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .stages-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stage-card:last-child:nth-child(odd) {
+        grid-column: span 1;
     }
 }
 

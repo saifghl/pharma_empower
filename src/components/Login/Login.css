@@ -3,8 +3,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    /* Removed background to show global DNA animation */
+    background: transparent;
     padding: 40px 20px;
+    position: relative;
+    z-index: 1;
+    /* Ensure content sits above DNA */
 }
 
 .login-container {

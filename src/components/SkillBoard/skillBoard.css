@@ -1,69 +1,131 @@
+/* HERO SECTION - LIGHT THEME CARD */
 .skill-board-hero {
-    padding: 80px 20px 40px;
-    background: linear-gradient(120deg, #ffffff 0%, #f0f7ff 100%);
-    text-align: center;
-}
-
-.skill-board-icon-container {
-    margin-bottom: 20px;
+    position: relative;
+    padding: 60px 20px 40px;
+    background: transparent;
     display: flex;
     justify-content: center;
 }
 
+.skill-hero-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 50px;
+    border-radius: 24px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08);
+    /* Premium shadow */
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+    gap: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.skill-text-content {
+    flex: 1;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Left align everything */
+}
+
+.skill-image-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.skill-hero-img {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 60, 150, 0.15);
+    border: 4px solid white;
+}
+
+.skill-board-icon-container {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 102, 245, 0.1);
+}
+
 .skill-board-icon-container svg {
-    width: 64px;
-    height: 64px;
-    color: var(--primary-color);
-    stroke-width: 1.5;
+    color: var(--secondary-color);
+    width: 30px;
+    height: 30px;
+    animation: floating 3s ease-in-out infinite;
 }
 
 .skill-board-title {
-    font-size: 2.8rem;
-    font-weight: 700;
-    color: var(--text-dark);
+    font-size: 3rem;
+    color: var(--primary-color);
     margin-bottom: 15px;
-    line-height: 1.2;
+    font-weight: 800;
+    line-height: 1.1;
 }
 
 .skill-board-subtitle {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     color: var(--text-light);
-    max-width: 700px;
-    margin: 0 auto 40px;
+    max-width: 100%;
+    margin-bottom: 0;
+    font-weight: 500;
     line-height: 1.6;
 }
 
+/* Divider */
+.skill-hero-divider {
+    width: 80px;
+    height: 5px;
+    background: linear-gradient(to right, #0066F5, #8A2ECC);
+    margin-top: 30px;
+    border-radius: 3px;
+}
+
 .job-focus-section {
-    padding: 40px 20px 80px;
-    background-color: var(--bg-offset);
+    /* Reduce padding here too */
+    padding: 30px 20px 50px;
+    background-color: transparent;
     text-align: center;
 }
 
 .job-focus-title {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     color: var(--text-dark);
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     font-weight: 600;
 }
 
 .job-focus-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
     max-width: 1100px;
     margin: 0 auto;
 }
 
 .job-card {
-    background: white;
-    padding: 40px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(5px);
+    /* Keep cards readable */
+    padding: 25px 20px;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -74,7 +136,6 @@
 }
 
 .job-card-icon {
-    margin-bottom: 10px;
     color: var(--secondary-color);
     display: flex;
     align-items: center;
@@ -82,128 +143,218 @@
 }
 
 .job-card-icon svg {
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
     stroke-width: 1.5;
 }
 
 .job-card h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--text-dark);
     margin: 0;
 }
 
 .job-card-count {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--text-light);
     font-weight: 500;
 }
 
-/* --- New Table Styles --- */
-.skill-table-section {
-    padding: 60px 20px;
-    background-color: var(--bg-light);
+/* --- TABBED INTERFACE STYLES --- */
+.skills-content-wrapper {
+    background-color: transparent;
+    /* Let DNA/Pattern show through */
+    padding: 40px 20px;
+    min-height: 60vh;
+}
+
+.skill-tabs-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.skill-tab {
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: 2px solid #e0e0e0;
+    background: white;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.skill-tab:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.skill-tab.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(7, 29, 73, 0.2);
+}
+
+/* --- GRID LAYOUT --- */
+.skill-grid-section {
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.skill-table-section h2 {
-    text-align: center;
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 50px;
-    position: relative;
-    display: inline-block;
-}
-
-.table-group-header {
-    text-align: center;
-    margin-bottom: 60px;
-}
-
-.table-category {
+.skill-category-block {
     margin-bottom: 50px;
 }
 
-.table-category h3 {
-    font-size: 1.4rem;
+.category-title {
+    font-size: 1.5rem;
     color: var(--secondary-color);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border-left: 5px solid var(--primary-color);
     padding-left: 15px;
 }
 
-.skill-table {
-    width: 100%;
-    border-collapse: collapse;
+.category-desc {
+    color: #666;
+    margin-bottom: 25px;
+    padding-left: 20px;
+    max-width: 800px;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* --- CARD STYLES --- */
+.skill-grid-card {
     background: white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 120px;
+    position: relative;
     overflow: hidden;
 }
 
-.skill-table th,
-.skill-table td {
-    padding: 15px 20px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
+.skill-grid-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    transition: width 0.3s ease;
 }
 
-.skill-table th {
-    background-color: var(--primary-color);
-    color: white;
+.traditional-card::before {
+    background: var(--primary-color);
+    /* Navy for traditional */
+}
+
+.pharma40-card::before {
+    background: #8A2ECC;
+    /* Purple for future */
+}
+
+.skill-grid-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.skill-grid-card:hover::before {
+    width: 6px;
+}
+
+.skill-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.skill-id {
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: #f0f4f8;
+    color: var(--primary-color);
+    padding: 2px 8px;
+    border-radius: 4px;
+    height: fit-content;
+}
+
+.skill-grid-card h4 {
+    font-size: 1.05rem;
+    margin: 0;
+    color: var(--text-dark);
+    line-height: 1.4;
     font-weight: 600;
-    text-transform: uppercase;
+}
+
+.skill-resource {
     font-size: 0.9rem;
-    letter-spacing: 0.5px;
+    color: #555;
+    background: #fafafa;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px dashed #e0e0e0;
 }
 
-.skill-table tr:hover {
-    background-color: #f8fbff;
+.skill-resource .label {
+    font-weight: 600;
+    color: #888;
+    font-size: 0.75rem;
+    display: block;
+    margin-bottom: 4px;
+    text-transform: uppercase;
 }
 
-.skill-table td:first-child {
-    font-weight: bold;
-    color: var(--secondary-color);
-    width: 50px;
-    text-align: center;
-}
+@media (max-width: 1024px) {
+    .skill-hero-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+        gap: 40px;
+    }
 
-.skill-table td:last-child {
-    color: var(--text-light);
-}
+    .skill-text-content {
+        align-items: center;
+        text-align: center;
+    }
 
-@media (max-width: 768px) {
     .skill-board-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
 
     .job-focus-grid {
         grid-template-columns: 1fr;
         padding: 0 20px;
     }
-
-    .skill-table th,
-    .skill-table td {
-        padding: 10px 10px;
-        font-size: 0.9rem;
-    }
 }
 
 /* --- Login Gate Styles --- */
 .skill-login-container {
-    padding: 80px 20px;
+    padding: 60px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f8f9fa;
-    margin-top: 40px;
+    background: transparent;
 }
 
 .skill-login-card {
-    background: white;
-    padding: 50px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 40px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -227,13 +378,13 @@
 
 .skill-login-btn {
     display: inline-block;
-    padding: 14px 32px;
+    padding: 12px 32px;
     background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
     color: white;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 50px;
     font-weight: 600;
-    font-size: 1.05rem;
+    font-size: 1rem;
     transition: transform 0.2s, box-shadow 0.2s;
 }
 

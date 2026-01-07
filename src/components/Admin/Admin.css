@@ -9,7 +9,7 @@
 /* Sidebar */
 .admin-sidebar {
   width: 250px;
-  background-color: var(--primary-color, #005691);
+  background-color: var(--primary-color);
   color: white;
   padding: 20px;
   display: flex;
@@ -66,7 +66,7 @@
 
 .admin-page-header h1 {
   font-size: 2rem;
-  color: var(--primary-color, #005691);
+  color: var(--primary-color);
   font-weight: 700;
 }
 
@@ -176,7 +176,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: var(--primary-color, #005691);
+  color: var(--primary-color);
 }
 
 .form-group input,
@@ -201,7 +201,7 @@
 }
 
 .btn-primary {
-  background-color: var(--primary-color, #005691);
+  background-color: var(--primary-color);
   color: white;
   border: none;
   padding: 12px 25px;
@@ -225,7 +225,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--primary-color) 0%, #003d66 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #051535 100%);
 }
 
 .admin-login-card {
@@ -319,8 +319,8 @@
 /* Sidebar */
 .admin-sidebar {
   width: 250px;
-  background-color: #1a237e;
-  /* Navy Blue */
+  background-color: var(--primary-color);
+  /* Charcoal */
   color: white;
   padding: 20px;
   display: flex;
@@ -477,7 +477,7 @@
 }
 
 .btn-primary {
-  background-color: #1a237e;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -497,7 +497,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #051535 100%);
 }
 
 .admin-login-card {
@@ -576,36 +576,36 @@
 
 
 .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modal-card {
-    background: #fff;
-    padding: 20px;
-    width: 500px;
-    max-width: 90%;
-    border-radius: 8px;
+  background: #fff;
+  padding: 20px;
+  width: 500px;
+  max-width: 90%;
+  border-radius: 8px;
 }
 
 .modal-message {
-    margin-top: 10px;
-    background: #f9f9f9;
-    padding: 10px;
-    border-radius: 6px;
+  margin-top: 10px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
 }
 
 .close-btn {
-    margin-top: 15px;
-    padding: 8px 16px;
-    background: #1a237e;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  margin-top: 15px;
+  padding: 8px 16px;
+  background: #1a237e;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import skillHeroImg from '../../images/skill_hero.png';
 import './skillBoard.css';
 
 const SkillBoard = () => {
@@ -106,33 +107,39 @@ const SkillBoard = () => {
         }
     ];
 
+    const [activeTab, setActiveTab] = useState('traditional');
+
     return (
         <div className="skill-board-page">
             {/* Header / Hero Section */}
             <div className="skill-board-hero">
-                <div className="skill-board-icon-container">
-                    {/* Suitcase Icon */}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                    </svg>
+                <div className="skill-hero-card fade-in-up">
+                    <div className="skill-text-content">
+                        <div className="skill-board-icon-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            </svg>
+                        </div>
+                        <h1 className="skill-board-title">Skill Board</h1>
+                        <p className="skill-board-subtitle">
+                            Contribute expertise. Build credibility. Grow together
+                        </p>
+                        <div className="skill-hero-divider"></div>
+                    </div>
+                    <div className="skill-image-content">
+                        <img src={skillHeroImg} alt="Future Ready Skills" className="skill-hero-img" />
+                    </div>
                 </div>
-                <h1 className="skill-board-title">Pharma & Healthcare Skill Board</h1>
-                <p className="skill-board-subtitle">
-                    Your single access point for high-impact pharma jobs and validated upskilling resources.
-                </p>
-                {/* Login button removed as requested */}
             </div>
 
             {/* Job Focus Areas Section */}
             <div className="job-focus-section">
                 <h2 className="job-focus-title">Top Job Focus Areas</h2>
-
                 <div className="job-focus-grid">
                     {/* Card 1: AI/ML in R&D */}
                     <div className="job-card">
                         <div className="job-card-icon">
-                            {/* Search/Magnifying Glass Icon */}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <circle cx="11" cy="11" r="8"></circle>
                                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -145,7 +152,6 @@ const SkillBoard = () => {
                     {/* Card 2: GxP/Data Integrity */}
                     <div className="job-card">
                         <div className="job-card-icon">
-                            {/* Monitor Icon */}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
                                 <line x1="8" y1="21" x2="16" y2="21"></line>
@@ -159,7 +165,6 @@ const SkillBoard = () => {
                     {/* Card 3: Pharma 4.0 Digital */}
                     <div className="job-card">
                         <div className="job-card-icon">
-                            {/* Code/Digital Icon */}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <polyline points="16 18 22 12 16 6"></polyline>
                                 <polyline points="8 6 2 12 8 18"></polyline>
@@ -172,7 +177,6 @@ const SkillBoard = () => {
                     {/* Card 4: Global Regulatory Affairs */}
                     <div className="job-card">
                         <div className="job-card-icon">
-                            {/* Book/Docs Icon */}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                                 <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
@@ -185,74 +189,80 @@ const SkillBoard = () => {
             </div>
 
             {isLoggedIn ? (
-                <>
-                    {/* Traditional Skills Table Section */}
-                    <div className="skill-table-section">
-                        <div className="table-group-header">
-                            <h2>Traditional Career-Level Skills & Resources</h2>
-                        </div>
-                        {traditionalSkills.map((section, index) => (
-                            <div className="table-category" key={index}>
-                                <h3>{section.title}</h3>
-                                <table className="skill-table">
-                                    <thead>
-                                        <tr>
-                                            <th style={{ width: '50px' }}>#</th>
-                                            <th>Core Skill</th>
-                                            <th>Resource Focus</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {section.data.map((row) => (
-                                            <tr key={row.id}>
-                                                <td>{row.id}</td>
-                                                <td>{row.skill}</td>
-                                                <td>{row.resource}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ))}
+                <div className="skills-content-wrapper">
+                    {/* TAB SWITCHER */}
+                    <div className="skill-tabs-container">
+                        <button
+                            className={`skill-tab ${activeTab === 'traditional' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('traditional')}
+                        >
+                            Traditional Career Skills
+                        </button>
+                        <button
+                            className={`skill-tab ${activeTab === 'pharma40' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('pharma40')}
+                        >
+                            Pharma 4.0 (Future) Skills
+                        </button>
                     </div>
 
-                    {/* Pharma 4.0 Skills Table Section */}
-                    <div className="skill-table-section" style={{ backgroundColor: '#fff' }}>
-                        <div className="table-group-header">
-                            <h2>AI, Digital, & Robotics (Pharma 4.0) Skills</h2>
-                        </div>
-                        {pharma40Skills.map((section, index) => (
-                            <div className="table-category" key={index}>
-                                <h3>{section.title}</h3>
-                                <table className="skill-table">
-                                    <thead>
-                                        <tr>
-                                            <th style={{ width: '50px' }}>#</th>
-                                            <th>Core Skill</th>
-                                            <th>Resource Focus</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {section.data.map((row) => (
-                                            <tr key={row.id}>
-                                                <td>{row.id}</td>
-                                                <td>{row.skill}</td>
-                                                <td>{row.resource}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ))}
+                    {/* CONTENT AREA */}
+                    <div className="skill-grid-section">
+                        {activeTab === 'traditional' ? (
+                            <>
+                                {traditionalSkills.map((section, index) => (
+                                    <div key={index} className="skill-category-block">
+                                        <h3 className="category-title">{section.title}</h3>
+                                        <p className="category-desc">{section.description}</p>
+                                        <div className="skills-grid">
+                                            {section.data.map((item) => (
+                                                <div key={item.id} className="skill-grid-card traditional-card">
+                                                    <div className="skill-header">
+                                                        <span className="skill-id">#{item.id}</span>
+                                                        <h4>{item.skill}</h4>
+                                                    </div>
+                                                    <div className="skill-resource">
+                                                        <span className="label">Resource:</span>
+                                                        <span>{item.resource}</span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        ) : (
+                            <>
+                                {pharma40Skills.map((section, index) => (
+                                    <div key={index} className="skill-category-block">
+                                        <h3 className="category-title">{section.title}</h3>
+                                        <div className="skills-grid">
+                                            {section.data.map((item) => (
+                                                <div key={item.id} className="skill-grid-card pharma40-card">
+                                                    <div className="skill-header">
+                                                        <span className="skill-id">#{item.id}</span>
+                                                        <h4>{item.skill}</h4>
+                                                    </div>
+                                                    <div className="skill-resource">
+                                                        <span className="label">Resource:</span>
+                                                        <span>{item.resource}</span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        )}
                     </div>
-                </>
+                </div>
             ) : (
                 /* Login Gate */
                 <div className="skill-login-container">
                     <div className="skill-login-card">
                         <h2>Login Required</h2>
                         <p>
-                            Please login to access the detailed Skill Board resources, including Traditional Career-Level Skills and Pharma 4.0 Skills.
+                            Please login to access the detailed Skill Board resources.
                         </p>
                         <Link to="/login" className="skill-login-btn">
                             Login to Access

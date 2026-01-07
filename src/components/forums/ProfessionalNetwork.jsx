@@ -3,87 +3,97 @@ import './Forums.css';
 
 import { Link } from 'react-router-dom';
 
+const NetworkCard = ({ icon, title, description, link, linkText, isHighlight, isRegister }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const toggleExpand = () => {
+        setIsExpanded(!isExpanded);
+    };
+
+    return (
+        <div className={`network-option-card ${isHighlight ? 'highlight-card' : ''} ${isRegister ? 'register-card' : ''}`}>
+            <div className="card-header-icon">{icon}</div>
+            <h3>
+                {title}
+                {title === 'Expert Engagement' && <span className="new-tag-small">New</span>}
+            </h3>
+
+            <p className={`card-description ${isExpanded ? 'expanded' : 'clamped'}`}>
+                {description}
+            </p>
+
+            <button className="read-more-btn" onClick={toggleExpand}>
+                {isExpanded ? 'Read Less' : 'Read More'}
+            </button>
+
+            <Link to={link} className="network-link">{linkText}</Link>
+        </div>
+    );
+};
+
 const ProfessionalNetwork = () => {
     return (
-        <div className="network-dashboard">
-            <header className="network-hero">
-                <div className="hero-content">
-                    <h1>Professional Network: Forums & Executive Connect</h1>
-                    <p className="hero-sub">The Global Peer-to-Peer Knowledge Exchange</p>
-
-                    <Link to="/login" className="hero-login-btn-network">
-                        Login to Join Network
-                    </Link>
+        <div className="network-page-single">
+            <div className="network-layout">
+                {/* TOP HERO PANEL */}
+                <div className="network-hero-panel">
+                    <h1>Professional Network</h1>
+                    <p className="network-subtitle tagline-animate">
+                        Learn, connect, and stay compliant in one place
+                    </p>
+                    <div className="network-hero-divider"></div>
+                    <p className="network-description">
+                        Join a community of future leaders and industry experts.
+                    </p>
                 </div>
-            </header>
 
-            <main className="network-main">
+                {/* BOTTOM: CONTENT GRID */}
+                <div className="network-content-panel">
+                    <div className="network-options-grid">
+                        <NetworkCard
+                            icon="💬"
+                            title="Pharma Forums"
+                            description="Post your toughest challenge and get validated solutions from peers and verified industry experts. Private & compliant peer-to-peer exchange."
+                            link="/login"
+                            linkText="Go to Forums →"
+                        />
 
-                {/* Pharma Forums Section */}
-                <section className="network-section forums-section">
-                    <div className="section-header">
-                        <h2>Pharma Forums</h2>
-                        <span className="section-badge">Peer-to-Peer Exchange</span>
+                        <NetworkCard
+                            icon="📅"
+                            title="Events"
+                            description="Discover upcoming conferences, exhibitions, seminars, and trainings in one place. Stay updated with the latest industry gatherings."
+                            link="/login"
+                            linkText="See Upcoming Events →"
+                            isHighlight={true}
+                        />
+
+                        <NetworkCard
+                            icon="🏆"
+                            title="Expert Engagement"
+                            description="Exclusive Q&A sessions with veteran Project Managers discussing complex topics like Agile in Pharma or PMP best practices in a regulated environment."
+                            link="/login"
+                            linkText="View Calendar →"
+                        />
+
+                        <NetworkCard
+                            icon="🤝"
+                            title="Career Counseling"
+                            description="Book private sessions with industry leaders to strategize your next career move. Get personalized advice from mentors who have walked the path."
+                            link="/session"
+                            linkText="Book Session →"
+                        />
+
+                        <NetworkCard
+                            icon="🔓"
+                            title="Login / Register"
+                            description="Inclusive access empowering every professional to grow without barriers. Your growth, our priority. Join us today."
+                            link="/register"
+                            linkText="Get Free Access →"
+                            isRegister={true}
+                        />
                     </div>
-                    <div className="content-card">
-                        <h3>Post your toughest challenge and get validated solutions from peers and verified industry experts.</h3>
-                        <p>
-                            Our forums are where future leaders discuss real-world implementation issues—from QMS rollouts to managing multi-site tech transfers.
-                            Our private, moderated forums ensure discussions are compliant, focused, and immediately actionable.
-                        </p>
-                        <div className="feature-list">
-                            <div className="feature-item">
-                                <span className="icon">🔒</span>
-                                <div>
-                                    <strong>Private & Compliant</strong>
-                                    <span>Moderated discussions to ensure safety and quality.</span>
-                                </div>
-                            </div>
-                            <div className="feature-item">
-                                <span className="icon">⚡</span>
-                                <div>
-                                    <strong>Actionable Insights</strong>
-                                    <span>Solutions you can implement immediately.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Connect & Meetup Section */}
-                <section className="network-section connect-section">
-                    <div className="section-header">
-                        <h2>Connect & Meetup</h2>
-                        <span className="section-badge">Executive Access</span>
-                    </div>
-
-                    <div className="grid-2-col">
-                        <div className="content-card blue-card">
-                            <h3>Counseling</h3>
-                            <p>
-                                Book a private session to strategize your career move.
-                                Get personalized advice from industry leaders who have walked the path.
-                            </p>
-                            <Link to="/session" className="action-link-btn">Book a Session &rarr;</Link>
-                        </div>
-
-                        <div className="content-card navy-card">
-                            <h3>Expert Engagement <span className="new-tag">New</span></h3>
-                            <p>
-                                Exclusive Q&A sessions with veteran Project Managers discussing complex topics like Agile in Pharma or PMP best practices in a regulated environment.
-                            </p>
-                            <Link to="/login" className="action-link-btn">View Session Calendar &rarr;</Link>
-                        </div>
-                    </div>
-                </section>
-
-                {/* CTA Section */}
-                <section className="network-cta">
-                    <h2>Ready to engage with the best?</h2>
-                    <Link to="/login" className="cta-btn-large">Join the Conversation</Link>
-                </section>
-
-            </main>
+                </div>
+            </div>
         </div>
     );
 };

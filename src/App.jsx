@@ -25,10 +25,13 @@ import News from './components/intelligenceHub/news';
 import AdminSessions from './components/Admin/adminSession';
 
 
+import DNAAnimation from './components/DNAAnimation';
+
 function App() {
   return (
     <Router>
       <div className="App">
+        <DNAAnimation />
         {/* Navigation and Footer are now handled inside layouts */}
         <Routes>
           {/* PUBLIC ROUTES (With Navbar & Footer) */}
@@ -65,7 +68,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="enquiries" element={<Enquiries />} />
-            <Route path="/admin/sessions"   element={<AdminSessions />} />
+            <Route path="/admin/sessions" element={<AdminSessions />} />
           </Route>
         </Routes>
       </div>
