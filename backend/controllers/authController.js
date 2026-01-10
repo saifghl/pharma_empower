@@ -29,14 +29,11 @@ const register = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
-
 const login = async (req, res) => {
-  console.log("Login fucntion is running");
-  const { email, password} = req.body;
-  console.log(req.body);
+  console.log("Login function is running");
+  const { email, password } = req.body;
+
   try {
-    // 1. Get user by email
     const [users] = await pool.execute(
       'SELECT * FROM users WHERE email = ?',
       [email]
@@ -46,30 +43,31 @@ const login = async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    //user variable store user data
     const user = users[0];
 
-    // 3. Password check
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // 4. Generate JWT
     const token = jwt.sign(
-      { userId: user.id, email: user.email,name:user.name, role: user.role },
+      {
+        userId: user.id,
+        email: user.email,
+        name: user.full_name,   // ✅ FIXED
+        role: user.role
+      },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 
-    // 5. Send response
-   res.json({
+    res.json({
       token,
       user: {
         id: user.id,
         email: user.email,
         role: user.role,
-        name:user.name
+        name: user.full_name   // ✅ FIXED
       }
     });
 
@@ -77,6 +75,7 @@ const login = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 
 module.exports = { login,register };
