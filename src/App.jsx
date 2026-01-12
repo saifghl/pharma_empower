@@ -26,7 +26,6 @@ import AdminSessions from './components/Admin/adminSession';
 import AdminNotifications from './components/Admin/AdminNotifications';
 import ContentManagement from './components/Admin/ContentManagement';
 
-
 import DNAAnimation from './components/DNAAnimation';
 
 function App() {
@@ -34,7 +33,7 @@ function App() {
     <Router>
       <div className="App">
         <DNAAnimation />
-        {/* Navigation and Footer are now handled inside layouts */}
+
         <Routes>
           {/* PUBLIC ROUTES (With Navbar & Footer) */}
           <Route
@@ -61,19 +60,20 @@ function App() {
             <Route path="/empower/emerging-tech" element={<EmergingTech />} />
             <Route path="/empower/ai" element={<AI />} />
             <Route path="/session" element={<StudentSession />} />
-            <Route path='/intelligence-hub/news' element={<News />} />
+            <Route path="/intelligence-hub/news" element={<News />} />
           </Route>
 
-          {/* ADMIN ROUTES (No Navbar/Footer, with Sidebar) */}
-          <Route path="/admin/login" element={<AdminLogin />} />
+          {/* ADMIN LOGIN (uses same Login component) */}
+          <Route path="/admin/login" element={<Login />} />
 
+          {/* ADMIN ROUTES (No Navbar/Footer, with Sidebar) */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="enquiries" element={<Enquiries />} />
-            <Route path="/admin/sessions" element={<AdminSessions />} />
-            <Route path="/admin/notifications" element={<AdminNotifications />} />
-            <Route path="/admin/content" element={<ContentManagement />} />
+            <Route path="sessions" element={<AdminSessions />} />
+            <Route path="notifications" element={<AdminNotifications />} />
+            <Route path="content" element={<ContentManagement />} />
           </Route>
         </Routes>
       </div>
