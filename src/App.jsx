@@ -24,6 +24,8 @@ import Enquiries from './components/Admin/Enquiries';
 import AdminSessions from './components/Admin/adminSession';
 import AdminNotifications from './components/Admin/AdminNotifications';
 import ContentManagement from './components/Admin/ContentManagement';
+import ChatManagement from './components/Admin/ChatManagement';
+import ChatWidget from './components/ChatWidget/ChatWidget';
 
 import News from './components/intelligenceHub/news';
 import DNAAnimation from './components/DNAAnimation';
@@ -46,6 +48,7 @@ function App() {
                 <NotificationBanner />
                 <Navbar />
                 <Outlet />
+                <ChatWidget />
                 <Footer />
               </>
             }
@@ -76,6 +79,7 @@ function App() {
             <Route path="sessions" element={<AdminSessions />} />
             <Route path="notifications" element={<AdminNotifications />} />
             <Route path="content" element={<ContentManagement />} />
+            <Route path="chat-enquiries" element={<ChatManagement />} />
             <Route path="events-control" element={<AdminEvents />} />
             <Route path="access-control" element={<UserManagement />} />
           </Route>

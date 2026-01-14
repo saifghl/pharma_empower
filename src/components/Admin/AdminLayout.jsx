@@ -56,6 +56,13 @@ const AdminLayout = () => {
                     <NavLink to="/admin/content" className="sidebar-link">
                         Content
                     </NavLink>
+                    <NavLink
+                        to="/admin/chat-enquiries"
+                        className={({ isActive }) => isActive ? "sidebar-link active" : "sidebar-link"}
+                        onClick={() => setIsSidebarOpen(false)}
+                    >
+                        Chat Queries
+                    </NavLink>
 
                     <NavLink to="/admin/access-control" className="sidebar-link">
                         Access Control
