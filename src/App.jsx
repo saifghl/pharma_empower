@@ -21,11 +21,11 @@ import NotificationBanner from './components/NotificationBanner';
 import AdminLayout from './components/Admin/AdminLayout';
 import Dashboard from './components/Admin/Dashboard';
 import Enquiries from './components/Admin/Enquiries';
-import News from './components/intelligenceHub/news';
 import AdminSessions from './components/Admin/adminSession';
 import AdminNotifications from './components/Admin/AdminNotifications';
 import ContentManagement from './components/Admin/ContentManagement';
 
+import News from './components/intelligenceHub/news';
 import DNAAnimation from './components/DNAAnimation';
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
         <DNAAnimation />
 
         <Routes>
-          {/* PUBLIC ROUTES (With Navbar & Footer) */}
+          {/* PUBLIC ROUTES */}
           <Route
             element={
               <>
@@ -63,10 +63,7 @@ function App() {
             <Route path="/intelligence-hub/news" element={<News />} />
           </Route>
 
-          {/* ADMIN LOGIN (uses same Login component) */}
-          <Route path="/admin/login" element={<Login />} />
-
-          {/* ADMIN ROUTES (No Navbar/Footer, with Sidebar) */}
+          {/* ADMIN ROUTES */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
