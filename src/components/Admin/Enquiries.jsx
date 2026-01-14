@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+ import React, { useEffect, useState } from 'react';
 import { contactAPI } from '../../services/api';
 
 const Enquiries = () => {
