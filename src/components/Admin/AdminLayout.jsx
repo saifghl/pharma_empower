@@ -63,6 +63,13 @@ const AdminLayout = () => {
                     >
                         Content
                     </NavLink>
+                    <NavLink
+                        to="/admin/chat-enquiries"
+                        className={({ isActive }) => isActive ? "sidebar-link active" : "sidebar-link"}
+                        onClick={() => setIsSidebarOpen(false)}
+                    >
+                        Chat Queries
+                    </NavLink>
 
                     <div style={{ marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '10px' }}>
                         <button onClick={handleLogout} className="sidebar-link" style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer' }}>

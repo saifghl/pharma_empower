@@ -118,67 +118,77 @@ const ChatManagement = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {enquiries.map((enq) => (
-                            <tr key={enq.id}>
-                                <td style={styles.td}>#{enq.id}</td>
-                                <td style={styles.td}>
-                                    <div style={{ fontWeight: '500' }}>{enq.user}</div>
-                                    <div style={{ fontSize: '12px', color: '#888' }}>{enq.date}</div>
-                                </td>
-                                <td style={styles.td} width="40%">
-                                    <div>{enq.question}</div>
-                                    {enq.answer && (
-                                        <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: '#f8f9fa', borderRadius: '4px', borderLeft: '3px solid #28a745' }}>
-                                            <small style={{ color: '#28a745', fontWeight: 'bold' }}>Admin:</small>
-                                            <small style={{ display: 'block', color: '#555' }}>{enq.answer}</small>
-                                        </div>
-                                    )}
-                                </td>
-                                <td style={styles.td}>
-                                    <span style={styles.statusBadge(enq.status)}>
-                                        {enq.status === 'Answered' ? <CheckCircle size={12} /> : <Clock size={12} />}
-                                        {enq.status}
-                                    </span>
-                                </td>
-                                <td style={styles.td}>
-                                    {answeringId === enq.id ? (
-                                        <div>
-                                            <textarea
-                                                rows="3"
-                                                style={styles.replyInput}
-                                                placeholder="Type your answer..."
-                                                value={replyText}
-                                                onChange={(e) => setReplyText(e.target.value)}
-                                            />
-                                            <div style={{ display: 'flex', gap: '8px' }}>
-                                                <button
-                                                    style={styles.actionBtn}
-                                                    onClick={() => handleSubmitReply(enq.id)}
-                                                >
-                                                    Send
-                                                </button>
-                                                <button
-                                                    style={{ ...styles.actionBtn, backgroundColor: '#868e96' }}
-                                                    onClick={() => setAnsweringId(null)}
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        enq.status === 'Pending' ? (
-                                            <button style={styles.actionBtn} onClick={() => handleReplyClick(enq.id)}>
-                                                <Send size={14} /> Reply
-                                            </button>
-                                        ) : (
-                                            <button style={{ ...styles.actionBtn, backgroundColor: 'transparent', color: '#2b8a3e', border: '1px solid #2b8a3e' }} onClick={() => handleReplyClick(enq.id)}>
-                                                Edit Reply
-                                            </button>
-                                        )
-                                    )}
+                        {enquiries.filter(enq => enq.status === 'Pending').length === 0 ? (
+                            <tr>
+                                <td colSpan="5" style={{ ...styles.td, textAlign: 'center', padding: '2rem' }}>
+                                    <div style={{ color: '#aaa', fontSize: '1.2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                                        <CheckCircle size={40} color="#28a745" opacity={0.5} />
+                                        No pending enquiries. Good job!
+                                    </div>
                                 </td>
                             </tr>
-                        ))}
+                        ) : (
+                            enquiries.filter(enq => enq.status === 'Pending').map((enq) => (
+                                <tr key={enq.id}>
+                                    <td style={styles.td}>#{enq.id}</td>
+                                    <td style={styles.td}>
+                                        <div style={{ fontWeight: '500' }}>{enq.user}</div>
+                                        <div style={{ fontSize: '12px', color: '#888' }}>{enq.date}</div>
+                                    </td>
+                                    <td style={styles.td} width="40%">
+                                        <div>{enq.question}</div>
+                                        {enq.answer && (
+                                            <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: '#f8f9fa', borderRadius: '4px', borderLeft: '3px solid #28a745' }}>
+                                                <small style={{ color: '#28a745', fontWeight: 'bold' }}>Admin:</small>
+                                                <small style={{ display: 'block', color: '#555' }}>{enq.answer}</small>
+                                            </div>
+                                        )}
+                                    </td>
+                                    <td style={styles.td}>
+                                        <span style={styles.statusBadge(enq.status)}>
+                                            {enq.status === 'Answered' ? <CheckCircle size={12} /> : <Clock size={12} />}
+                                            {enq.status}
+                                        </span>
+                                    </td>
+                                    <td style={styles.td}>
+                                        {answeringId === enq.id ? (
+                                            <div>
+                                                <textarea
+                                                    rows="3"
+                                                    style={styles.replyInput}
+                                                    placeholder="Type your answer..."
+                                                    value={replyText}
+                                                    onChange={(e) => setReplyText(e.target.value)}
+                                                />
+                                                <div style={{ display: 'flex', gap: '8px' }}>
+                                                    <button
+                                                        style={styles.actionBtn}
+                                                        onClick={() => handleSubmitReply(enq.id)}
+                                                    >
+                                                        Send
+                                                    </button>
+                                                    <button
+                                                        style={{ ...styles.actionBtn, backgroundColor: '#868e96' }}
+                                                        onClick={() => setAnsweringId(null)}
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            enq.status === 'Pending' ? (
+                                                <button style={styles.actionBtn} onClick={() => handleReplyClick(enq.id)}>
+                                                    <Send size={14} /> Reply
+                                                </button>
+                                            ) : (
+                                                <button style={{ ...styles.actionBtn, backgroundColor: 'transparent', color: '#2b8a3e', border: '1px solid #2b8a3e' }} onClick={() => handleReplyClick(enq.id)}>
+                                                    Edit Reply
+                                                </button>
+                                            )
+                                        )}
+                                    </td>
+                                </tr>
+                            )))}
                     </tbody>
                 </table>
             </div>
