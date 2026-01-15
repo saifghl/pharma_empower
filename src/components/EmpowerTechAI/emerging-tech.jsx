@@ -30,31 +30,41 @@ const EmpowerTechAI = () => {
             <div className="et-content">
                 <h2 className="et-heading">Emerging Technologies in Pharma</h2>
 
-                <div className="tech-cards compact-grid">
-                    <div className="tech-card">
-                        <h3>Peptides</h3>
-                        <p>Targeted therapies improving precision treatment.</p>
-                    </div>
+                <div className="compact-grid">
+                    <Link to="/empower/peptides" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <div className="tech-card">
+                            <h3>Peptides</h3>
+                            <p>Targeted therapies improving precision treatment.</p>
+                        </div>
+                    </Link>
 
-                    <div className="tech-card">
-                        <h3>Devices</h3>
-                        <p>Smart devices for monitoring and diagnostics.</p>
-                    </div>
+                    <Link to="/empower/devices" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <div className="tech-card">
+                            <h3>Smart Devices</h3>
+                            <p>Smart devices for real-time monitoring.</p>
+                        </div>
+                    </Link>
 
-                    <div className="tech-card">
-                        <h3>mRNA</h3>
-                        <p>Revolutionizing vaccines and therapeutics.</p>
-                    </div>
+                    <Link to="/empower/mrna" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <div className="tech-card">
+                            <h3>mRNA Tech</h3>
+                            <p>Rapid development for vaccines & therapies.</p>
+                        </div>
+                    </Link>
 
-                    <div className="tech-card">
-                        <h3>Personalized Medicine</h3>
-                        <p>Data-driven treatments tailored to individuals.</p>
-                    </div>
+                    <Link to="/empower/personalized-medicine" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <div className="tech-card">
+                            <h3>Personalized Med</h3>
+                            <p>Data-driven treatments tailored to individuals.</p>
+                        </div>
+                    </Link>
 
-                    <div className="tech-card">
-                        <h3>Artificial Intelligence</h3>
-                        <p>Accelerating research and clinical decisions.</p>
-                    </div>
+                    <Link to="/empower/ai" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <div className="tech-card">
+                            <h3>Artificial Intelligence</h3>
+                            <p>Accelerating research and clinical decisions.</p>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </div>

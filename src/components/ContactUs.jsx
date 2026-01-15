@@ -12,7 +12,7 @@ const ContactUs = () => {
             bgImage: 'https://images.unsplash.com/photo-1423666639041-f56000c27a9a?auto=format&fit=crop&q=80'
         },
         info: {
-            email: 'support@pharmaempower.com',
+            email: 'Info@pharmaempower.com',
             phone: '+1 (555) 123-4567',
             address: '123 Pharma Way, Innovation City, PC 54321'
         }

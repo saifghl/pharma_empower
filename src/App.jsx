@@ -14,6 +14,10 @@ import SkillBoard from './components/SkillBoard/SkillBoard';
 import DynamicSkillBoard from './components/EmpowerTechAI/skill';
 import EmergingTech from './components/EmpowerTechAI/emerging-tech';
 import AI from './components/EmpowerTechAI/AI';
+import Peptides from './components/EmpowerTechAI/Peptides';
+import Devices from './components/EmpowerTechAI/Devices';
+import Mrna from './components/EmpowerTechAI/Mrna';
+import PersonalizedMedicine from './components/EmpowerTechAI/PersonalizedMedicine';
 import './App.css';
 import StudentSession from './components/forums/session';
 import NotificationBanner from './components/NotificationBanner';
@@ -65,7 +69,12 @@ function App() {
             <Route path="/skill-board" element={<SkillBoard />} />
             <Route path="/empower/skill" element={<DynamicSkillBoard />} />
             <Route path="/empower/emerging-tech" element={<EmergingTech />} />
+            <Route path="/empower/emerging-tech" element={<EmergingTech />} />
             <Route path="/empower/ai" element={<AI />} />
+            <Route path="/empower/peptides" element={<Peptides />} />
+            <Route path="/empower/devices" element={<Devices />} />
+            <Route path="/empower/mrna" element={<Mrna />} />
+            <Route path="/empower/personalized-medicine" element={<PersonalizedMedicine />} />
             <Route path="/session" element={<StudentSession />} />
             <Route path="/intelligence-hub/news" element={<News />} />
             <Route path="/events" element={<Events />} />

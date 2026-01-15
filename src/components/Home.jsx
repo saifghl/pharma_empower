@@ -250,7 +250,8 @@ export default function Home() {
 
                             <h3 className="card-title">Contact Us</h3>
                             <p className="card-punchline">
-                                Connect, collaborate, and build together
+                                Connect, collaborate, and build together <br />
+                                <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Info@pharmaempower.com</span>
                             </p>
                         </Link>
 
