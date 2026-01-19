@@ -3,6 +3,34 @@ import './ContactUs.css';
 import { contactAPI } from '../services/api'; // ✅ correct path
 
 const ContactUs = () => {
+
+    // CMS LOGIC
+    const [pageContent, setPageContent] = useState({
+        hero: {
+            title: 'Ready to Connect',
+            subtitle: "We’re here to support your career growth and your organization's operational needs.",
+            bgImage: 'https://images.unsplash.com/photo-1423666639041-f56000c27a9a?auto=format&fit=crop&q=80'
+        },
+        info: {
+            email: 'Info@pharmaempower.com',
+            phone: '+1 (555) 123-4567',
+            address: '123 Pharma Way, Innovation City, PC 54321'
+        }
+    });
+
+    React.useEffect(() => {
+        const saved = localStorage.getItem('site_full_content');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed.contact) {
+                setPageContent(prev => ({
+                    hero: { ...prev.hero, ...parsed.contact.hero },
+                    info: { ...prev.info, ...parsed.contact.info }
+                }));
+            }
+        }
+    }, []);
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -52,9 +80,23 @@ const ContactUs = () => {
 
     return (
         <div className="contact-container">
-            <div className="contact-header">
-                <h1>Ready to Connect</h1>
-                <p>We’re here to support your career growth and your organization's operational needs.</p>
+            <div
+                className="contact-header"
+                style={{
+                    backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${pageContent.hero.bgImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    color: 'white',
+                    padding: '4rem 2rem'
+                }}
+            >
+                <h1>{pageContent.hero.title}</h1>
+                <p>{pageContent.hero.subtitle}</p>
+            </div>
+
+            <div className="contact-info-bar" style={{ textAlign: 'center', padding: '2rem 0', background: '#f7fafc' }}>
+                <p><strong>Email:</strong> {pageContent.info.email} &nbsp;|&nbsp; <strong>Phone:</strong> {pageContent.info.phone}</p>
+                <p><strong>Address:</strong> {pageContent.info.address}</p>
             </div>
 
             <div className="contact-form-wrapper">

@@ -1,8 +1,13 @@
 {
   "name": "pharma-empower-backend",
   "version": "1.0.0",
+<<<<<<< HEAD
   "main": "server.js",
   "type": "commonjs",
+=======
+  "private": true,
+  "main": "server.js",
+>>>>>>> c6cc440a406afaabe1a882214e4bcea7b3b98fcd
   "scripts": {
     "start": "node server.js"
   },
@@ -10,7 +15,11 @@
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
+<<<<<<< HEAD
     "express": "^5.2.1",
+=======
+    "express": "^4.19.2",
+>>>>>>> c6cc440a406afaabe1a882214e4bcea7b3b98fcd
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.16.0",
     "node-cron": "^4.2.1"

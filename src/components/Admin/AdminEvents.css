@@ -1,0 +1,80 @@
+.admin-events-container {
+    padding: 20px;
+}
+
+.event-form-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.event-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.event-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.save-btn,
+.cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.save-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.events-list table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.events-list th,
+.events-list td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.events-list th {
+    background-color: #f8f9fa;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+}
+
+.edit-btn {
+    background-color: #007bff;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}

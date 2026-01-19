@@ -2,13 +2,10 @@
    ABOUT PAGE LAYOUT
 ========================= */
 
-.about-landing {
-    padding: 60px 28px 80px;
+.about-page {
+    padding: 20px;
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 60px 28px 80px;
-    max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto 60px;
     font-family: var(--font-main);
     color: var(--primary-color);
 }
@@ -19,8 +16,8 @@
 
 .about-hero {
     /* Container for the hero section */
-    margin-bottom: 70px;
-    padding: 60px 0 40px;
+    margin-bottom: 40px;
+    padding: 60px 0 20px;
     background: radial-gradient(circle at center, rgba(225, 239, 255, .45), rgba(255, 255, 255, 0) 65%);
 }
 
@@ -143,8 +140,10 @@
 
 .principles-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 26px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .principle-item {
@@ -209,6 +208,7 @@
     /* finer stroke */
     background: linear-gradient(135deg, #f0f0f0, #ffffff, #f0f0f0);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     opacity: 1;
@@ -404,5 +404,90 @@
 
     to {
         background-position: -100% center
+    }
+}
+
+/* =========================
+   AESTHETIC FLOATING WINDOW (MODAL)
+========================= */
+
+.about-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 25, 47, 0.6);
+    /* Darker backdrop */
+    backdrop-filter: blur(8px);
+    /* Nice blur effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.about-modal-content {
+    background: #fff;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    position: relative;
+    padding: 0;
+    /* Let content dictate padding usually, but we want a clean edge */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: popUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #f1f5f9;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 10;
+    color: #64748b;
+}
+
+.about-modal-close:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+    transform: rotate(90deg);
+}
+
+.about-modal-body {
+    padding: 20px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes popUp {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
     }
 }

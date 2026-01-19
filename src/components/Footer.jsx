@@ -34,10 +34,13 @@ const Footer = () => {
                         PHARMA EMPOWER SOLUTIONS
                     </div>
                     <ul className="footer-links-main">
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#programs">Training Programs</a></li>
-                        <li><a href="#consulting">Consulting</a></li>
-                        {/* Contact removed as requested */}
+                        <li><Link to="/about">About Us</Link></li>
+                        <li><Link to="/academy">Training Programs</Link></li>
+                        <li><Link to="/contact-us">Consulting</Link></li>
+                        <li className="footer-contact-item">
+                            <span style={{ color: '#ffffff' }}>Contact: </span>
+                            <a href="mailto:Info@pharmaempower.com" className="footer-email-link">Info@pharmaempower.com</a>
+                        </li>
                     </ul>
                 </div>
 

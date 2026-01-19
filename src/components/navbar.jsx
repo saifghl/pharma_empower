@@ -52,12 +52,7 @@ const Navbar = () => {
         <div className={isMobileMenuOpen ? "nav-menu active" : "nav-menu"}>
           <div className="navbar-center">
             <ul className="nav-links">
-              {/* HOME LINK */}
-              <li>
-                <Link to="/" className="nav-link" onClick={toggleMenu}>
-                  Home
-                </Link>
-              </li>
+
               {/* ABOUT US DROPDOWN */}
               <li
                 className={`nav-item-dropdown ${activeDropdown === "about" ? "open" : ""}`}
@@ -271,6 +266,14 @@ const Navbar = () => {
                   Professional Network
                 </Link>
               </li>
+
+              {/* EVENTS LINK */}
+              <li>
+                <Link to="/events" className="nav-link" onClick={toggleMenu}>
+                  Events
+                </Link>
+              </li>
+              
               <li>
                 <Link
                   to="/skill-board"

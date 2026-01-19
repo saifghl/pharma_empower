@@ -1,16 +1,39 @@
+import React, { useState } from 'react';
 import './EmpowerTechAI.css';
 
 const EmpowerTechAI = () => {
+
+  // CMS LOGIC
+  const [headerContent, setHeaderContent] = useState({
+    title: 'Empower – Tech & AI',
+    subtitle: 'Enabling the future of healthcare through technology, innovation, and artificial intelligence.',
+    bgImage: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80'
+  });
+
+  React.useEffect(() => {
+    const saved = localStorage.getItem('site_full_content');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed.empower) {
+        setHeaderContent(prev => ({ ...prev, ...parsed.empower.hero }));
+      }
+    }
+  }, []);
+
   return (
     <div className="empower-wrapper">
 
       {/* HERO SECTION */}
-      <div className="hero-section">
-        <h1>Empower – Tech & AI</h1>
-        <p>
-          Enabling the future of healthcare through technology,
-          innovation, and artificial intelligence.
-        </p>
+      <div
+        className="hero-section"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${headerContent.bgImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <h1>{headerContent.title}</h1>
+        <p>{headerContent.subtitle}</p>
       </div>
 
       {/* SKILL BOARD

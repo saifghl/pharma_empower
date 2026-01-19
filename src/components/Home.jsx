@@ -6,8 +6,40 @@ import homeHeroImg from "../images/home_hero.png";
 
 export default function Home() {
 
-    // Scroll reveal animation
+    const [homeContent, setHomeContent] = React.useState({
+        hero: {
+            title: 'The one-stop open platform for the pharma & healthcare community',
+            subtitle: 'Empowering all for better tomorrow… Beyond Boundaries',
+            ctaText: 'Get Started',
+            bgImage: homeHeroImg
+        },
+        highlights: []
+    });
+
+    // Scroll reveal animation & CMS Load
     useEffect(() => {
+        // CMS LOAD
+        const saved = localStorage.getItem('site_full_content');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed.home) {
+                setHomeContent(prev => ({
+                    ...prev,
+                    hero: {
+                        ...prev.hero,
+                        title: parsed.home.hero.title || prev.hero.title,
+                        subtitle: parsed.home.hero.subtitle || prev.hero.subtitle,
+                        ctaText: parsed.home.hero.ctaText || prev.hero.ctaText,
+                        // Only use custom BG if provided, else image import
+                        bgImage: parsed.home.hero.bgImage && parsed.home.hero.bgImage.startsWith('http')
+                            ? parsed.home.hero.bgImage
+                            : homeHeroImg
+                    },
+                    highlights: parsed.home.highlights || []
+                }));
+            }
+        }
+
         const cards = document.querySelectorAll(".infographic-card");
 
         const observer = new IntersectionObserver(
@@ -38,19 +70,19 @@ export default function Home() {
                 <div className="home-hero-card fade-in-up">
                     <div className="home-text-content">
                         <h1 className="hero-brand-title">
-                            The one-stop open platform for the pharma & healthcare community
+                            {homeContent.hero.title}
                         </h1>
 
                         <p className="hero-tagline">
                             <span className="highlight">•</span>
-                            Empowering all for better tomorrow… Beyond Boundaries
+                            {homeContent.hero.subtitle}
                             <span className="highlight">•</span>
                         </p>
 
                         <div className="hero-decoration-line" />
                     </div>
                     <div className="home-image-content">
-                        <img src={homeHeroImg} alt="Pharma Global Connection" className="home-hero-img" />
+                        <img src={homeContent.hero.bgImage} alt="Pharma Global Connection" className="home-hero-img" />
                     </div>
                 </div>
             </section>
@@ -218,7 +250,8 @@ export default function Home() {
 
                             <h3 className="card-title">Contact Us</h3>
                             <p className="card-punchline">
-                                Connect, collaborate, and build together
+                                Connect, collaborate, and build together <br />
+                                <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Info@pharmaempower.com</span>
                             </p>
                         </Link>
 

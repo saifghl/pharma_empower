@@ -1,0 +1,118 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9);
+    animation: scaleUp 0.2s ease forwards;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.modal-container.delete .modal-header h3 {
+    color: #dc3545;
+}
+
+.modal-container.success .modal-header h3 {
+    color: #28a745;
+}
+
+.modal-header h3 {
+    margin: 0 0 15px;
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 700;
+}
+
+.modal-body p {
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.5;
+    font-size: 1rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-btn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-btn.cancel {
+    background-color: #f1f3f5;
+    color: #666;
+}
+
+.modal-btn.cancel:hover {
+    background-color: #e9ecef;
+}
+
+.modal-btn.confirm {
+    background-color: #071D49;
+    /* Primary */
+    color: white;
+}
+
+.modal-btn.confirm:hover {
+    background-color: #0066F5;
+    /* Secondary */
+}
+
+.modal-btn.ok {
+    background-color: #28a745;
+    color: white;
+    min-width: 100px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

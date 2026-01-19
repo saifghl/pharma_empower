@@ -5,13 +5,6 @@ import "./news.css";
 export default function News() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // FILTER STATE (front-end only)
-  // -----------------------------------------------------
-  // NOTE: This currently filters ONLY in the UI.
-  // If you later want the API to filter by category,
-  // you will handle that inside loadNews() instead.
-  // -----------------------------------------------------
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
@@ -20,12 +13,6 @@ export default function News() {
 
   const loadNews = async () => {
     try {
-      // API CALL — retrieves all news from DB
-      // -------------------------------------
-      // If you later want category-based API filtering,
-      // this is where you would pass a parameter like:
-      // newsAPI.getNews(filter)
-      // -------------------------------------
       const res = await newsAPI.getNews();
       setNews(res.data);
     } catch (error) {
@@ -35,11 +22,7 @@ export default function News() {
     }
   };
 
-  // FRONTEND FILTER LOGIC
-  // -----------------------------------------------------
-  // This filters the news list in the browser only.
-  // No backend changes required.
-  // -----------------------------------------------------
+  // Frontend filter logic (now works since category is set in DB)
   const filteredNews =
     filter === "all"
       ? news
@@ -53,13 +36,7 @@ export default function News() {
         <p className="tagline-animate">Your single source for verified pharma and medical insights</p>
       </div>
 
-      {/* CATEGORY FILTER BUTTONS */}
-      {/* -----------------------------------------------------
-          NOTE: These currently only change the front-end filter.
-          
-          If in future you want the API to filter server-side,
-          you would instead call loadNews(filter) here.
-          ----------------------------------------------------- */}
+      {/* Category Filter Buttons */}
       <div className="filter-bar">
         <button
           onClick={() => setFilter("all")}
@@ -67,28 +44,24 @@ export default function News() {
         >
           All
         </button>
-
         <button
           onClick={() => setFilter("industry")}
           className={filter === "industry" ? "active" : ""}
         >
           Industry News
         </button>
-
         <button
           onClick={() => setFilter("healthcare")}
           className={filter === "healthcare" ? "active" : ""}
         >
           Healthcare
         </button>
-
         <button
           onClick={() => setFilter("regulatory")}
           className={filter === "regulatory" ? "active" : ""}
         >
           Regulatory News
         </button>
-
         <button
           onClick={() => setFilter("career")}
           className={filter === "career" ? "active" : ""}
@@ -100,7 +73,7 @@ export default function News() {
       {/* Loading State */}
       {loading && <p className="loading-text">Loading latest news...</p>}
 
-      {/* Empty State AFTER filtering */}
+      {/* Empty State */}
       {!loading && filteredNews.length === 0 && (
         <p className="empty-text">No news available</p>
       )}
@@ -114,11 +87,9 @@ export default function News() {
             ) : (
               <div className="no-image">No Image</div>
             )}
-
             <div className="news-content">
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-
               <a
                 href={item.url}
                 target="_blank"
