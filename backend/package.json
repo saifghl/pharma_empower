@@ -16,10 +16,14 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "express": "^5.2.1",
 =======
     "express": "^4.19.2",
 >>>>>>> c6cc440a406afaabe1a882214e4bcea7b3b98fcd
+=======
+    "express": "^4.22.1",
+>>>>>>> 172f3b980d1f04cbe89d57cc2ccfcc6c03bbd1d2
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.16.0",
     "node-cron": "^4.2.1"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Globe, Star, Plus, Trash2, Image as ImageIcon, Type } from 'lucide-react';
 import './ContentManagement.css';
+import { cmsAPI } from '../../services/api';
 
 // Default content configuration for fallback
 const DEFAULT_CONTENT = {
@@ -62,19 +63,42 @@ const DEFAULT_CONTENT = {
 const ContentManagement = () => {
     const [selectedPage, setSelectedPage] = useState('home');
     const [content, setContent] = useState(DEFAULT_CONTENT);
+    const [isLoading, setIsLoading] = useState(false);
 
-    // Load all content from LocalStorage on mount
+    // Load content when Page Selection Changes
     useEffect(() => {
-        const saved = localStorage.getItem('site_full_content');
-        if (saved) {
-            setContent({ ...DEFAULT_CONTENT, ...JSON.parse(saved) });
-        }
-    }, []);
+        const fetchContent = async () => {
+            setIsLoading(true);
+            try {
+                const res = await cmsAPI.getPage(selectedPage);
+                // Merge loaded content with default structure to prevent crash if fields missing
+                setContent(prev => ({
+                    ...prev,
+                    [selectedPage]: {
+                        ...prev[selectedPage],
+                        ...res.data
+                    }
+                }));
+            } catch (error) {
+                console.error("Failed to load page content", error);
+                // If 404/Empty, maybe we just keep defaults
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchContent();
+    }, [selectedPage]);
 
     // Save specific page changes
-    const handleSave = () => {
-        localStorage.setItem('site_full_content', JSON.stringify(content));
-        alert(`${selectedPage.toUpperCase()} content updated successfully!`);
+    const handleSave = async () => {
+        try {
+            const pageData = content[selectedPage];
+            await cmsAPI.updatePage(selectedPage, pageData);
+            alert(`${selectedPage.toUpperCase()} content updated successfully!`);
+        } catch (error) {
+            console.error("Failed to save content", error);
+            alert("Failed to save content.");
+        }
     };
 
     const updateField = (section, field, value) => {
