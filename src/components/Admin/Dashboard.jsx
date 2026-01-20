@@ -6,7 +6,7 @@ const Dashboard = () => {
         totalEnquiries: 0,
         todayEnquiries: 0,
         activeStudents: 0,
-        forumDiscussions: 0
+        totalSessions: 0
     });
 
     useEffect(() => {
@@ -16,7 +16,14 @@ const Dashboard = () => {
     const loadStats = async () => {
         try {
             const res = await dashboardAPI.getStats();
-            setStats(res.data);
+            const data = res.data;
+
+            setStats({
+                totalEnquiries: data.totalEnquiries ?? 0,
+                todayEnquiries: data.todayEnquiries ?? 0,
+                activeStudents: data.activeStudents ?? 0,
+                totalSessions: data.totalSessions ?? 0
+            });
         } catch (err) {
             console.error('Dashboard load failed', err);
         }
@@ -36,37 +43,28 @@ const Dashboard = () => {
                     gap: '20px'
                 }}
             >
-                {/* TOTAL ENQUIRIES */}
                 <div className="admin-card">
                     <h3>Total Enquiries</h3>
-                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#1a237e' }}>
+                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
                         {stats.totalEnquiries}
                     </p>
-                    <p style={{ color: '#666' }}>
-                        +{stats.todayEnquiries} today
-                    </p>
+                    <p>+{stats.todayEnquiries} today</p>
                 </div>
 
-                {/* ACTIVE STUDENTS */}
                 <div className="admin-card">
                     <h3>Active Students</h3>
-                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#1a237e' }}>
+                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
                         {stats.activeStudents}
                     </p>
-                    <p style={{ color: '#666' }}>
-                        Registered users
-                    </p>
+                    <p>Registered users</p>
                 </div>
 
-                {/* FORUM DISCUSSIONS */}
                 <div className="admin-card">
-                    <h3>Forum Discussions</h3>
-                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#1a237e' }}>
-                        {stats.forumDiscussions}
+                    <h3>Total Sessions</h3>
+                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
+                        {stats.totalSessions}
                     </p>
-                    <p style={{ color: '#666' }}>
-                        Total posts
-                    </p>
+                    <p>Booked sessions</p>
                 </div>
             </div>
         </div>

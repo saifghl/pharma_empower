@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // ✅ Render backend URL (IMPORTANT: no localhost)
-const API_BASE_URL = 'https://pharma-empowerr.onrender.com';
+const API_BASE_URL = 'http://localhost:5000'; // Changed to local for dev, revert before deploy
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -20,6 +20,32 @@ api.interceptors.request.use((config) => {
 export const authAPI = {
   register: (userData) => api.post('/api/auth/register', userData),
   login: (credentials) => api.post('/api/auth/login', credentials),
+};
+
+/* ================= SKILLS ================= */
+export const skillAPI = {
+  getAll: () => api.get('/api/skills'),
+  getUserSkills: () => api.get('/api/skills/my-skills'),
+  updateUserSkill: (data) => api.post('/api/skills/my-skills', data),
+};
+
+/* ================= COMMUNITY ================= */
+export const communityAPI = {
+  // USER
+  getQA: () => api.get('/api/community/public'),
+  askQuestion: (data) => api.post('/api/community/ask'),
+
+  // ADMIN ✅ FIXED PATHS
+  getAllAdmin: () => api.get('/api/admin/community/pending'),
+  answerQuestion: (id, data) =>
+    api.put(`/api/admin/community/answer/${id}`, data),
+};
+
+
+/* ================= CMS (PAGES) ================= */
+export const cmsAPI = {
+  getPage: (slug) => api.get(`/api/pages/${slug}`),
+  updatePage: (slug, data) => api.put(`/api/pages/${slug}`, data),
 };
 
 /* ================= VIDEO ================= */
@@ -42,6 +68,13 @@ export const appointmentAPI = {
   deleteAppointment: (id) => api.delete(`/appointment/${id}`),
 };
 
+/* ================= EVENTS ================= */
+export const eventAPI = {
+  getAll: () => api.get('/api/events'),
+  create: (data) => api.post('/api/events', data),
+  getById: (id) => api.get(`/api/events/${id}`),
+};
+
 /* ================= CHAT ================= */
 export const chatApi = {
   sendChat: (message) => api.post('/chat', message),
@@ -61,9 +94,9 @@ export const newsAPI = {
 
 /* ================= SESSION ================= */
 export const sessionAPI = {
-  createSession: (data) => api.post('/api/session', data),
-  getAllSessions: () => api.get('/api/session'),
-  deleteSession: (id) => api.delete(`/api/session/${id}`),
+  createSession: (data) => api.post('/api/sessions', data), // Fixed route path
+  getAllSessions: () => api.get('/api/sessions'),
+  deleteSession: (id) => api.delete(`/api/sessions/${id}`),
 };
 
 /* ================= CONTACT ================= */
@@ -81,4 +114,4 @@ export const dashboardAPI = {
 export default api;
 
 
-  
+

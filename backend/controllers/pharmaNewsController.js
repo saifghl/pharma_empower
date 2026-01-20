@@ -12,7 +12,8 @@ exports.getPharmaNews = async (req, res) => {
         description,
         image_url,
         url,
-        published_at
+        published_at,
+        category  -- Added category for frontend filtering
       FROM pharma_news
       ORDER BY published_at DESC
       LIMIT 50

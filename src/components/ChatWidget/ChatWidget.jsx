@@ -1,49 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MessageCircle, X, Send, CheckCircle } from 'lucide-react';
+import { communityAPI } from '../../services/api';
 import './ChatWidget.css';
 
 const ChatWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [activeTab, setActiveTab] = useState('ask'); // 'ask' or 'qa'
+    const [activeTab, setActiveTab] = useState('ask');
     const [formData, setFormData] = useState({ name: '', query: '' });
     const [submitted, setSubmitted] = useState(false);
 
-    // Mock data for Public Q&A
-    const mockQA = [
-        {
-            id: 1,
-            user: "Sarah J.",
-            question: "How do I certify for the advanced pharma course?",
-            answer: "You can apply for certification after completing all module quizzes with a score of 80% or higher. Visit your dashboard to track progress."
-        },
-        {
-            id: 2,
-            user: "Mike T.",
-            question: "Is financial aid available for students?",
-            answer: "Yes, we offer scholarships for eligible students. Please check our 'Scholarships' page under the Resources section for more details."
-        },
-        {
-            id: 3,
-            user: "Ravi K.",
-            question: "When is the next webinar on AI in Pharma?",
-            answer: "Our next webinar is scheduled for the 25th of this month. You will receive a notification email if you are subscribed to our newsletter."
-        }
-    ];
+    // Logic-only states
+    const [qaList, setQaList] = useState([]);
+    const [loading, setLoading] = useState(false);
 
+    /* ================= LOAD PUBLIC Q&A ================= */
+    useEffect(() => {
+        if (activeTab === 'qa') {
+            fetchQA();
+        }
+    }, [activeTab]);
+
+    const fetchQA = async () => {
+        try {
+            setLoading(true);
+            const res = await communityAPI.getQA();
+            setQaList(res.data || []);
+        } catch (error) {
+            console.error('Failed to load Q&A', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    /* ================= FORM HANDLING ================= */
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    /* ================= SUBMIT QUESTION ================= */
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Simulate API call
-        setTimeout(() => {
+
+        if (!formData.query.trim()) {
+            alert('Question is required');
+            return;
+        }
+
+        try {
+            await communityAPI.askQuestion({
+                name: formData.name || 'Anonymous',
+                query: formData.query, // ✅ MUST MATCH BACKEND
+            });
+
             setSubmitted(true);
             setFormData({ name: '', query: '' });
-            // Reset success message after 3 seconds
+
             setTimeout(() => setSubmitted(false), 3000);
-        }, 1000);
+        } catch (error) {
+            console.error('Question submit failed', error);
+            alert('Failed to submit question. Please try again.');
+        }
     };
 
     return (
@@ -73,6 +90,7 @@ const ChatWidget = () => {
                     </div>
 
                     <div className="chat-content">
+                        {/* ================= ASK TAB ================= */}
                         {activeTab === 'ask' && (
                             submitted ? (
                                 <div className="success-message">
@@ -115,20 +133,29 @@ const ChatWidget = () => {
                             )
                         )}
 
+                        {/* ================= PUBLIC Q&A TAB ================= */}
                         {activeTab === 'qa' && (
                             <div className="qa-list">
-                                {mockQA.map(item => (
-                                    <div key={item.id} className="qa-card">
-                                        <div className="qa-question">
-                                            <strong>{item.user} asks:</strong>
-                                            <p>{item.question}</p>
+                                {loading ? (
+                                    <p>Loading...</p>
+                                ) : qaList.length === 0 ? (
+                                    <p>No public questions yet.</p>
+                                ) : (
+                                    qaList.map(item => (
+                                        <div key={item.id} className="qa-card">
+                                            <div className="qa-question">
+                                                <strong>{item.user_name} asks:</strong>
+                                                <p>{item.question}</p>
+                                            </div>
+                                            {item.answer && (
+                                                <div className="qa-answer">
+                                                    <strong>Admin Answer:</strong>
+                                                    <p>{item.answer}</p>
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="qa-answer">
-                                            <strong>Admin Answer:</strong>
-                                            <p>{item.answer}</p>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))
+                                )}
                             </div>
                         )}
                     </div>

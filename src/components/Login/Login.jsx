@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Login.css';
 import { authAPI } from '../../services/api';
 
@@ -8,7 +8,12 @@ const Login = () => {
         email: '',
         password: ''
     });
+
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // ✅ get redirect path (fallback to home)
+    const redirectTo = location.state?.from || '/';
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,27 +22,25 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await authAPI.login(formData)
+            const res = await authAPI.login(formData);
+
             if (res.data) {
                 localStorage.setItem('isLoggedIn', 'true');
-
-                // Store token and user data
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('user', JSON.stringify(res.data.user));
 
-                // Redirect based on role
+                // ✅ Admin stays same
                 if (res.data.user.role === 'admin') {
-                    navigate('/admin/dashboard');
-                }
+                    navigate('/admin/dashboard', { replace: true });
+                } 
+                // ✅ User redirected back to requested page
                 else {
-                    navigate("/")
+                    navigate(redirectTo, { replace: true });
                 }
-
             }
         } catch (err) {
             console.log(err.message);
         }
-
     };
 
     return (
@@ -82,7 +85,11 @@ const Login = () => {
                     <div className="login-footer-section">
                         <p>
                             Don't have an account?
-                            <button type="button" className="toggle-btn" onClick={() => navigate('/register')}>
+                            <button
+                                type="button"
+                                className="toggle-btn"
+                                onClick={() => navigate('/register')}
+                            >
                                 Sign Up
                             </button>
                         </p>
