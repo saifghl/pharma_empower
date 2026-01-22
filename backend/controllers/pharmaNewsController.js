@@ -1,3 +1,5 @@
+
+
 const pool = require("../config/db");
 
 exports.getPharmaNews = async (req, res) => {

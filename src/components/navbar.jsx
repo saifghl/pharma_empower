@@ -73,7 +73,7 @@ const Navbar = () => {
                   <div className="dropdown-content">
                     <div className="dropdown-grid">
                       <Link
-                        to="/about"
+                        to="/about/mission"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >
@@ -81,7 +81,7 @@ const Navbar = () => {
                         <span className="card-text">Our Mission</span>
                       </Link>
                       <Link
-                        to="/about"
+                        to="/about/values"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >
@@ -89,7 +89,7 @@ const Navbar = () => {
                         <span className="card-text">Our Values</span>
                       </Link>
                       <Link
-                        to="/about"
+                        to="/about/purpose"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >
@@ -97,7 +97,7 @@ const Navbar = () => {
                         <span className="card-text">Our Purpose</span>
                       </Link>
                       <Link
-                        to="/about"
+                        to="/about/principles"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >
@@ -273,7 +273,7 @@ const Navbar = () => {
                   Events
                 </Link>
               </li>
-              
+
               <li>
                 <Link
                   to="/skill-board"

@@ -22,6 +22,7 @@ export const authAPI = {
   login: (credentials) => api.post('/api/auth/login', credentials),
 };
 
+
 /* ================= SKILLS ================= */
 export const skillAPI = {
   getAll: () => api.get('/api/skills'),
@@ -130,6 +131,3 @@ export const dashboardAPI = {
 };
 
 export default api;
-
-
-

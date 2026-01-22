@@ -24,6 +24,10 @@ const pool = require('./config/db');
 const app = express();
 
 /* ================= MIDDLEWARE ================= */
+// ✅ Root health check (VERY IMPORTANT)
+app.get("/", (req, res) => {
+    res.status(200).send("Pharma Empower Backend is running 🚀");
+});
 
 // ✅ Proper CORS (LOCAL + DEPLOY)
 app.use(cors({
@@ -36,7 +40,6 @@ app.use(cors({
 
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 /* ================= DB TEST ================= */
 pool.getConnection()
     .then(connection => {
@@ -72,5 +75,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
-
-
