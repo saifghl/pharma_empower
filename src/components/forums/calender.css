@@ -1,0 +1,285 @@
+/* Container for the entire calendar page */
+.calendar-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+}
+
+.calendar-header-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.calendar-header-section h1 {
+    font-size: 2.5rem;
+    color: #1a237e;
+    /* Deep pharmaceutical blue */
+    margin-bottom: 0.5rem;
+}
+
+.calendar-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Calendar Controls (Month Navigation) */
+.calendar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.control-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+    background: #e8eaf6;
+    border-color: #1a237e;
+    color: #1a237e;
+}
+
+.current-month {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* Calendar Grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: #e0e0e0;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.calendar-day-header {
+    background: #1a237e;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.calendar-day {
+    background: white;
+    min-height: 120px;
+    padding: 0.5rem;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.calendar-day:hover {
+    background: #f8faff;
+}
+
+.calendar-day.empty {
+    background: #f9f9f9;
+    cursor: default;
+}
+
+.day-number {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: #444;
+}
+
+.is-today {
+    background-color: #e8eaf6;
+}
+
+.is-today .day-number {
+    color: #1a237e;
+    font-weight: 800;
+}
+
+/* Events within the calendar (dots or small bars) */
+.event-indicator {
+    display: block;
+    padding: 2px 6px;
+    margin-bottom: 2px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-drug-launch {
+    background-color: #2ecc71;
+}
+
+/* Green */
+.event-fda {
+    background-color: #e74c3c;
+}
+
+/* Red */
+.event-trial {
+    background-color: #3498db;
+}
+
+/* Blue */
+.event-audit {
+    background-color: #f1c40f;
+    color: #333;
+}
+
+/* Yellow */
+.event-advisory {
+    background-color: #9b59b6;
+}
+
+/* Purple */
+
+/* Schedule Button overlay on hover */
+.schedule-trigger {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #1a237e;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-day:hover .schedule-trigger {
+    display: flex;
+}
+
+/* Modal for Scheduling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header h2 {
+    color: #1a237e;
+    margin-bottom: 0.5rem;
+}
+
+.modal-date {
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.btn-cancel {
+    background: #f1f1f1;
+    color: #666;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-confirm {
+    background: #1a237e;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .calendar-day {
+        min-height: 80px;
+    }
+
+    .event-indicator {
+        font-size: 0.6rem;
+        padding: 1px 4px;
+    }
+
+    .calendar-container {
+        padding: 1rem;
+    }
+}
