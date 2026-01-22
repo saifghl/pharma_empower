@@ -32,7 +32,7 @@ export default function News() {
     <div className="news-page">
       {/* Header */}
       <div className="news-header">
-        <h1>Pharma Intelligence Hub</h1>
+        <h1>Pharma News</h1>
         <p className="tagline-animate">Your single source for verified pharma and medical insights</p>
       </div>
 

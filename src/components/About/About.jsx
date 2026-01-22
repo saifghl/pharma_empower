@@ -6,10 +6,13 @@ import Value from './Value';
 import Purpose from './Purpose';
 import aboutHeroImg from '../../images/about_hero.png';
 import './About.css';
+import { cmsAPI } from '../../services/api'; // ✅ ADD THIS
 
 const About = () => {
-  // CMS LOGIC
+
   const [activeModal, setActiveModal] = useState(null);
+
+  // CMS CONTENT STATE (unchanged structure)
   const [pageContent, setPageContent] = useState({
     hero: {
       title: 'About Us',
@@ -22,26 +25,21 @@ const About = () => {
     }
   });
 
+  // ✅ FETCH FROM DATABASE CMS
   useEffect(() => {
-    const saved = localStorage.getItem('site_full_content');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      if (parsed.about) {
+    cmsAPI.getPage('about')
+      .then(res => {
         setPageContent(prev => ({
-          hero: { ...prev.hero, ...parsed.about.hero },
-          details: { ...prev.details, ...parsed.about.details }
+          hero: { ...prev.hero, ...res.data.hero },
+          details: { ...prev.details, ...res.data.details }
         }));
-      }
-    }
+      })
+      .catch(() => {
+        console.warn('CMS About page not found, using defaults');
+      });
+
     window.scrollTo(0, 0);
   }, []);
-
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <div className="about-page">
@@ -55,8 +53,7 @@ const About = () => {
               <span className="highlight-text">Future of Pharmacy</span>
             </h1>
             <p style={{ fontSize: '1.2rem', color: '#555', marginTop: '20px', lineHeight: '1.6' }}>
-              We are dedicated to advancing the pharmaceutical profession through
-              innovation, education, and community building. Joining hands for a healthier tomorrow.
+              {pageContent.hero.subtitle}
             </p>
           </div>
           <div className="hero-image-content">
@@ -69,7 +66,7 @@ const About = () => {
         </div>
       </div>
 
-      {/* PRINCIPLES SECTION (Moved below Hero) */}
+      {/* PRINCIPLES SECTION */}
       <div id="principles">
         <Principles />
       </div>
@@ -118,9 +115,7 @@ const About = () => {
 
       </div>
 
-      {/* COMPONENT SECTIONS - NOW IN MODAL */}
-
-      {/* FLOATING MODAL WINDOW */}
+      {/* MODAL */}
       {activeModal && (
         <div className="about-modal-overlay" onClick={() => setActiveModal(null)}>
           <div className="about-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -130,26 +125,11 @@ const About = () => {
             <div className="about-modal-body">
               {activeModal === 'mission' && <Mission />}
               {activeModal === 'values' && <Value />}
-              {activeModal === 'purpose' && (
-                <section className="mission-section" style={{ padding: 0 }}>
-                  <div className="mission-container">
-                    <h2 className="mission-title">Our Purpose</h2>
-                    <p className="mission-description">
-                      Expanding equitable access to learning so every individual can grow,
-                      advance, and elevate the quality of patient care.
-                    </p>
-                    <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
-                      <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80" alt="Purpose" style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '12px', objectFit: 'cover' }} />
-                    </div>
-                  </div>
-                </section>
-              )}
+              {activeModal === 'purpose' && <Purpose />}
             </div>
           </div>
         </div>
       )}
-
-
 
     </div>
   );

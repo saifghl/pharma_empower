@@ -4,93 +4,105 @@ import { authAPI } from '../../services/api';
 import './Login.css';
 
 const Register = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        full_name: ''
+  const [formData, setFormData] = useState({
+    full_name: '',
+    email: '',
+    password: ''
+  });
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
     });
-    const navigate = useNavigate();
+  };
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try{
-        const response=await authAPI.register(formData)
-        if(response.data){
-               // Redirect to login page
-             navigate('/login');
-        }}catch(err){
-            console.log(err.message);
-        }
-    
-    };
+    try {
+      await authAPI.register(formData);
 
-    return (
-        <div className="login-page">
-            <div className="login-container">
-                <div className="login-card">
-                    <div className="login-header-section">
-                        <h2>Create Account</h2>
-                        <p>Join us to unlock exclusive content</p>
-                    </div>
+      alert('Registration successful. Please login.');
+      navigate('/login');
 
-                    <form onSubmit={handleSubmit} className="login-form-global">
-                        <div className="form-group">
-                            <label>Full Name</label>
-                            <input
-                                type="text"
-                                name="full_name"
-                                placeholder="John Doe"
-                                value={formData.full_name}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+    } catch (err) {
+      alert('Registration failed');
+    }
+  };
 
-                        <div className="form-group">
-                            <label>Email Address</label>
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="name@company.com"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+  return (
+    <div className="login-page">
+      <div className="login-container">
+        <div className="login-card">
 
-                        <div className="form-group">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="••••••••"
-                                value={formData.password}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+          <div className="login-header-section">
+            <h2>Create Account</h2>
+            <p>Register to get started</p>
+          </div>
 
-                        <button type="submit" className="login-submit-btn">
-                            Register
-                        </button>
-                    </form>
+          <form onSubmit={handleSubmit} className="login-form-global">
 
-                    <div className="login-footer-section">
-                        <p>
-                            Already have an account?
-                            <button type="button" className="toggle-btn" onClick={() => navigate('/login')}>
-                                Log In
-                            </button>
-                        </p>
-                    </div>
-                </div>
+            <div className="form-group">
+              <label>Full Name</label>
+              <input
+                type="text"
+                name="full_name"
+                value={formData.full_name}
+                onChange={handleChange}
+                placeholder="John Doe"
+                required
+              />
             </div>
+
+            <div className="form-group">
+              <label>Email Address</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="name@company.com"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                required
+              />
+            </div>
+
+            <button type="submit" className="login-submit-btn">
+              Register
+            </button>
+          </form>
+
+          <div className="login-footer-section">
+            <p>
+              Already have an account?
+              <button
+                type="button"
+                className="toggle-btn"
+                onClick={() => navigate('/login')}
+              >
+                Log In
+              </button>
+            </p>
+          </div>
+
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Register;

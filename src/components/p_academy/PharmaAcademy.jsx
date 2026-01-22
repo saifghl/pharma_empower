@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PharmaAcademy.css';
 import { Link } from 'react-router-dom';
+import { cmsAPI } from '../../services/api'; // ✅ ADD
 
 const PharmaAcademy = () => {
 
@@ -11,19 +12,24 @@ const PharmaAcademy = () => {
         bgImage: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80'
     });
 
-    React.useEffect(() => {
-        const saved = localStorage.getItem('site_full_content');
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            if (parsed.academy) {
-                setHeaderContent(prev => ({ ...prev, ...parsed.academy.hero }));
-            }
-        }
+    // ✅ FETCH FROM BACKEND CMS
+    useEffect(() => {
+        cmsAPI.getPage('academy')
+            .then(res => {
+                setHeaderContent(prev => ({
+                    ...prev,
+                    ...res.data.hero
+                }));
+            })
+            .catch(() => {
+                console.warn('Academy CMS not found, using default content');
+            });
     }, []);
 
     return (
         <div className="academy-page">
-            {/* HER HERO SECTION */}
+
+            {/* HERO SECTION */}
             <header
                 className="academy-hero"
                 style={{
@@ -33,11 +39,11 @@ const PharmaAcademy = () => {
                 }}
             >
                 <div className="hero-icon">
-                    {/* Placeholder for the ribbon icon in image 1 */}
                     <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                     </svg>
                 </div>
+
                 <h1>{headerContent.title}</h1>
                 <p className="hero-subtext tagline-animate">{headerContent.subtitle}</p>
                 <div className="academy-hero-divider"></div>
@@ -134,7 +140,6 @@ const PharmaAcademy = () => {
                     </div>
                 </div>
             </section>
-
 
         </div>
     );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './Forums.css';
+import { cmsAPI } from '../../services/api'; // ✅ ADD THIS
 
 /* =======================
    NETWORK CARD
@@ -50,7 +51,6 @@ const NetworkCard = ({
 ======================= */
 const ProfessionalNetwork = () => {
     const navigate = useNavigate();
-    const location = useLocation();
 
     const [headerContent, setHeaderContent] = useState({
         title: 'Professional Network',
@@ -59,13 +59,18 @@ const ProfessionalNetwork = () => {
             'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80'
     });
 
+    // ✅ FETCH CMS FROM BACKEND
     useEffect(() => {
-        const saved = localStorage.getItem('site_full_content');
-        if (!saved) return;
-        const parsed = JSON.parse(saved);
-        if (parsed?.network?.hero) {
-            setHeaderContent(prev => ({ ...prev, ...parsed.network.hero }));
-        }
+        cmsAPI.getPage('network')
+            .then(res => {
+                setHeaderContent(prev => ({
+                    ...prev,
+                    ...res.data.hero
+                }));
+            })
+            .catch(() => {
+                console.warn('Network CMS not found, using defaults');
+            });
     }, []);
 
     /* 🔑 LOGIN REDIRECT HANDLER */

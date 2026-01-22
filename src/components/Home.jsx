@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
-
 import homeHeroImg from "../images/home_hero.png";
+import { cmsAPI } from "../services/api"; // ✅ ADD
 
 export default function Home() {
 
@@ -16,30 +16,37 @@ export default function Home() {
         highlights: []
     });
 
-    // Scroll reveal animation & CMS Load
     useEffect(() => {
-        // CMS LOAD
-        const saved = localStorage.getItem('site_full_content');
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            if (parsed.home) {
+
+        /* ======================
+           CMS LOAD (BACKEND)
+        ====================== */
+        cmsAPI.getPage('home')
+            .then(res => {
+                const hero = res.data.hero || {};
+
                 setHomeContent(prev => ({
                     ...prev,
                     hero: {
                         ...prev.hero,
-                        title: parsed.home.hero.title || prev.hero.title,
-                        subtitle: parsed.home.hero.subtitle || prev.hero.subtitle,
-                        ctaText: parsed.home.hero.ctaText || prev.hero.ctaText,
-                        // Only use custom BG if provided, else image import
-                        bgImage: parsed.home.hero.bgImage && parsed.home.hero.bgImage.startsWith('http')
-                            ? parsed.home.hero.bgImage
-                            : homeHeroImg
+                        title: hero.title || prev.hero.title,
+                        subtitle: hero.subtitle || prev.hero.subtitle,
+                        ctaText: hero.ctaText || prev.hero.ctaText,
+                        bgImage:
+                            hero.bgImage && hero.bgImage.startsWith('http')
+                                ? hero.bgImage
+                                : homeHeroImg
                     },
-                    highlights: parsed.home.highlights || []
+                    highlights: res.data.highlights || []
                 }));
-            }
-        }
+            })
+            .catch(() => {
+                console.warn('Home CMS not found, using default content');
+            });
 
+        /* ======================
+           SCROLL ANIMATION
+        ====================== */
         const cards = document.querySelectorAll(".infographic-card");
 
         const observer = new IntersectionObserver(
@@ -56,16 +63,13 @@ export default function Home() {
         cards.forEach(card => observer.observe(card));
 
         return () => cards.forEach(card => observer.unobserve(card));
+
     }, []);
-
-
 
     return (
         <div>
-            {/* Fixed DNA Background */}
 
-
-            {/* HERO (Card Layout) */}
+            {/* HERO */}
             <section className="hero-section">
                 <div className="home-hero-card fade-in-up">
                     <div className="home-text-content">
@@ -81,21 +85,27 @@ export default function Home() {
 
                         <div className="hero-decoration-line" />
                     </div>
+
                     <div className="home-image-content">
-                        <img src={homeContent.hero.bgImage} alt="Pharma Global Connection" className="home-hero-img" />
+                        <img
+                            src={homeContent.hero.bgImage}
+                            alt="Pharma Global Connection"
+                            className="home-hero-img"
+                        />
                     </div>
                 </div>
             </section>
 
-            {/* MARQUEE SECTION */}
+            {/* MARQUEE */}
             <div className="marquee-section">
                 <div className="marquee-container-relative">
                     <div className="marquee-text">
-                        Empower Professionals with open Access &nbsp; • &nbsp; “The one-stop open platform for the pharma & healthcare community” &nbsp; • &nbsp; “Empowering all for better tomorrow….Beyond Boundaries"
+                        Empower Professionals with open Access &nbsp; • &nbsp;
+                        “The one-stop open platform for the pharma & healthcare community” &nbsp; • &nbsp;
+                        “Empowering all for better tomorrow….Beyond Boundaries"
                     </div>
                 </div>
             </div>
-
 
             {/* BRAND STATEMENT */}
             <section className="intro-section">
@@ -107,11 +117,8 @@ export default function Home() {
                 </p>
             </section>
 
-
-
             {/* PATHWAYS */}
             <section className="pathways-section">
-
                 <div className="pathways-container">
 
                     <h2 className="section-heading">Explore Our Empower Pathways</h2>
@@ -121,7 +128,7 @@ export default function Home() {
                         collaboration designed for the pharma & healthcare community.
                     </p>
 
-
+                    {/* 🔥 REST OF JSX UNCHANGED */}
                     <div className="infographic-grid">
 
                         {/* ABOUT */}
@@ -263,3 +270,4 @@ export default function Home() {
         </div>
     );
 }
+

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ContactUs.css';
-import { contactAPI } from '../services/api'; // ✅ correct path
+import { contactAPI, cmsAPI } from '../services/api'; // ✅ added cmsAPI
 
 const ContactUs = () => {
 
-    // CMS LOGIC
+    // CMS CONTENT STATE (same structure, no UI change)
     const [pageContent, setPageContent] = useState({
         hero: {
             title: 'Ready to Connect',
@@ -18,19 +18,21 @@ const ContactUs = () => {
         }
     });
 
-    React.useEffect(() => {
-        const saved = localStorage.getItem('site_full_content');
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            if (parsed.contact) {
+    // ✅ FETCH FROM CMS (DATABASE)
+    useEffect(() => {
+        cmsAPI.getPage('contact')
+            .then(res => {
                 setPageContent(prev => ({
-                    hero: { ...prev.hero, ...parsed.contact.hero },
-                    info: { ...prev.info, ...parsed.contact.info }
+                    hero: { ...prev.hero, ...res.data.hero },
+                    info: { ...prev.info, ...res.data.info }
                 }));
-            }
-        }
+            })
+            .catch(err => {
+                console.warn('CMS Contact page not found, using defaults');
+            });
     }, []);
 
+    // CONTACT FORM STATE
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -57,7 +59,7 @@ const ContactUs = () => {
                 name: formData.name,
                 email: formData.email,
                 subject: formData.subject,
-                organization_need: formData.organizationalNeed, // ✅ FIX
+                organization_need: formData.organizationalNeed, // ✅ backend match
                 message: formData.message
             });
 
@@ -80,6 +82,7 @@ const ContactUs = () => {
 
     return (
         <div className="contact-container">
+
             <div
                 className="contact-header"
                 style={{
@@ -95,7 +98,11 @@ const ContactUs = () => {
             </div>
 
             <div className="contact-info-bar" style={{ textAlign: 'center', padding: '2rem 0', background: '#f7fafc' }}>
-                <p><strong>Email:</strong> {pageContent.info.email} &nbsp;|&nbsp; <strong>Phone:</strong> {pageContent.info.phone}</p>
+                <p>
+                    <strong>Email:</strong> {pageContent.info.email}
+                    &nbsp;|&nbsp;
+                    <strong>Phone:</strong> {pageContent.info.phone}
+                </p>
                 <p><strong>Address:</strong> {pageContent.info.address}</p>
             </div>
 
@@ -106,35 +113,17 @@ const ContactUs = () => {
 
                     <div className="form-group">
                         <label>Name *</label>
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                        />
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
                     </div>
 
                     <div className="form-group">
                         <label>Email *</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
+                        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
                     </div>
 
                     <div className="form-group">
                         <label>Subject *</label>
-                        <input
-                            type="text"
-                            name="subject"
-                            value={formData.subject}
-                            onChange={handleChange}
-                            required
-                        />
+                        <input type="text" name="subject" value={formData.subject} onChange={handleChange} required />
                     </div>
 
                     <div className="form-group">

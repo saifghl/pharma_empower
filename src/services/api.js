@@ -30,16 +30,24 @@ export const skillAPI = {
 };
 
 /* ================= COMMUNITY ================= */
+/* ================= COMMUNITY ================= */
 export const communityAPI = {
   // USER
   getQA: () => api.get('/api/community/public'),
-  askQuestion: (data) => api.post('/api/community/ask'),
 
-  // ADMIN ✅ FIXED PATHS
+  // ✅ FIXED
+  askQuestion: (data) =>
+    api.post('/api/community/ask', {
+      name: data.name,
+      query: data.query,
+    }),
+
+  // ADMIN
   getAllAdmin: () => api.get('/api/admin/community/pending'),
   answerQuestion: (id, data) =>
     api.put(`/api/admin/community/answer/${id}`, data),
 };
+
 
 /* ================= USER ACCESS CONTROL ================= */
 export const userAPI = {

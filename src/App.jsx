@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import Forums from './components/forums/Forums';
+
 import Navbar from './components/navbar';
 import Footer from './components/Footer';
 import Home from './components/Home';
@@ -64,6 +66,8 @@ function App() {
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/academy" element={<PharmaAcademy />} />
             <Route path="/network" element={<ProfessionalNetwork />} />
+            <Route path="/forums" element={<Forums />} />
+
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/skill-board" element={<SkillBoard />} />
@@ -78,6 +82,7 @@ function App() {
             <Route path="/session" element={<StudentSession />} />
             <Route path="/intelligence-hub/news" element={<News />} />
             <Route path="/events" element={<Events />} />
+            
           </Route>
 
           {/* ADMIN ROUTES */}
@@ -98,4 +103,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;  
