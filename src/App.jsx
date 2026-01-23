@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
-import Forums from './components/forums/Forums';
 
+import Forums from './components/forums/Forums';
 import Navbar from './components/navbar';
 import Footer from './components/Footer';
 import Home from './components/Home';
@@ -43,6 +43,8 @@ import DNAAnimation from './components/DNAAnimation';
 import Events from './components/Events/Events';
 import AdminEvents from './components/Admin/AdminEvents';
 import UserManagement from './components/Admin/UserManagement';
+import Calendar from './components/forums/calender';
+
 
 function App() {
   return (
@@ -74,8 +76,6 @@ function App() {
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/academy" element={<PharmaAcademy />} />
             <Route path="/network" element={<ProfessionalNetwork />} />
-            <Route path="/forums" element={<Forums />} />
-
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/skill-board" element={<SkillBoard />} />
@@ -90,7 +90,9 @@ function App() {
             <Route path="/session" element={<StudentSession />} />
             <Route path="/intelligence-hub/news" element={<News />} />
             <Route path="/events" element={<Events />} />
-            
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/expert" element={<Calendar />} /> 
+            <Route path="/forums" element={<Forums />} />
           </Route>
 
           {/* ADMIN ROUTES */}
@@ -111,4 +113,4 @@ function App() {
   );
 }
 
-export default App;  
+export default App;
