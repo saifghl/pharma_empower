@@ -31,7 +31,6 @@ export const skillAPI = {
 };
 
 /* ================= COMMUNITY ================= */
-/* ================= COMMUNITY ================= */
 export const communityAPI = {
   // USER
   getQA: () => api.get('/api/community/public'),
@@ -79,6 +78,15 @@ export const adminAPI = {
   sendNotification: (data) => api.post('/admin/notification', data),
   getNotifications: () => api.get('/admin/notification'),
 };
+
+/* ================= CALENDAR ================= */
+export const calendarAPI = {
+  createRequest: (data) => api.post('/api/calendar/requests', data),
+  getAdminRequests: () => api.get('/api/calendar/admin/requests'),
+  updateStatus: (data) =>
+    api.put('/api/calendar/admin/update-status', data),
+};
+
 
 /* ================= APPOINTMENT ================= */
 export const appointmentAPI = {

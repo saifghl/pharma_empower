@@ -7,6 +7,8 @@ const path = require('path');
 require("./services/pharmaNewsCron");
 
 // Routes
+const calendarRoutes = require('./routes/calendarRoutes');
+
 const authRoutes = require('./routes/authRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
@@ -50,7 +52,12 @@ pool.getConnection()
         console.error('❌ Database connection failed:', err);
     });
 
+    
+
 /* ================= ROUTES ================= */
+
+app.use('/api/calendar', calendarRoutes);
+
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/admin/dashboard', dashboardRoutes);

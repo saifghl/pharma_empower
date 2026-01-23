@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom
 import './App.css';
 
 /* ===== COMMON COMPONENTS ===== */
+import AdminCalendarRequests from './components/Admin/AdminCalendarRequests';
+
 import Navbar from './components/navbar';
 import Footer from './components/Footer';
 import NotificationBanner from './components/NotificationBanner';
@@ -139,6 +141,8 @@ function App() {
             <Route path="chat-enquiries" element={<ChatManagement />} />
             <Route path="events-control" element={<AdminEvents />} />
             <Route path="access-control" element={<UserManagement />} />
+            <Route path="/admin/calendar-requests" element={<AdminCalendarRequests />} />
+
           </Route>
         </Routes>
       </div>

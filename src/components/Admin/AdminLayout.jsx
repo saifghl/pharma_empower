@@ -64,6 +64,11 @@ const AdminLayout = () => {
                         Chat Queries
                     </NavLink>
 
+                    <NavLink to="/admin/calendar-requests" className="sidebar-link">
+    Expert Scheduling
+</NavLink>
+
+
                     <NavLink to="/admin/access-control" className="sidebar-link">
                         Access Control
                     </NavLink>
