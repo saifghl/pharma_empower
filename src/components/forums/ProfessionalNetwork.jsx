@@ -127,7 +127,7 @@ const ProfessionalNetwork = () => {
                             icon="🏆"
                             title="Expert Engagement"
                             description="Live expert Q&A."
-                            onClick={() => requireLogin('/expert')}
+                            onClick={() => requireLogin('/calendar')}
                             linkText="View Calendar →"
                         />
 

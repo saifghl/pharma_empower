@@ -121,7 +121,8 @@ const Navbar = () => {
                   className="nav-link dropdown-trigger"
                   onClick={(e) => toggleDropdown(e, "intelligence")}
                 >
-                  Intelligence Hub
+
+                  Pharma News
                 </a>
                 <div
                   className={`dropdown-menu ${activeDropdown === "intelligence" ? "visible" : ""
@@ -223,7 +224,7 @@ const Navbar = () => {
                       style={{ gridTemplateColumns: "repeat(4, 1fr)" }}
                     >
                       <Link
-                        to="/academy#glance"
+                        to="/academy/glance"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >
@@ -233,7 +234,7 @@ const Navbar = () => {
                         </span>
                       </Link>
                       <Link
-                        to="/academy#career"
+                        to="/academy/career-stages"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >
@@ -241,7 +242,7 @@ const Navbar = () => {
                         <span className="card-text">Core Career Stage</span>
                       </Link>
                       <Link
-                        to="/academy#upskill"
+                        to="/academy/upskill"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >
@@ -249,7 +250,7 @@ const Navbar = () => {
                         <span className="card-text">Upskill Resources</span>
                       </Link>
                       <Link
-                        to="/academy#hunting"
+                        to="/academy/hunting-resources"
                         className="dropdown-card"
                         onClick={closeDropdown}
                       >

@@ -1,0 +1,39 @@
+.glance-section {
+    padding: 60px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.glance-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.glance-title {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.glance-tagline {
+    color: #667eea;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.glance-description {
+    color: #34495e;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.highlight-text {
+    color: #6c5ce7;
+    font-weight: 600;
+}

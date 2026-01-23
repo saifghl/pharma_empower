@@ -1,0 +1,39 @@
+.upskill-section {
+    padding: 60px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.upskill-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.upskill-title {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.upskill-tagline {
+    color: #667eea;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.upskill-description {
+    color: #34495e;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 15px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.upskill-content-block {
+    margin-top: 30px;
+    text-align: center;
+}

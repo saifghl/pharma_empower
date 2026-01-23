@@ -51,6 +51,7 @@ const PharmaAcademy = () => {
                 <Link to="/login" className="hero-login-btn">
                     Login to Enroll / Access Courses
                 </Link>
+
             </header>
 
             {/* INTRO SECTION */}

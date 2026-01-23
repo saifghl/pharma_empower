@@ -1,0 +1,61 @@
+.hunting-section {
+    padding: 60px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.hunting-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hunting-title {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.hunting-tagline {
+    color: #667eea;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.hunting-description {
+    color: #34495e;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 15px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hunting-content-block {
+    margin-top: 30px;
+    text-align: left;
+    /* Lists look better left-aligned, but container ensures it's centered on page */
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hunting-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 15px;
+}
+
+.hunting-list li {
+    color: #34495e;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 10px;
+}
+
+.platform-name {
+    color: #0984e3;
+    font-weight: 700;
+}

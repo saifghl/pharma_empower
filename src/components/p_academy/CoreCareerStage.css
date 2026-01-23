@@ -1,0 +1,46 @@
+.career-section {
+    padding: 60px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.career-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.career-title {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.career-tagline {
+    color: #667eea;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.career-description {
+    color: #34495e;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 15px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.highlight-text {
+    color: #0984e3;
+    font-weight: 600;
+}
+
+.career-content-block {
+    margin-top: 30px;
+    text-align: left;
+    /* Optional: keep list-like text centered or left? Mission is all centered, but lists read better left. Keeping centered for strict 'Mission' style compliance but text-align left for readability if it's bullet-ish. Let's keep strict center for now as requested "waisa rkho". */
+    text-align: center;
+}
