@@ -8,7 +8,6 @@ require("./services/pharmaNewsCron");
 
 // Routes
 const calendarRoutes = require('./routes/calendarRoutes');
-
 const authRoutes = require('./routes/authRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
@@ -17,8 +16,6 @@ const sessionRoutes = require("./routes/sessionRoutes");
 const eventRoutes = require('./routes/eventRoutes');
 const userRoutes = require('./routes/userRoutes');
 const communityRoutes = require('./routes/communityRoutes');
-
-
 
 // DB
 const pool = require('./config/db');
@@ -31,17 +28,29 @@ app.get("/", (req, res) => {
     res.status(200).send("Pharma Empower Backend is running 🚀");
 });
 
-// ✅ Proper CORS (LOCAL + DEPLOY)
+// ✅ Proper CORS (LOCAL + DEPLOY FRONTEND)
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://pharma-empowerr.onrender.com',   // backend URL
+    'https://static-site-8s17.onrender.com'   // deployed frontend URL
+];
+
 app.use(cors({
-    origin: [
-        'http://localhost:3000',
-        'https://pharma-empowerr.onrender.com'
-    ],
+    origin: function(origin, callback) {
+        // allow requests with no origin (like mobile apps, Postman)
+        if(!origin) return callback(null, true);
+        if(allowedOrigins.indexOf(origin) === -1) {
+            const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
     credentials: true
 }));
 
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 /* ================= DB TEST ================= */
 pool.getConnection()
     .then(connection => {
@@ -52,12 +61,8 @@ pool.getConnection()
         console.error('❌ Database connection failed:', err);
     });
 
-    
-
 /* ================= ROUTES ================= */
-
 app.use('/api/calendar', calendarRoutes);
-
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/admin/dashboard', dashboardRoutes);
@@ -68,8 +73,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/community', communityRoutes);
 app.use('/api/pages', require('./routes/pageRoutes'));
 app.use('/api/admin/community', require('./routes/communityAdminRoutes'));
-
-
 
 /* ================= HEALTH CHECK ================= */
 app.get('/api/health', (req, res) => {
