@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 // ✅ Render backend URL (IMPORTANT: no localhost)
-const API_BASE_URL = 'http://localhost:5000'; // Changed to local for dev, revert before deploy
+//const API_BASE_URL = 'http://localhost:5000'; // Changed to local for dev, revert before deploy
+// ✅ Render backend URL (IMPORTANT: no localhost)
+const API_BASE_URL = 'https://pharma-empowerr.onrender.com';
+
 
 const api = axios.create({
   baseURL: API_BASE_URL,
