@@ -60,5 +60,25 @@ router.put('/admin/update-status', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+/* ================= USER: GET OWN BOOKINGS ================= */
+router.get('/user/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const [rows] = await pool.execute(
+            `SELECT booking_date, booking_type, status
+             FROM calendar_requests
+             WHERE user_id = ?
+             ORDER BY booking_date ASC`,
+            [id]
+        );
+
+        res.json(rows); // ✅ MUST RETURN JSON
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Failed to fetch bookings' });
+    }
+});
+
 
 module.exports = router;
