@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './calender.css';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle, XCircle, Clock } from 'lucide-react'; // ✅ ADD
 
 const API_BASE = (
   process.env.REACT_APP_API_URL || 'http://localhost:5000'
@@ -20,10 +19,10 @@ const Calendar = () => {
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
 
-    /* ================= FETCH USER BOOKINGS ================= */
+    /* ================= FETCH USER BOOKINGS (FIXED) ================= */
     const fetchBookings = async () => {
         const user = JSON.parse(localStorage.getItem('user'));
-        if (!user?.id) return;
+        if (!user?.id) return [];
 
         try {
             const res = await fetch(`${API_BASE}/api/calendar/user/${user.id}`);
@@ -39,12 +38,14 @@ const Calendar = () => {
                         : item.booking_type === 'regulatory'
                         ? 'Regulatory Advisory'
                         : 'Technical Review',
-                status: item.status // ✅ pending | approved | rejected
+                status: item.status // pending | approved | rejected
             }));
 
             setEvents(formatted);
+            return formatted; // ✅ IMPORTANT
         } catch (err) {
             console.error('Fetch booking error:', err);
+            return [];
         }
     };
 
@@ -52,7 +53,20 @@ const Calendar = () => {
         fetchBookings();
     }, []);
 
-    /* ================= DATE CLICK ================= */
+    /* ================= CALENDAR HELPERS ================= */
+    const getDaysInMonth = (date) =>
+        new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+
+    const getFirstDayOfMonth = (date) =>
+        new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+
+    const handlePrevMonth = () =>
+        setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+
+    const handleNextMonth = () =>
+        setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+
+    /* ================= DATE CLICK (FIXED) ================= */
     const handleDayClick = async (day) => {
         const clickedDate = new Date(
             currentDate.getFullYear(),
@@ -62,29 +76,54 @@ const Calendar = () => {
 
         const dateStr = clickedDate.toISOString().split('T')[0];
 
-        await fetchBookings(); // ✅ refresh latest admin decision
-
-        const updatedEvent = events.find(e => e.date === dateStr) || null;
+        const latestEvents = await fetchBookings(); // ✅ FIX
+        const updatedEvent = latestEvents.find(e => e.date === dateStr) || null;
 
         setSelectedDate(clickedDate);
         setSelectedEvent(updatedEvent);
         setShowModal(true);
     };
 
-    /* ================= CALENDAR GRID ================= */
+    /* ================= SUBMIT BOOKING ================= */
+    const handleScheduleSubmit = async (e) => {
+        e.preventDefault();
+        if (selectedEvent) return;
+
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user?.id) {
+            alert('Please login first');
+            return;
+        }
+
+        const payload = {
+            user_id: user.id,
+            booking_date: selectedDate.toISOString().split('T')[0],
+            booking_type: bookingType,
+            notes
+        };
+
+        try {
+            const res = await fetch(`${API_BASE}/api/calendar/requests`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) throw new Error();
+
+            alert('Booking request sent');
+            setShowModal(false);
+            setNotes('');
+            fetchBookings(); // refresh
+        } catch {
+            alert('Failed to submit booking request');
+        }
+    };
+
+    /* ================= RENDER CALENDAR ================= */
     const renderCalendarGrid = () => {
-        const daysInMonth = new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth() + 1,
-            0
-        ).getDate();
-
-        const firstDay = new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth(),
-            1
-        ).getDay();
-
+        const daysInMonth = getDaysInMonth(currentDate);
+        const firstDay = getFirstDayOfMonth(currentDate);
         const days = [];
 
         for (let i = 0; i < firstDay; i++) {
@@ -97,7 +136,6 @@ const Calendar = () => {
             ).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
             const dayEvents = events.filter(e => e.date === dateStr);
-
             const isToday =
                 today.toDateString() ===
                 new Date(currentDate.getFullYear(), currentDate.getMonth(), day).toDateString();
@@ -113,10 +151,9 @@ const Calendar = () => {
                     <div className="day-events">
                         {dayEvents.map((ev, idx) => (
                             <div key={idx} className={`event-indicator ${ev.status}`}>
-                                {ev.status === 'approved' && <CheckCircle size={14} color="green" />}
-                                {ev.status === 'rejected' && <XCircle size={14} color="red" />}
-                                {ev.status === 'pending' && <Clock size={14} color="orange" />}
-                                <span>{ev.title}</span>
+                                {ev.status === 'approved' && '✔ '}
+                                {ev.status === 'rejected' && '✖ '}
+                                {ev.title}
                             </div>
                         ))}
                     </div>
@@ -128,9 +165,38 @@ const Calendar = () => {
         return days;
     };
 
+    const monthNames = [
+        "January","February","March","April","May","June",
+        "July","August","September","October","November","December"
+    ];
+
     return (
         <div className="calendar-container">
-            {/* UI SAME AS BEFORE */}
+            <div className="calendar-header-section">
+                <h1>Pharma Expert Calendar</h1>
+                <p className="calendar-subtitle">
+                    Visualize key milestones and schedule expert consultations.
+                </p>
+            </div>
+
+            <div className="calendar-controls">
+                <button className="control-btn" onClick={handlePrevMonth}>&lt; Prev</button>
+                <div className="current-month">
+                    {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+                </div>
+                <button className="control-btn" onClick={handleNextMonth}>Next &gt;</button>
+            </div>
+
+            <div className="calendar-grid">
+                <div className="calendar-day-header">Sun</div>
+                <div className="calendar-day-header">Mon</div>
+                <div className="calendar-day-header">Tue</div>
+                <div className="calendar-day-header">Wed</div>
+                <div className="calendar-day-header">Thu</div>
+                <div className="calendar-day-header">Fri</div>
+                <div className="calendar-day-header">Sat</div>
+                {renderCalendarGrid()}
+            </div>
 
             {showModal && (
                 <div className="modal-overlay" onClick={() => setShowModal(false)}>
@@ -142,20 +208,49 @@ const Calendar = () => {
                             </p>
 
                             {selectedEvent && (
-                                <p style={{ fontWeight: 'bold', marginTop: '8px' }}>
-                                    Status:&nbsp;
-                                    {selectedEvent.status === 'approved' && (
-                                        <span style={{ color: 'green' }}>✔ Approved</span>
-                                    )}
-                                    {selectedEvent.status === 'rejected' && (
-                                        <span style={{ color: 'red' }}>✖ Rejected</span>
-                                    )}
-                                    {selectedEvent.status === 'pending' && (
-                                        <span style={{ color: 'orange' }}>⏳ Pending</span>
-                                    )}
+                                <p style={{ fontWeight: 'bold', marginTop: '6px' }}>
+                                    Status: {selectedEvent.status.toUpperCase()}
                                 </p>
                             )}
                         </div>
+
+                        {!selectedEvent && (
+                            <form onSubmit={handleScheduleSubmit}>
+                                <div className="form-group">
+                                    <label>Session Type</label>
+                                    <select
+                                        value={bookingType}
+                                        onChange={(e) => setBookingType(e.target.value)}
+                                    >
+                                        <option value="consultation">1:1 Expert Consultation</option>
+                                        <option value="regulatory">Regulatory Advisory</option>
+                                        <option value="technical">Technical Review</option>
+                                    </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Topic / Notes</label>
+                                    <textarea
+                                        rows="3"
+                                        value={notes}
+                                        onChange={(e) => setNotes(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="modal-actions">
+                                    <button
+                                        type="button"
+                                        className="btn-cancel"
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button type="submit" className="btn-confirm">
+                                        Request Booking
+                                    </button>
+                                </div>
+                            </form>
+                        )}
                     </div>
                 </div>
             )}
