@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Send, CheckCircle, Clock } from 'lucide-react';
-import { communityAPI } from '../../services/api'; // ✅ USE AXIOS INSTANCE
+import { communityAPI } from '../../services/api';
 
 const ChatManagement = () => {
 
@@ -10,7 +10,6 @@ const ChatManagement = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    // 🔹 Fetch pending questions
     useEffect(() => {
         const loadEnquiries = async () => {
             try {
@@ -42,7 +41,6 @@ const ChatManagement = () => {
         setReplyText("");
     };
 
-    // 🔹 Submit answer
     const handleSubmitReply = async (id) => {
         if (!replyText.trim()) return;
 
@@ -64,8 +62,6 @@ const ChatManagement = () => {
             alert("Answer submission failed");
         }
     };
-
-    /* ===== styles unchanged ===== */
 
     if (loading) return <div style={{ padding: '2rem' }}>Loading enquiries...</div>;
     if (error) return <div style={{ padding: '2rem' }}>❌ {error}</div>;
