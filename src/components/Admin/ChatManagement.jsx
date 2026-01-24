@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Send, CheckCircle, Clock } from 'lucide-react';
 
-const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5000";
+// ⚠️ IMPORTANT: This MUST exist in Render Environment Variables
+const API_BASE = process.env.REACT_APP_API_URL;
 
 const ChatManagement = () => {
 
@@ -13,7 +14,15 @@ const ChatManagement = () => {
 
     // 🔹 Fetch pending questions
     useEffect(() => {
-        fetch(`${API_BASE}/api/admin/community/pending`)
+        if (!API_BASE) {
+            setError("API URL not configured");
+            setLoading(false);
+            return;
+        }
+
+        fetch(`${API_BASE}/api/admin/community/pending`, {
+            credentials: "include"
+        })
             .then(res => {
                 if (!res.ok) throw new Error("Failed to load enquiries");
                 return res.json();
@@ -31,7 +40,8 @@ const ChatManagement = () => {
                 setLoading(false);
             })
             .catch(err => {
-                setError(err.message);
+                console.error("Fetch error:", err);
+                setError("Unable to fetch enquiries");
                 setLoading(false);
             });
     }, []);
@@ -51,6 +61,7 @@ const ChatManagement = () => {
                 {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
+                    credentials: "include",
                     body: JSON.stringify({ answer: replyText })
                 }
             );
@@ -68,7 +79,8 @@ const ChatManagement = () => {
             setAnsweringId(null);
             setReplyText("");
         } catch (err) {
-            alert(err.message);
+            console.error("Submit error:", err);
+            alert("Answer submission failed");
         }
     };
 
