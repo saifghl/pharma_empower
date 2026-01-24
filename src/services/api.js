@@ -1,20 +1,20 @@
 import axios from 'axios';
 
-/* ================= BASE URL (DEPLOY + LOCAL SAFE) ================= */
+/* ================= BASE URL ================= */
 const API_BASE_URL = (
   process.env.REACT_APP_API_URL ||
   'https://pharma-empowerr.onrender.com'
-).replace(/\/$/, ''); // 🔥 removes trailing slash safely
+).replace(/\/$/, '');
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  withCredentials: true, // ✅ REQUIRED for auth & admin routes
+  withCredentials: false, // ✅ safer (you use Bearer token, not cookies)
 });
 
 /* ================= TOKEN INTERCEPTOR ================= */
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token'); // SAME token for user & admin
+    const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -25,8 +25,8 @@ api.interceptors.request.use(
 
 /* ================= AUTH ================= */
 export const authAPI = {
-  register: (userData) => api.post('/api/auth/register', userData),
-  login: (credentials) => api.post('/api/auth/login', credentials),
+  register: (data) => api.post('/api/auth/register', data),
+  login: (data) => api.post('/api/auth/login', data),
 };
 
 /* ================= SKILLS ================= */
@@ -38,7 +38,6 @@ export const skillAPI = {
 
 /* ================= COMMUNITY ================= */
 export const communityAPI = {
-  // USER
   getQA: () => api.get('/api/community/public'),
 
   askQuestion: (data) =>
@@ -47,13 +46,12 @@ export const communityAPI = {
       query: data.query,
     }),
 
-  // ADMIN
   getAllAdmin: () => api.get('/api/admin/community/pending'),
   answerQuestion: (id, data) =>
     api.put(`/api/admin/community/answer/${id}`, data),
 };
 
-/* ================= USER ACCESS CONTROL ================= */
+/* ================= USERS ================= */
 export const userAPI = {
   getAllUsers: () => api.get('/api/users'),
   updateUserRole: (id, role) =>
@@ -70,15 +68,15 @@ export const cmsAPI = {
 
 /* ================= VIDEO ================= */
 export const videoAPI = {
-  getAll: () => api.get('/video'),
-  add: (data) => api.post('/video', data),
+  getAll: () => api.get('/api/video'),
+  add: (data) => api.post('/api/video', data),
 };
 
 /* ================= ADMIN ================= */
 export const adminAPI = {
-  addPatient: (data) => api.post('/admin/addpatient', data),
-  sendNotification: (data) => api.post('/admin/notification', data),
-  getNotifications: () => api.get('/admin/notification'),
+  addPatient: (data) => api.post('/api/admin/addpatient', data),
+  sendNotification: (data) => api.post('/api/admin/notification', data),
+  getNotifications: () => api.get('/api/admin/notification'),
 };
 
 /* ================= CALENDAR ================= */
@@ -91,9 +89,9 @@ export const calendarAPI = {
 
 /* ================= APPOINTMENT ================= */
 export const appointmentAPI = {
-  takeAppointment: (data) => api.post('/appointment', data),
-  getAllAppointments: () => api.get('/appointment'),
-  deleteAppointment: (id) => api.delete(`/appointment/${id}`),
+  takeAppointment: (data) => api.post('/api/appointment', data),
+  getAllAppointments: () => api.get('/api/appointment'),
+  deleteAppointment: (id) => api.delete(`/api/appointment/${id}`),
 };
 
 /* ================= EVENTS ================= */
@@ -105,14 +103,14 @@ export const eventAPI = {
 
 /* ================= CHAT ================= */
 export const chatApi = {
-  sendChat: (message) => api.post('/chat', message),
-  getChat: () => api.get('/chat'),
+  sendChat: (message) => api.post('/api/chat', message),
+  getChat: () => api.get('/api/chat'),
 };
 
 /* ================= ENQUIRY ================= */
 export const inquiryAPI = {
-  createInquiry: (data) => api.post('/enquiries', data),
-  getAllEnquiries: () => api.get('/enquiries'),
+  createInquiry: (data) => api.post('/api/enquiries', data),
+  getAllEnquiries: () => api.get('/api/enquiries'),
 };
 
 /* ================= NEWS ================= */
