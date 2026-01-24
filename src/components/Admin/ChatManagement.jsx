@@ -1,194 +1,198 @@
-import React, { useState, useEffect } from 'react';
-import { Save, Globe, Star, Plus, Trash2, Image as ImageIcon, Type } from 'lucide-react';
-import './ContentManagement.css';
-import { cmsAPI } from '../../services/api';
+import React, { useEffect, useState } from 'react';
+import { Send, CheckCircle, Clock } from 'lucide-react';
+import { communityAPI } from '../../services/api';
 
-/* ================= DEFAULT FALLBACK ================= */
-const DEFAULT_CONTENT = {
-    home: {
-        hero: {
-            title: 'Empowering the Future of Pharmacy',
-            subtitle: 'Connect, Learn, and Grow with the leading platform for pharmaceutical professionals.',
-            ctaText: 'Get Started',
-            bgImage: ''
-        },
-        highlights: []
-    },
-    about: {
-        hero: { title: '', subtitle: '', bgImage: '' },
-        details: { mission: '', vision: '' }
-    },
-    academy: { hero: { title: '', subtitle: '', bgImage: '' } },
-    empower: { hero: { title: '', subtitle: '', bgImage: '' } },
-    network: { hero: { title: '', subtitle: '', bgImage: '' } },
-    contact: {
-        hero: { title: '', subtitle: '', bgImage: '' },
-        info: { email: '', phone: '', address: '' }
-    }
-};
+const ChatManagement = () => {
+    const [enquiries, setEnquiries] = useState([]);
+    const [answeringId, setAnsweringId] = useState(null);
+    const [replyText, setReplyText] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-const ContentManagement = () => {
-    const [selectedPage, setSelectedPage] = useState('home');
-    const [content, setContent] = useState(DEFAULT_CONTENT);
-    const [isLoading, setIsLoading] = useState(false);
-
-    /* ================= LOAD PAGE CONTENT ================= */
+    // 🔹 Fetch pending questions (ADMIN)
     useEffect(() => {
-        const fetchContent = async () => {
-            setIsLoading(true);
+        const fetchPending = async () => {
             try {
-                const res = await cmsAPI.getPage(selectedPage);
+                const res = await communityAPI.getAllAdmin();
 
-                setContent(prev => ({
-                    ...prev,
-                    [selectedPage]: {
-                        ...prev[selectedPage],
-                        ...res.data,
-                        hero: {
-                            ...prev[selectedPage].hero,
-                            ...(res.data?.hero || {})
-                        }
-                    }
+                const formatted = res.data.map(q => ({
+                    id: q.id,
+                    user: q.user_name || "Anonymous",
+                    question: q.question,
+                    date: q.created_at?.split("T")[0],
+                    status: q.answer ? "Answered" : "Pending",
+                    answer: q.answer || ""
                 }));
+
+                setEnquiries(formatted);
             } catch (err) {
-                console.warn(`Using default content for ${selectedPage}`);
+                console.error(err);
+                setError("Failed to load community enquiries");
             } finally {
-                setIsLoading(false);
+                setLoading(false);
             }
         };
 
-        fetchContent();
-    }, [selectedPage]);
+        fetchPending();
+    }, []);
 
-    /* ================= SAVE ================= */
-    const handleSave = async () => {
+    const handleReplyClick = (id) => {
+        setAnsweringId(id);
+        setReplyText("");
+    };
+
+    // 🔹 Submit answer
+    const handleSubmitReply = async (id) => {
+        if (!replyText.trim()) return;
+
         try {
-            await cmsAPI.updatePage(selectedPage, content[selectedPage]);
-            alert('Content updated successfully ✅');
+            await communityAPI.answerQuestion(id, { answer: replyText });
+
+            setEnquiries(prev =>
+                prev.map(enq =>
+                    enq.id === id
+                        ? { ...enq, status: "Answered", answer: replyText }
+                        : enq
+                )
+            );
+
+            setAnsweringId(null);
+            setReplyText("");
         } catch (err) {
-            alert('Failed to save content ❌');
+            alert("Failed to submit answer");
         }
     };
 
-    /* ================= UPDATE FIELD ================= */
-    const updateField = (section, field, value) => {
-        setContent(prev => ({
-            ...prev,
-            [selectedPage]: {
-                ...prev[selectedPage],
-                [section]: {
-                    ...prev[selectedPage][section],
-                    [field]: value
-                }
-            }
-        }));
+    /* ================= STYLES ================= */
+    const styles = {
+        container: {
+            padding: '2rem',
+            backgroundColor: '#f8f9fa',
+            minHeight: '100vh'
+        },
+        header: {
+            marginBottom: '2rem'
+        },
+        title: {
+            fontSize: '24px',
+            fontWeight: '600',
+            color: '#333'
+        },
+        card: {
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
+            overflow: 'hidden'
+        },
+        th: {
+            padding: '1rem',
+            backgroundColor: '#f1f3f5',
+            color: '#666',
+            fontWeight: '600'
+        },
+        statusBadge: (status) => ({
+            padding: '4px 12px',
+            borderRadius: '20px',
+            fontSize: '12px',
+            backgroundColor: status === 'Answered' ? '#d3f9d8' : '#fff3bf',
+            color: status === 'Answered' ? '#2b8a3e' : '#f08c00',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '4px'
+        }),
+        replyInput: {
+            width: '100%',
+            padding: '8px',
+            borderRadius: '6px',
+            border: '1px solid #ddd',
+            marginBottom: '8px'
+        },
+        actionBtn: {
+            padding: '6px 12px',
+            borderRadius: '6px',
+            border: 'none',
+            backgroundColor: '#228be6',
+            color: 'white',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px'
+        }
     };
 
-    /* ================= HIGHLIGHTS ================= */
-    const [newHighlight, setNewHighlight] = useState({ title: '', description: '' });
-
-    const addHighlight = (e) => {
-        e.preventDefault();
-        setContent(prev => ({
-            ...prev,
-            home: {
-                ...prev.home,
-                highlights: [
-                    ...(prev.home.highlights || []),
-                    { id: Date.now(), ...newHighlight }
-                ]
-            }
-        }));
-        setNewHighlight({ title: '', description: '' });
-    };
-
-    const deleteHighlight = (id) => {
-        setContent(prev => ({
-            ...prev,
-            home: {
-                ...prev.home,
-                highlights: prev.home.highlights.filter(h => h.id !== id)
-            }
-        }));
-    };
-
-    const hero = content[selectedPage]?.hero || {};
+    if (loading) return <div style={styles.container}>Loading enquiries...</div>;
+    if (error) return <div style={styles.container}>❌ {error}</div>;
 
     return (
-        <div className="content-management-container">
-            <div className="cms-header">
-                <h2>Site Content Manager</h2>
-                <p>Edit content across all public pages.</p>
+        <div style={styles.container}>
+            <div style={styles.header}>
+                <h2 style={styles.title}>Public Chat Enquiries</h2>
             </div>
 
-            {/* PAGE SELECTOR */}
-            <div className="page-selector-bar">
-                <label><Globe size={18} /> Select Page:</label>
-                <select
-                    value={selectedPage}
-                    onChange={(e) => setSelectedPage(e.target.value)}
-                >
-                    {Object.keys(DEFAULT_CONTENT).map(p => (
-                        <option key={p} value={p}>{p.toUpperCase()}</option>
-                    ))}
-                </select>
-
-                <button onClick={handleSave} disabled={isLoading}>
-                    <Save size={18} /> {isLoading ? 'Saving...' : 'Save'}
-                </button>
+            <div style={styles.card}>
+                <table width="100%">
+                    <thead>
+                        <tr>
+                            <th style={styles.th}>ID</th>
+                            <th style={styles.th}>User</th>
+                            <th style={styles.th}>Question</th>
+                            <th style={styles.th}>Status</th>
+                            <th style={styles.th}>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {enquiries.length === 0 ? (
+                            <tr>
+                                <td colSpan="5" style={{ textAlign: 'center', padding: '2rem' }}>
+                                    <CheckCircle size={40} color="#28a745" />
+                                    <div>No pending enquiries 🎉</div>
+                                </td>
+                            </tr>
+                        ) : enquiries.map(enq => (
+                            <tr key={enq.id}>
+                                <td>#{enq.id}</td>
+                                <td>{enq.user}</td>
+                                <td>{enq.question}</td>
+                                <td>
+                                    <span style={styles.statusBadge(enq.status)}>
+                                        {enq.status === "Answered"
+                                            ? <CheckCircle size={12} />
+                                            : <Clock size={12} />}
+                                        {enq.status}
+                                    </span>
+                                </td>
+                                <td>
+                                    {answeringId === enq.id ? (
+                                        <>
+                                            <textarea
+                                                rows="3"
+                                                style={styles.replyInput}
+                                                value={replyText}
+                                                onChange={e => setReplyText(e.target.value)}
+                                            />
+                                            <button
+                                                style={styles.actionBtn}
+                                                onClick={() => handleSubmitReply(enq.id)}
+                                            >
+                                                <Send size={14} /> Send
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <button
+                                            style={styles.actionBtn}
+                                            onClick={() => handleReplyClick(enq.id)}
+                                        >
+                                            <Send size={14} /> Reply
+                                        </button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
-
-            {/* HERO EDITOR */}
-            <div className="cms-section">
-                <h3><ImageIcon size={20} /> Hero Section</h3>
-                <input
-                    value={hero.title || ''}
-                    onChange={e => updateField('hero', 'title', e.target.value)}
-                    placeholder="Title"
-                />
-                <textarea
-                    value={hero.subtitle || ''}
-                    onChange={e => updateField('hero', 'subtitle', e.target.value)}
-                    placeholder="Subtitle"
-                />
-                <input
-                    value={hero.bgImage || ''}
-                    onChange={e => updateField('hero', 'bgImage', e.target.value)}
-                    placeholder="Background Image URL"
-                />
-            </div>
-
-            {/* HOME HIGHLIGHTS */}
-            {selectedPage === 'home' && (
-                <div className="cms-section">
-                    <h3><Star size={20} /> Highlights</h3>
-
-                    <form onSubmit={addHighlight}>
-                        <input
-                            placeholder="Title"
-                            value={newHighlight.title}
-                            onChange={e => setNewHighlight({ ...newHighlight, title: e.target.value })}
-                        />
-                        <input
-                            placeholder="Description"
-                            value={newHighlight.description}
-                            onChange={e => setNewHighlight({ ...newHighlight, description: e.target.value })}
-                        />
-                        <button type="submit"><Plus size={16} /> Add</button>
-                    </form>
-
-                    {(content.home.highlights || []).map(h => (
-                        <div key={h.id} className="highlight-item">
-                            <span>{h.title} — {h.description}</span>
-                            <button onClick={() => deleteHighlight(h.id)}>
-                                <Trash2 size={16} />
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            )}
         </div>
     );
 };
 
-export default ContentManagement;
+export default ChatManagement;
