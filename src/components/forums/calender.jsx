@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';  // Added useRef for interval cleanup
 import './calender.css';
 
 const API_BASE = (
@@ -6,30 +6,46 @@ const API_BASE = (
 ).replace(/\/$/, '');
 
 const Calendar = () => {
-
     const [bookingDate, setBookingDate] = useState('');
     const [bookingType, setBookingType] = useState('consultation');
     const [notes, setNotes] = useState('');
     const [statusData, setStatusData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [fetchError, setFetchError] = useState('');  // Added for error display
+
+    const intervalRef = useRef(null);  // Ref for interval to avoid memory leaks
 
     /* ================= FETCH USER REQUEST STATUS ================= */
     const fetchStatus = async () => {
         const user = JSON.parse(localStorage.getItem('user'));
-        if (!user?.id) return;
+        if (!user?.id) {
+            setFetchError('User not logged in');
+            setLoading(false);
+            return;
+        }
+
+        setLoading(true);
+        setFetchError('');
 
         try {
             const res = await fetch(`${API_BASE}/api/calendar/user/${user.id}`, {
                 headers: { 'Cache-Control': 'no-cache' }  // Prevent caching
             });
+
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+
             const data = await res.json();
 
             if (data.length > 0) {
-                // show latest request
-                setStatusData(data[data.length - 1]);
+                setStatusData(data[data.length - 1]);  // Latest request
+            } else {
+                setStatusData(null);  // No requests
             }
         } catch (err) {
-            console.error('Status fetch error', err);
+            console.error('Status fetch error:', err);
+            setFetchError('Failed to load status. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -39,8 +55,13 @@ const Calendar = () => {
         fetchStatus();
         
         // Auto-refresh every 30 seconds to check for admin updates
-        const interval = setInterval(fetchStatus, 30000);
-        return () => clearInterval(interval);  // Cleanup on unmount
+        intervalRef.current = setInterval(fetchStatus, 30000);
+        
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);  // Cleanup on unmount
+            }
+        };
     }, []);
 
     /* ================= SUBMIT REQUEST ================= */
@@ -67,15 +88,16 @@ const Calendar = () => {
                 body: JSON.stringify(payload)
             });
 
-            if (!res.ok) throw new Error();
+            if (!res.ok) throw new Error('Submission failed');
 
             alert('Request submitted successfully');
             setBookingDate('');
             setNotes('');
-            fetchStatus();
+            fetchStatus();  // Refresh immediately after submit
 
-        } catch {
-            alert('Failed to submit request');
+        } catch (err) {
+            console.error('Submit error:', err);
+            alert('Failed to submit request. Please try again.');
         }
     };
 
@@ -89,8 +111,13 @@ const Calendar = () => {
                 </p>
             </div>
 
+            {/* Show fetch error if any */}
+            {fetchError && <p className="error-text">{fetchError}</p>}
+
             {/* ===== STATUS CARD ===== */}
-            {!loading && statusData && (
+            {loading ? (
+                <p>Loading status...</p>
+            ) : statusData ? (
                 <div className="status-card">
                     <h3>Status: {statusData.status.toUpperCase()}</h3>
 
@@ -101,9 +128,8 @@ const Calendar = () => {
                     {statusData.status === 'approved' && (
                         <div>
                             <p>✅ Your session is approved</p>
-                            <p><b>Date:</b> {statusData.booking_date}</p>
+                            <p><b>Date:</b> {new Date(statusData.booking_date).toLocaleDateString()}</p>  // Formatted date
 
-                            {/* 🔜 ADMIN WILL ADD THESE LATER */}
                             {statusData.session_time && (
                                 <p><b>Time:</b> {statusData.session_time}</p>
                             )}
@@ -122,6 +148,8 @@ const Calendar = () => {
                         <p>❌ Unfortunately your request was rejected.</p>
                     )}
                 </div>
+            ) : (
+                <p>No requests found. Submit one below.</p>
             )}
 
             {/* ===== REQUEST FORM (ONLY IF NO PENDING/APPROVED) ===== */}
