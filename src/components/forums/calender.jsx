@@ -1,72 +1,115 @@
-import React, { useEffect, useState, useRef } from 'react';  // Added useRef for interval cleanup
+import React, { useState, useEffect } from 'react';
 import './calender.css';
+import { useNavigate } from 'react-router-dom';
 
 const API_BASE = (
   process.env.REACT_APP_API_URL || 'http://localhost:5000'
 ).replace(/\/$/, '');
 
 const Calendar = () => {
-    const [bookingDate, setBookingDate] = useState('');
+    const navigate = useNavigate();
+    const today = new Date();
+
+    const [currentDate, setCurrentDate] = useState(today);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [showModal, setShowModal] = useState(false);
     const [bookingType, setBookingType] = useState('consultation');
     const [notes, setNotes] = useState('');
-    const [statusData, setStatusData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [fetchError, setFetchError] = useState('');  // Added for error display
 
-    const intervalRef = useRef(null);  // Ref for interval to avoid memory leaks
+    const [events, setEvents] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState(null);
+    const [loading, setLoading] = useState(false);  // Added for loading state
+    const [error, setError] = useState('');  // Added for error display
 
-    /* ================= FETCH USER REQUEST STATUS ================= */
-    const fetchStatus = async () => {
+    /* ================= GET AUTH TOKEN ================= */
+    const getAuthHeaders = () => {
+        const token = localStorage.getItem('token');
+        return token ? { Authorization: `Bearer ${token}` } : {};
+    };
+
+    /* ================= FETCH USER BOOKINGS ================= */
+    const fetchBookings = async () => {
         const user = JSON.parse(localStorage.getItem('user'));
-        if (!user?.id) {
-            setFetchError('User not logged in');
-            setLoading(false);
-            return;
-        }
+        if (!user?.id) return [];
 
         setLoading(true);
-        setFetchError('');
+        setError('');
 
         try {
             const res = await fetch(`${API_BASE}/api/calendar/user/${user.id}`, {
-                headers: { 'Cache-Control': 'no-cache' }  // Prevent caching
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getAuthHeaders()  // 🔥 FIX: Add Bearer token to avoid CORS/auth errors
+                }
             });
 
             if (!res.ok) {
+                if (res.status === 401) throw new Error('Unauthorized. Please login again.');
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
 
             const data = await res.json();
 
-            if (data.length > 0) {
-                setStatusData(data[data.length - 1]);  // Latest request
-            } else {
-                setStatusData(null);  // No requests
-            }
+            const formatted = data.map(item => {
+                let status = 'pending';
+                if (item.status === 'approved' || item.status === 'APPROVED' || item.status === 1) {
+                    status = 'approved';
+                }
+                if (item.status === 'rejected' || item.status === 'REJECTED' || item.status === 0) {
+                    status = 'rejected';
+                }
+
+                return {
+                    date: item.booking_date,
+                    title:
+                        item.booking_type === 'consultation'
+                            ? '1:1 Expert Consultation'
+                            : item.booking_type === 'regulatory'
+                            ? 'Regulatory Advisory'
+                            : 'Technical Review',
+                    status,
+                    session_time: item.session_time,
+                    meeting_link: item.meeting_link  // 🔥 Added for link display
+                };
+            });
+
+            setEvents(formatted);
+            return formatted;
         } catch (err) {
-            console.error('Status fetch error:', err);
-            setFetchError('Failed to load status. Please try again.');
+            console.error('Fetch booking error:', err);
+            setError(err.message || 'Failed to load bookings. Check your connection.');
+            return [];
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchStatus();
-        
-        // Auto-refresh every 30 seconds to check for admin updates
-        intervalRef.current = setInterval(fetchStatus, 30000);
-        
-        return () => {
-            if (intervalRef.current) {
-                clearInterval(intervalRef.current);  // Cleanup on unmount
-            }
-        };
+        fetchBookings();
     }, []);
 
-    /* ================= SUBMIT REQUEST ================= */
-    const handleSubmit = async (e) => {
+    /* ================= DATE CLICK ================= */
+    const handleDayClick = async (day) => {
+        const clickedDate = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth(),
+            day
+        );
+
+        const dateStr = clickedDate.toISOString().split('T')[0];
+        const latestEvents = await fetchBookings();
+        const updatedEvent = latestEvents.find(e => e.date === dateStr) || null;
+
+        setSelectedDate(clickedDate);
+        setSelectedEvent(updatedEvent);
+        setShowModal(true);
+    };
+
+    /* ================= SUBMIT BOOKING ================= */
+    const handleScheduleSubmit = async (e) => {
         e.preventDefault();
+        if (selectedEvent) return;
 
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user?.id) {
@@ -76,121 +119,150 @@ const Calendar = () => {
 
         const payload = {
             user_id: user.id,
-            booking_date: bookingDate,
+            booking_date: selectedDate.toISOString().split('T')[0],
             booking_type: bookingType,
             notes
         };
 
+        setLoading(true);
         try {
             const res = await fetch(`${API_BASE}/api/calendar/requests`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getAuthHeaders()  // 🔥 FIX: Add Bearer token
+                },
                 body: JSON.stringify(payload)
             });
 
             if (!res.ok) throw new Error('Submission failed');
 
-            alert('Request submitted successfully');
-            setBookingDate('');
+            alert('Booking request sent');
+            setShowModal(false);
             setNotes('');
-            fetchStatus();  // Refresh immediately after submit
-
+            fetchBookings();  // Refresh after submit
         } catch (err) {
             console.error('Submit error:', err);
-            alert('Failed to submit request. Please try again.');
+            alert('Failed to submit booking request. Try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
-    /* ================= UI ================= */
+    /* ================= CALENDAR GRID ================= */
+    const renderCalendarGrid = () => {
+        const daysInMonth = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth() + 1,
+            0
+        ).getDate();
+
+        const firstDay = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth(),
+            1
+        ).getDay();
+
+        const days = [];
+
+        for (let i = 0; i < firstDay; i++) {
+            days.push(<div key={`empty-${i}`} className="calendar-day empty" />);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateStr = `${currentDate.getFullYear()}-${String(
+                currentDate.getMonth() + 1
+            ).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+            const dayEvents = events.filter(e => e.date === dateStr);
+            const isToday =
+                today.toDateString() ===
+                new Date(currentDate.getFullYear(), currentDate.getMonth(), day).toDateString();
+
+            days.push(
+                <div
+                    key={day}
+                    className={`calendar-day ${isToday ? 'is-today' : ''}`}
+                    onClick={() => handleDayClick(day)}
+                >
+                    <span className="day-number">{day}</span>
+
+                    <div className="day-events">
+                        {dayEvents.map((ev, idx) => (
+                            <div key={idx} className={`event-indicator ${ev.status}`}>
+                                {ev.status === 'approved' && '✔ '}
+                                {ev.status === 'rejected' && '✖ '}
+                                {ev.title}
+                            </div>
+                        ))}
+                    </div>
+
+                    <button className="schedule-trigger">+</button>
+                </div>
+            );
+        }
+
+        return days;
+    };
+
     return (
         <div className="calendar-container">
-            <div className="calendar-header-section">
-                <h1>Expert Session Request</h1>
-                <p className="calendar-subtitle">
-                    Submit your request. We will notify you once approved.
-                </p>
+            <h1>Pharma Expert Calendar</h1>
+
+            {loading && <p>Loading bookings...</p>}
+            {error && <p className="error-text">{error}</p>}
+
+            <div className="calendar-grid">
+                {renderCalendarGrid()}
             </div>
 
-            {/* Show fetch error if any */}
-            {fetchError && <p className="error-text">{fetchError}</p>}
+            {showModal && (
+                <div className="modal-overlay" onClick={() => setShowModal(false)}>
+                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                        <h2>Schedule Expert Session</h2>
+                        <p>{selectedDate?.toDateString()}</p>
 
-            {/* ===== STATUS CARD ===== */}
-            {loading ? (
-                <p>Loading status...</p>
-            ) : statusData ? (
-                <div className="status-card">
-                    <h3>Status: {statusData.status.toUpperCase()}</h3>
+                        {selectedEvent && (
+                            <div>
+                                <p>Status: <b>{selectedEvent.status.toUpperCase()}</b></p>
+                                {selectedEvent.status === 'approved' && selectedEvent.session_time && (
+                                    <p>Time: {selectedEvent.session_time}</p>
+                                )}
+                                {selectedEvent.status === 'approved' && selectedEvent.meeting_link && (
+                                    <p>
+                                        <a href={selectedEvent.meeting_link} target="_blank" rel="noreferrer">
+                                            Join Session
+                                        </a>
+                                    </p>
+                                )}
+                            </div>
+                        )}
 
-                    {statusData.status === 'pending' && (
-                        <p>⏳ Your request is under review. We’ll update you soon.</p>
-                    )}
+                        {!selectedEvent && (
+                            <form onSubmit={handleScheduleSubmit}>
+                                <select
+                                    value={bookingType}
+                                    onChange={e => setBookingType(e.target.value)}
+                                >
+                                    <option value="consultation">Consultation</option>
+                                    <option value="regulatory">Regulatory</option>
+                                    <option value="technical">Technical</option>
+                                </select>
 
-                    {statusData.status === 'approved' && (
-                        <div>
-                            <p>✅ Your session is approved</p>
-                            <p><b>Date:</b> {new Date(statusData.booking_date).toLocaleDateString()}</p>  // Formatted date
+                                <textarea
+                                    value={notes}
+                                    onChange={e => setNotes(e.target.value)}
+                                    placeholder="Notes"
+                                />
 
-                            {statusData.session_time && (
-                                <p><b>Time:</b> {statusData.session_time}</p>
-                            )}
-                            {statusData.meeting_link && (
-                                <p>
-                                    <b>Join Link:</b>{' '}
-                                    <a href={statusData.meeting_link} target="_blank" rel="noreferrer">
-                                        Join Session
-                                    </a>
-                                </p>
-                            )}
-                        </div>
-                    )}
-
-                    {statusData.status === 'rejected' && (
-                        <p>❌ Unfortunately your request was rejected.</p>
-                    )}
+                                <button type="submit" disabled={loading}>
+                                    {loading ? 'Submitting...' : 'Request Booking'}
+                                </button>
+                            </form>
+                        )}
+                    </div>
                 </div>
-            ) : (
-                <p>No requests found. Submit one below.</p>
             )}
-
-            {/* ===== REQUEST FORM (ONLY IF NO PENDING/APPROVED) ===== */}
-            {!statusData || statusData.status === 'rejected' ? (
-                <form className="booking-form" onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label>Select Date</label>
-                        <input
-                            type="date"
-                            required
-                            value={bookingDate}
-                            onChange={(e) => setBookingDate(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Session Type</label>
-                        <select
-                            value={bookingType}
-                            onChange={(e) => setBookingType(e.target.value)}
-                        >
-                            <option value="consultation">1:1 Expert Consultation</option>
-                            <option value="regulatory">Regulatory Advisory</option>
-                            <option value="technical">Technical Review</option>
-                        </select>
-                    </div>
-
-                    <div className="form-group">
-                        <label>Notes</label>
-                        <textarea
-                            rows="3"
-                            value={notes}
-                            onChange={(e) => setNotes(e.target.value)}
-                        />
-                    </div>
-
-                    <button className="btn-confirm" type="submit">
-                        Submit Request
-                    </button>
-                </form>
-            ) : null}
         </div>
     );
 };
