@@ -8,8 +8,12 @@ const AdminCalendarRequests = () => {
     const [error, setError] = useState('');
 
     const [activeId, setActiveId] = useState(null);
-    const [sessionTime, setSessionTime] = useState('');
-    const [meetingLink, setMeetingLink] = useState('');
+
+    // 🔹 store inputs per active row
+    const [formData, setFormData] = useState({
+        session_time: '',
+        meeting_link: ''
+    });
 
     const loadRequests = async () => {
         try {
@@ -29,8 +33,16 @@ const AdminCalendarRequests = () => {
         loadRequests();
     }, []);
 
+    const openApproveBox = (req) => {
+        setActiveId(req.id);
+        setFormData({
+            session_time: req.session_time || '',
+            meeting_link: req.meeting_link || ''
+        });
+    };
+
     const approveRequest = async (id) => {
-        if (!sessionTime || !meetingLink) {
+        if (!formData.session_time || !formData.meeting_link) {
             alert('Please enter session time and meeting link');
             return;
         }
@@ -39,13 +51,12 @@ const AdminCalendarRequests = () => {
             await calendarAPI.updateStatus({
                 id,
                 status: 'approved',
-                session_time: sessionTime,
-                meeting_link: meetingLink
+                session_time: formData.session_time,
+                meeting_link: formData.meeting_link
             });
 
             setActiveId(null);
-            setSessionTime('');
-            setMeetingLink('');
+            setFormData({ session_time: '', meeting_link: '' });
             loadRequests();
         } catch {
             alert('Approval failed');
@@ -104,6 +115,17 @@ const AdminCalendarRequests = () => {
                                     <span className={`status-badge ${r.status}`}>
                                         {r.status}
                                     </span>
+
+                                    {/* 🔹 show approved info */}
+                                    {r.status === 'approved' && (
+                                        <div className="approved-info">
+                                            <small>{r.session_time}</small>
+                                            <br />
+                                            <a href={r.meeting_link} target="_blank" rel="noreferrer">
+                                                Meeting Link
+                                            </a>
+                                        </div>
+                                    )}
                                 </td>
 
                                 <td>
@@ -113,14 +135,24 @@ const AdminCalendarRequests = () => {
                                                 <input
                                                     type="text"
                                                     placeholder="Session Time (e.g. 6 PM)"
-                                                    value={sessionTime}
-                                                    onChange={e => setSessionTime(e.target.value)}
+                                                    value={formData.session_time}
+                                                    onChange={e =>
+                                                        setFormData({
+                                                            ...formData,
+                                                            session_time: e.target.value
+                                                        })
+                                                    }
                                                 />
                                                 <input
                                                     type="text"
                                                     placeholder="Meeting Link"
-                                                    value={meetingLink}
-                                                    onChange={e => setMeetingLink(e.target.value)}
+                                                    value={formData.meeting_link}
+                                                    onChange={e =>
+                                                        setFormData({
+                                                            ...formData,
+                                                            meeting_link: e.target.value
+                                                        })
+                                                    }
                                                 />
 
                                                 <button
@@ -134,7 +166,7 @@ const AdminCalendarRequests = () => {
                                             <div className="action-buttons">
                                                 <button
                                                     className="btn approve"
-                                                    onClick={() => setActiveId(r.id)}
+                                                    onClick={() => openApproveBox(r)}
                                                 >
                                                     Approve
                                                 </button>
