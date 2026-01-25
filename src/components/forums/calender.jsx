@@ -19,7 +19,9 @@ const Calendar = () => {
         if (!user?.id) return;
 
         try {
-            const res = await fetch(`${API_BASE}/api/calendar/user/${user.id}`);
+            const res = await fetch(`${API_BASE}/api/calendar/user/${user.id}`, {
+                headers: { 'Cache-Control': 'no-cache' }  // Prevent caching
+            });
             const data = await res.json();
 
             if (data.length > 0) {
@@ -35,6 +37,10 @@ const Calendar = () => {
 
     useEffect(() => {
         fetchStatus();
+        
+        // Auto-refresh every 30 seconds to check for admin updates
+        const interval = setInterval(fetchStatus, 30000);
+        return () => clearInterval(interval);  // Cleanup on unmount
     }, []);
 
     /* ================= SUBMIT REQUEST ================= */
