@@ -100,12 +100,14 @@ exports.getUserRequests = async (req, res) => {
       `SELECT 
          booking_date,
          booking_type,
+         notes,
          status,
          session_time,
-         meeting_link
+         meeting_link,
+         created_at
        FROM calendar_requests
        WHERE user_id = ?
-       ORDER BY booking_date ASC`,
+       ORDER BY created_at ASC`,
       [id]
     );
 
