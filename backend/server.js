@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
     res.status(200).send("Pharma Empower Backend is running 🚀");
 });
 
-/* ================= CORS (FINAL FIX) ================= */
+/* ================= CORS (FIXED) ================= */
 const allowedOrigins = [
     'http://localhost:3000',
     'https://static-site-8s17.onrender.com'
@@ -40,20 +40,16 @@ app.use(cors({
         // Allow Postman / server-to-server
         if (!origin) return callback(null, true);
 
-        // Allow exact + trailing slash cases
         if (allowedOrigins.some(o => origin.startsWith(o))) {
             return callback(null, true);
         }
 
-        return callback(null, false);
+        return callback(new Error('Not allowed by CORS'));
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-
-// 🔥 MUST be before routes (preflight)
-app.options('*', cors());
 
 /* ================= MIDDLEWARE ================= */
 app.use(express.json());
@@ -84,6 +80,11 @@ app.use('/api/pages', pageRoutes);
 /* ================= HEALTH ================= */
 app.get('/api/health', (req, res) => {
     res.json({ status: 'OK' });
+});
+
+/* ================= 404 FALLBACK (SAFE) ================= */
+app.use((req, res) => {
+    res.status(404).json({ message: 'Route not found' });
 });
 
 /* ================= SERVER ================= */
