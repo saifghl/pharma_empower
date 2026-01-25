@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { calendarAPI } from '../../services/api';
-import './AdminCalendarRequests.css'; // ✅ IMPORT CSS
+import './AdminCalendarRequests.css';
 
 const AdminCalendarRequests = () => {
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+
+    const [activeId, setActiveId] = useState(null);
+    const [sessionTime, setSessionTime] = useState('');
+    const [meetingLink, setMeetingLink] = useState('');
 
     const loadRequests = async () => {
         try {
@@ -21,18 +25,44 @@ const AdminCalendarRequests = () => {
         }
     };
 
-    const updateStatus = async (id, status) => {
-        try {
-            await calendarAPI.updateStatus({ id, status });
-            loadRequests();
-        } catch (err) {
-            alert('Failed to update status');
-        }
-    };
-
     useEffect(() => {
         loadRequests();
     }, []);
+
+    const approveRequest = async (id) => {
+        if (!sessionTime || !meetingLink) {
+            alert('Please enter session time and meeting link');
+            return;
+        }
+
+        try {
+            await calendarAPI.updateStatus({
+                id,
+                status: 'approved',
+                session_time: sessionTime,
+                meeting_link: meetingLink
+            });
+
+            setActiveId(null);
+            setSessionTime('');
+            setMeetingLink('');
+            loadRequests();
+        } catch {
+            alert('Approval failed');
+        }
+    };
+
+    const rejectRequest = async (id) => {
+        try {
+            await calendarAPI.updateStatus({
+                id,
+                status: 'rejected'
+            });
+            loadRequests();
+        } catch {
+            alert('Rejection failed');
+        }
+    };
 
     return (
         <div className="admin-calendar-container">
@@ -41,7 +71,7 @@ const AdminCalendarRequests = () => {
             {loading && <p className="loading-text">Loading requests...</p>}
             {error && <p className="loading-text">{error}</p>}
 
-            {!loading && !error && requests.length === 0 && (
+            {!loading && requests.length === 0 && (
                 <p className="empty-text">No booking requests found.</p>
             )}
 
@@ -67,9 +97,7 @@ const AdminCalendarRequests = () => {
                                 </td>
 
                                 <td>{r.booking_date}</td>
-
                                 <td className="type">{r.booking_type}</td>
-
                                 <td className="notes">{r.notes || '-'}</td>
 
                                 <td>
@@ -80,20 +108,44 @@ const AdminCalendarRequests = () => {
 
                                 <td>
                                     {r.status === 'pending' ? (
-                                        <div className="action-buttons">
-                                            <button
-                                                className="btn approve"
-                                                onClick={() => updateStatus(r.id, 'approved')}
-                                            >
-                                                Approve
-                                            </button>
-                                            <button
-                                                className="btn reject"
-                                                onClick={() => updateStatus(r.id, 'rejected')}
-                                            >
-                                                Reject
-                                            </button>
-                                        </div>
+                                        activeId === r.id ? (
+                                            <div className="approve-box">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Session Time (e.g. 6 PM)"
+                                                    value={sessionTime}
+                                                    onChange={e => setSessionTime(e.target.value)}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    placeholder="Meeting Link"
+                                                    value={meetingLink}
+                                                    onChange={e => setMeetingLink(e.target.value)}
+                                                />
+
+                                                <button
+                                                    className="btn approve"
+                                                    onClick={() => approveRequest(r.id)}
+                                                >
+                                                    Confirm
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div className="action-buttons">
+                                                <button
+                                                    className="btn approve"
+                                                    onClick={() => setActiveId(r.id)}
+                                                >
+                                                    Approve
+                                                </button>
+                                                <button
+                                                    className="btn reject"
+                                                    onClick={() => rejectRequest(r.id)}
+                                                >
+                                                    Reject
+                                                </button>
+                                            </div>
+                                        )
                                     ) : (
                                         <span className="no-action">—</span>
                                     )}
