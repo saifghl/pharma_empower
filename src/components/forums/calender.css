@@ -309,3 +309,20 @@
   background-color: #dc2626; /* red */
   color: #fff;
 }
+
+.status-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.booking-form {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 500px;
+    margin: auto;
+}
+
