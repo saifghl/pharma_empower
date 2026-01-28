@@ -7,6 +7,8 @@ const path = require('path');
 require("./services/pharmaNewsCron");
 
 // Routes
+const createSuperAdmin = require('./services/createSuperAdmin');
+
 const calendarRoutes = require('./routes/calendarRoutes');
 const authRoutes = require('./routes/authRoutes');
 const contactRoutes = require('./routes/contactRoutes');
