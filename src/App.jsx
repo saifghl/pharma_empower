@@ -3,6 +3,7 @@ import './App.css';
 
 /* ===== COMMON COMPONENTS ===== */
 import AdminCalendarRequests from './components/Admin/AdminCalendarRequests';
+import ChangePassword from './components/Admin/ChangePassword';
 
 import Navbar from './components/navbar';
 import Footer from './components/Footer';
@@ -37,7 +38,7 @@ import EmpowerHuntingResources from './components/p_academy/EmpowerHuntingResour
 import Forums from './components/forums/Forums';
 import ProfessionalNetwork from './components/forums/ProfessionalNetwork';
 import StudentSession from './components/forums/session';
-import Calendar from './components/forums/calender'; // ✅ correct spelling
+import Calendar from './components/forums/calender';
 
 /* ===== EMPOWER TECH AI ===== */
 import EmpowerTechAI from './components/EmpowerTechAI/EmpowerTechAI';
@@ -51,7 +52,7 @@ import Mrna from './components/EmpowerTechAI/Mrna';
 import PersonalizedMedicine from './components/EmpowerTechAI/PersonalizedMedicine';
 
 /* ===== NEWS & EVENTS ===== */
-import News from './components/intelligenceHub/news'; // ✅ correct path
+import News from './components/intelligenceHub/news';
 import Events from './components/Events/Events';
 
 /* ===== ADMIN ===== */
@@ -85,36 +86,28 @@ function App() {
             }
           >
             <Route path="/" element={<Home />} />
-
-            {/* About */}
             <Route path="/about" element={<About />} />
             <Route path="/about/mission" element={<Mission />} />
             <Route path="/about/values" element={<Value />} />
             <Route path="/about/purpose" element={<Purpose />} />
             <Route path="/about/principles" element={<Principles />} />
-
-            {/* General */}
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
-            {/* Academy */}
             <Route path="/academy" element={<PharmaAcademy />} />
             <Route path="/academy/glance" element={<Glance />} />
             <Route path="/academy/career-stages" element={<CoreCareerStage />} />
             <Route path="/academy/upskill" element={<UpskillResources />} />
             <Route path="/academy/hunting-resources" element={<EmpowerHuntingResources />} />
 
-            {/* Forums */}
             <Route path="/forums" element={<Forums />} />
             <Route path="/network" element={<ProfessionalNetwork />} />
             <Route path="/session" element={<StudentSession />} />
             <Route path="/calendar" element={<Calendar />} />
 
-            {/* Auth */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* Empower Tech */}
             <Route path="/empower-tech-ai" element={<EmpowerTechAI />} />
             <Route path="/skill-board" element={<SkillBoard />} />
             <Route path="/empower/skill" element={<DynamicSkillBoard />} />
@@ -125,7 +118,6 @@ function App() {
             <Route path="/empower/mrna" element={<Mrna />} />
             <Route path="/empower/personalized-medicine" element={<PersonalizedMedicine />} />
 
-            {/* News & Events */}
             <Route path="/intelligence-hub/news" element={<News />} />
             <Route path="/events" element={<Events />} />
           </Route>
@@ -141,8 +133,10 @@ function App() {
             <Route path="chat-enquiries" element={<ChatManagement />} />
             <Route path="events-control" element={<AdminEvents />} />
             <Route path="access-control" element={<UserManagement />} />
-            <Route path="/admin/calendar-requests" element={<AdminCalendarRequests />} />
+            <Route path="calendar-requests" element={<AdminCalendarRequests />} />
 
+            {/* ✅ ADMIN PASSWORD */}
+            <Route path="change-password" element={<ChangePassword />} />
           </Route>
         </Routes>
       </div>
