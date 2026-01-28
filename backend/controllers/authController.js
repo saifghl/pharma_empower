@@ -20,9 +20,7 @@ const register = async (req, res) => {
 
     // ✅ AUTO ADMIN LOGIC
     let role = 'user';
-    if (email === 'admin@pharma.com') {
-      role = 'admin';
-    }
+  
 
     await pool.execute(
       'INSERT INTO users (full_name, email, password, role) VALUES (?, ?, ?, ?)',
