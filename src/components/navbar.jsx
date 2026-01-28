@@ -111,43 +111,15 @@ const Navbar = () => {
                 </div>
               </li>
 
-              {/* INTELLIGENCE HUB DROPDOWN */}
-              <li
-                className={`nav-item-dropdown ${activeDropdown === "intelligence" ? "open" : ""
-                  }`}
-              >
-                <a
-                  href="/intelligence-hub"
-                  className="nav-link dropdown-trigger"
-                  onClick={(e) => toggleDropdown(e, "intelligence")}
+              {/* INTELLIGENCE HUB */}
+              <li>
+                <Link
+                  to="/intelligence-hub/news"
+                  className="nav-link"
+                  onClick={closeDropdown}
                 >
-
                   Pharma News
-                </a>
-                <div
-                  className={`dropdown-menu ${activeDropdown === "intelligence" ? "visible" : ""
-                    }`}
-                >
-                  <div className="dropdown-content">
-                    <div
-                      className="dropdown-grid"
-                      style={{
-                        gridTemplateColumns: "repeat(1, 1fr)",
-                        maxWidth: "400px",
-                        margin: "0 auto",
-                      }}
-                    >
-                      <Link
-                        to="/intelligence-hub/news"
-                        className="dropdown-card"
-                        onClick={closeDropdown}
-                      >
-                        <span className="plus-icon">+</span>
-                        <span className="card-text">News</span>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+                </Link>
               </li>
 
               {/* EMPOWER TECH & AI DROPDOWN */}

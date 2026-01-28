@@ -6,12 +6,10 @@ import AdminCalendarRequests from './components/Admin/AdminCalendarRequests';
 import ChangePassword from './components/Admin/ChangePassword';
 
 import Navbar from './components/navbar';
-import Footer from './components/Footer';
 import NotificationBanner from './components/NotificationBanner';
 import ChatWidget from './components/ChatWidget/ChatWidget';
 import DNAAnimation from './components/DNAAnimation';
-
-/* ===== PAGES ===== */
+import NewsTicker from './components/NewsTicker';
 import Home from './components/Home';
 import ContactUs from './components/ContactUs';
 import PrivacyPolicy from './components/PrivacyPolicy';
@@ -81,7 +79,7 @@ function App() {
                 <Navbar />
                 <Outlet />
                 <ChatWidget />
-                <Footer />
+                <NewsTicker />
               </>
             }
           >
